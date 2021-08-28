@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coolmarket.mapper.UserMapper">
+	<select id="overlabCheck" parameterType="String" resultType="String">
+		<![CDATA[ 
+		select
+			email
+		from
+			user
+		where
+			email = #{email}
+	]]>
+	</select>
+	<select id="overlabCheck2" parameterType="String" resultType="String">
+		<![CDATA[ 
+		select
+			nick_name
+		from
+			user
+		where
+			nick_name = #{nickName}
+	]]>
+	</select>
+	<insert id="signUp" parameterType="coolmarket.dto.UserDto">
+		<![CDATA[ 
+		insert into user
+			(email, password, name, nick_name, tel, addr1, addr2, addr3)
+		values
+			(#{email}, #{password}, #{name}, #{nickName}, #{tel}, #{addr1}, #{addr2}, #{addr3})
+	]]>
+	</insert>
+
+	<select id="find" parameterType="coolmarket.dto.UserDto" resultType="String">
+		<![CDATA[ 
+		select
+			password
+		from
+			user
+		where
+			email = #{email}
+		and
+			name = #{name}
+		and
+			tel = #{tel}
+	]]>
+	</select>
+	<select id="login" parameterType="String" resultType="coolmarket.dto.UserDto">
+		<![CDATA[ 
+		select
+			*
+		from
+			user
+		where
+			email = #{email}
+	]]>
+	</select>
+	<select id="me" parameterType="int" resultType="coolmarket.dto.UserDto">
+		<![CDATA[ 
+			select
+				email,
+				name,
+				nick_name,
+				tel,
+				addr1,
+				addr2,
+				addr3,
+				`rank`,
+				pre_dt
+			from
+				`user`
+			where
+				user_no = #{userNo}
+		]]>
+	</select>
+	<select id="saleList" parameterType="String" resultType="coolmarket.dto.MarketDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				market
+			where
+				mar_del_yn = 'n'
+			and
+				mar_user_no = #{userNo}
+			order by mar_no desc
+		]]>
+	</select>
+	<select id="buyList" parameterType="String" resultType="coolmarket.dto.MarketDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				market
+			where
+				mar_del_yn = 'n'
+			and
+				mar_buy_user_no = #{userNo}
+			order by mar_no desc
+		]]>
+	</select>
+	<select id="userWish" parameterType="String" resultType="String">
+		<![CDATA[ 
+			select
+				wish_mar_no
+			from
+				wish
+			where
+				wish_del_yn = 'n'
+			and
+				wish_user_no = #{userNo}
+			order by wish_no desc
+		]]>
+	</select>
+	<select id="wishList" parameterType="String" resultType="coolmarket.dto.MarketDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				market
+			where
+				mar_del_yn = 'n'
+			and
+				mar_no = #{no}
+		]]>
+	</select>
+	<select id="commuList" parameterType="String" resultType="coolmarket.dto.CommuDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				commu
+			where
+				com_del_yn = 'n'
+			and
+				com_user_no = #{userNo}
+			order by com_no desc
+		]]>
+	</select>
+	<select id="searchPremium" parameterType="String" resultType="String">
+		<![CDATA[ 
+			select
+				pre_no
+			from
+				premium
+			where
+				pre_user_no = #{userNo}
+			and	pre_yn = 'n'
+		]]>
+	</select>
+	<insert id="creaPremium" parameterType="String">
+		<![CDATA[ 
+			insert into premium
+				(pre_user_no)
+			values
+				(#{userNo})
+		]]>
+	</insert>
+	<select id="marImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				mar_no = #{marNo}
+		]]>
+	</select>
+	<select id="comImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				com_no = #{comNo}
+		]]>
+	</select>
+</mapper>

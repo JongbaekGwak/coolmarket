@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coolmarket.mapper.MainMapper">
+	<select id="addr1" resultType="String">
+		<![CDATA[ 
+			SELECT
+				addr1
+			FROM
+    		address
+    	order by code
+		]]>
+	</select>
+	<select id="addr2" parameterType="String" resultType="String">
+		<![CDATA[ 
+			select
+				distinct addr2
+			from
+				address
+			where
+				addr1 = #{addr1}
+			and
+				addr2 != ''
+			order by addr2
+		]]>
+	</select>
+	<select id="addr3" parameterType="Map" resultType="String">
+		<![CDATA[ 
+			select
+				distinct addr3
+			from
+				address
+			where
+				addr1 = #{addr1}
+			and
+				addr2 = #{addr2}
+			and
+				addr3 != ''
+			order by addr3
+		]]>
+	</select>
+	<select id="newMarketList" resultType="coolmarket.dto.MarketDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				market
+			where
+				mar_del_yn = 'n'
+			order by mar_no desc
+			limit 0, 6
+		]]>
+	</select>
+	<select id="marImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				mar_no = #{marNo}
+		]]>
+	</select>
+	<select id="newCommuList" resultType="coolmarket.dto.CommuDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				commu
+			where
+				com_del_yn = 'n'
+			order by com_no desc
+			limit 0, 5
+		]]>
+	</select>
+	<select id="comImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				com_no = #{comNo}
+		]]>
+	</select>
+	<select id="marCate" resultType="String">
+		<![CDATA[ 
+			select
+				mar_cate_name
+			from
+				mar_cate
+			order by mar_cate_name
+		]]>
+	</select>
+</mapper>

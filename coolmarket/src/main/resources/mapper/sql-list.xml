@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coolmarket.mapper.ListMapper">
+	<select id="getMarBoardList" parameterType="coolmarket.dto.MarketPagingDto" resultType="coolmarket.dto.MarketDto">
+		<![CDATA[
+			SELECT
+				mar_user_no,
+				mar_cate,
+				mar_price,
+				mar_title,
+				mar_contents,
+				mar_addr1,
+				mar_addr2,
+				DATE_FORMAT(mar_crea_dt, '%Y-%m-%d') AS mar_crea_dt
+			FROM
+				market
+			WHERE
+				mar_del_yn = 'n'
+			ORDER BY mar_no DESC
+			LIMIT #{marStartNum}, #{marTotalNum}
+		]]>
+	</select>
+	<select id="getAdBoardList" parameterType="coolmarket.dto.MarketPagingDto" resultType="coolmarket.dto.AdDto">
+		<![CDATA[
+			SELECT
+				ad_user_no,
+				ad_cate,
+				ad_title,
+				ad_contents,
+				ad_addr1,
+				ad_addr2,
+				DATE_FORMAT(ad_crea_dt, '%Y-%m-%d') AS ad_crea_dt
+			FROM
+				ad
+			WHERE
+				ad_del_yn = 'n'
+			ORDER BY ad_no DESC
+			LIMIT #{adStartNum}, #{adTotalNum}
+		]]>
+	</select>
+	<select id="getSelectMarBoardList" parameterType="coolmarket.dto.MarketPagingDto" resultType="coolmarket.dto.MarketDto">
+		<![CDATA[
+			SELECT
+				mar_user_no,
+				mar_cate,
+				mar_price,
+				mar_title,
+				mar_contents,
+				mar_addr1,
+				mar_addr2,
+				DATE_FORMAT(mar_crea_dt, '%Y-%m-%d') AS mar_crea_dt
+			FROM
+				market
+			WHERE
+				mar_del_yn = 'n'
+			AND
+				mar_cate LIKE CONCAT('%', #{selected}, '%')
+			AND
+				mar_addr1 LIKE CONCAT('%', #{addr1}, '%')
+			AND
+				mar_addr2 LIKE CONCAT('%', #{addr2}, '%')
+			ORDER BY mar_no DESC
+			LIMIT #{marStartNum}, #{marTotalNum}
+		]]>
+	</select>
+	<select id="getSelectAdBoardList" parameterType="coolmarket.dto.MarketPagingDto" resultType="coolmarket.dto.AdDto">
+		<![CDATA[
+			SELECT
+				ad_user_no,
+				ad_cate,
+				ad_title,
+				ad_contents,
+				ad_addr1,
+				ad_addr2,
+				DATE_FORMAT(ad_crea_dt, '%Y-%m-%d') AS ad_crea_dt
+			FROM
+				ad
+			WHERE
+				ad_del_yn = 'n'
+			AND
+				ad_addr1 LIKE CONCAT('%', #{addr1}, '%')
+			AND
+				ad_addr2 LIKE CONCAT('%', #{addr2}, '%')
+			ORDER BY ad_no DESC
+			LIMIT #{adStartNum}, #{adTotalNum}
+		]]>
+	</select>
+	<select id="getCommuList" parameterType="coolmarket.dto.MarketPagingDto" resultType="coolmarket.dto.CommuDto">
+		<![CDATA[
+			SELECT
+				com_no,
+				com_user_no,
+				com_title,
+				com_contents,
+				com_cate,
+				com_addr1,
+				com_addr2,
+				com_addr3,
+				com_like,
+				com_talk_cnt,
+				com_crea_nick_name,
+				DATE_FORMAT(com_crea_dt, '%Y-%m-%d') AS com_crea_dt
+			FROM
+				commu
+			WHERE
+				com_del_yn = 'n'
+			AND
+				com_cate LIKE CONCAT('%', #{selected}, '%')
+			AND
+				com_addr1 LIKE CONCAT('%', #{addr1}, '%')
+			AND 
+				com_addr2 LIKE CONCAT('%', #{addr2}, '%')
+			ORDER BY com_no DESC
+			LIMIT #{comStartNum}, #{comTotalNum}
+		]]>
+	</select>
+	<select id="getMarOption" resultType="String">
+		<![CDATA[
+			SELECT
+				mar_cate_name
+			FROM
+				mar_cate;
+		]]>
+	</select>
+	<select id="getCommuOption" resultType="coolmarket.dto.CommuCateDto">
+		<![CDATA[
+			SELECT
+				cate_no,
+				commu_cate_name
+			FROM
+				commu_cate;
+		]]>
+	</select>
+	<select id="getSelectOption1" resultType="String">
+		<![CDATA[
+			SELECT
+				distinct addr1
+			FROM
+				address
+			
+		]]>
+	</select>
+	<select id="getSelectOption2" parameterType="String" resultType="String">
+		<![CDATA[
+			SELECT
+				distinct addr2
+			FROM
+				address
+			WHERE
+				addr1 = #{region1}
+			and
+				addr2 != ""
+		]]>
+	</select>
+</mapper>

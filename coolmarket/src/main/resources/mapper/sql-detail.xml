@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coolmarket.mapper.DetailMapper">
+	<!-- 광고 -->
+	<select id="adDetail" parameterType="String" resultType="coolmarket.dto.AdDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				ad
+			where
+				ad_no = #{adNo}
+		]]>
+	</select>
+
+	<!-- 마켓 -->
+	<select id="marketDetail" parameterType="String" resultType="coolmarket.dto.MarketDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				market
+			where
+				mar_no = #{marNo}
+			and
+				mar_del_yn = 'n'
+		]]>
+	</select>
+	<select id="marImgList" parameterType="String" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				mar_no = #{marNo}
+			order by img_no
+		]]>
+	</select>
+	<update id="marViewUp" parameterType="String">
+		<![CDATA[ 
+			update
+				market
+			set
+				mar_view = mar_view +1
+			where
+				mar_no = #{marNo}
+		]]>
+	</update>
+	<select id="creaUser" parameterType="int" resultType="coolmarket.dto.UserDto">
+		<![CDATA[ 
+			select
+				user_no,
+				nick_name
+			from
+				user
+			where
+				user_no = #{userNo}
+		]]>
+	</select>
+	<select id="hotMarket" resultType="coolmarket.dto.MarketDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				market
+			where
+				mar_del_yn = 'n'
+			order by mar_like desc
+			limit 0, 3
+		]]>
+	</select>
+	<insert id="wish" parameterType="coolmarket.dto.WishDto">
+		<![CDATA[ 
+			insert into wish
+				(wish_user_no, wish_mar_no)
+			values
+				(#{wishUserNo}, #{wishMarNo})
+		]]>
+	</insert>
+	<update id="wishUp" parameterType="String">
+		<![CDATA[ 
+			update
+				market
+			set
+				mar_like = mar_like + 1
+			where
+				mar_no = #{marNo}
+		]]>
+	</update>
+	<update id="wishDown" parameterType="String">
+		<![CDATA[ 
+			update
+				market
+			set
+				mar_like = mar_like - 1
+			where
+				mar_no = #{marNo}
+		]]>
+	</update>
+	<update id="wishCancel" parameterType="coolmarket.dto.WishDto">
+		<![CDATA[ 
+			update
+				wish
+			set
+				wish_del_yn = 'y'
+			where
+				wish_user_no = #{wishUserNo}
+			and
+				wish_mar_no = #{wishMarNo}
+		]]>
+	</update>
+	<select id="myWishSearch" parameterType="coolmarket.dto.WishDto" resultType="String">
+		<![CDATA[ 
+			select
+				wish_no
+			from
+				wish
+			where
+				wish_del_yn = 'n'
+			and
+				wish_user_no = #{wishUserNo}
+			and
+				wish_mar_no = #{wishMarNo}
+		]]>
+	</select>
+	<update id="marDelete" parameterType="int">
+		<![CDATA[ 
+			update
+				market
+			set
+				mar_del_yn = 'y'
+			where
+				mar_no = #{marNo}
+		]]>
+	</update>
+	<insert id="mardecInsert" parameterType="int">
+		<![CDATA[ 
+			insert into declaration
+				(mar_no)
+			values
+				(#{marNo})
+		]]>
+	</insert>
+
+	<!-- 커뮤니티 -->
+	<select id="commuDetail" parameterType="String" resultType="coolmarket.dto.CommuDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				commu
+			where
+				com_no = #{comNo}
+		]]>
+	</select>
+	<select id="comImgList" parameterType="String" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				com_no = #{comNo}
+			order by img_no
+		]]>
+	</select>
+	<update id="comViewUp" parameterType="String">
+		<![CDATA[ 
+			update
+				commu
+			set
+				com_view = com_view +1
+			where
+				com_no = #{comNo}
+		]]>
+	</update>
+	<select id="coment" parameterType="int" resultType="coolmarket.dto.ComentDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				coment
+			where
+				coment_del_yn = 'n'
+			and
+				coment_com_no = #{comentComNo}
+			order by coment_no desc
+		]]>
+	</select>
+	<insert id="comentInsert" parameterType="coolmarket.dto.ComentDto">
+		<![CDATA[ 
+			insert into coment
+				(coment_com_no, coment_user_no, coment_nick_name, coment_contents)
+			values
+				(#{comentComNo}, #{comentUserNo}, #{comentNickName}, #{comentContents})
+		]]>
+	</insert>
+	<update id="comentDel" parameterType="int">
+		<![CDATA[ 
+			update
+				coment
+			set
+				coment_del_yn = 'y'
+			where
+				coment_no = #{comentNo}
+		]]>
+	</update>
+	<insert id="comdecInsert" parameterType="int">
+		<![CDATA[ 
+			insert into declaration
+				(com_no)
+			values
+				(#{comNo})
+		]]>
+	</insert>
+	<update id="likeUp" parameterType="int">
+		<![CDATA[ 
+			update
+				commu
+			set
+				com_like = com_like + 1
+			where
+				com_no = #{comNo}
+		]]>
+	</update>
+	<update id="comDelete" parameterType="int">
+		<![CDATA[ 
+			update
+				commu
+			set
+				com_del_yn = 'y'
+			where
+				com_no = #{comNo}
+		]]>
+	</update>
+</mapper>

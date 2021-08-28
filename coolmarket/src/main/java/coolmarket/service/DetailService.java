@@ -1,0 +1,40 @@
+package coolmarket.service;
+
+import java.util.List;
+import java.util.Map;
+
+import coolmarket.dto.AdDto;
+import coolmarket.dto.ComentDto;
+import coolmarket.dto.WishDto;
+
+public interface DetailService {
+//	광고
+	AdDto adDetail(String adNo) throws Exception;
+
+//	마켓
+	Map<String, Object> marketDetail(String marNo) throws Exception;
+
+	void wish(WishDto wish) throws Exception;
+
+	void wishCancel(WishDto wish) throws Exception;
+
+	boolean myWishSearch(WishDto wish) throws Exception;
+
+	void marDelete(int marNo) throws Exception;
+
+//	커뮤니티
+	Map<String, Object> commuDetail(String comNo) throws Exception;
+
+	List<ComentDto> coment(int comentComNo) throws Exception;
+
+	List<ComentDto> comentInsert(ComentDto coment) throws Exception;
+
+	List<ComentDto> comentDel(int comentNo, int comentComNo) throws Exception;
+
+	void likeUp(int comNo) throws Exception;
+
+	void comDelete(int comNo) throws Exception;
+
+//	공용
+	void decInsert(int marNo, int comNo) throws Exception;
+}

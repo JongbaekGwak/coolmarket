@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coolmarket.mapper.ManagerMapper">
+	<select id="decMarNo" resultType="String">
+		<![CDATA[ 
+			select
+				mar_no as marNo
+			from
+				declaration
+			where
+				dec_del_yn = 'n'
+			and
+				mar_no is not null
+			and
+				com_no is null
+			order by dec_no desc
+		]]>
+	</select>
+	<select id="decComNo" resultType="String">
+		<![CDATA[ 
+			select
+				com_no as comNo
+			from
+				declaration
+			where
+				dec_del_yn = 'n'
+			and
+				com_no is not null
+			and
+				mar_no is null
+			order by dec_no desc
+		]]>
+	</select>
+	<select id="marDec" parameterType="String" resultType="coolmarket.dto.MarketDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				market
+			where
+				mar_del_yn = 'n'
+			and
+				mar_no = #{marNo}
+		]]>
+	</select>
+	<select id="comDec" parameterType="String" resultType="coolmarket.dto.CommuDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				commu
+			where
+				com_del_yn = 'n'
+			and
+				com_no = #{comNo}
+		]]>
+	</select>
+	<update id="marAllDel">
+		<![CDATA[ 
+			update
+				declaration
+			set
+				dec_del_yn = 'y'
+			where
+				mar_no is not null
+			and
+				com_no is null
+		]]>
+	</update>
+	<update id="comAllDel">
+		<![CDATA[ 
+			update
+				declaration
+			set
+				dec_del_yn = 'y'
+			where
+				com_no is not null
+			and
+				mar_no is null
+		]]>
+	</update>
+	<update id="marDel" parameterType="String">
+		<![CDATA[ 
+			update
+				market
+			set
+				mar_del_yn = 'y'
+			where
+				mar_no = #{marNo}
+		]]>
+	</update>
+	<update id="comDel" parameterType="String">
+		<![CDATA[ 
+			update
+				commu
+			set
+				com_del_yn = 'y'
+			where
+				com_no = #{comNo}
+		]]>
+	</update>
+	<select id="PreWaitUser" resultType="coolmarket.dto.PreWaitUserDto">
+		<![CDATA[ 
+			SELECT 
+		    pre.pre_user_no AS user_no,
+		    pre.pre_crea_dt AS crea_dt,
+		    ue.email AS email,
+		    ue.name AS name,
+		    ue.nick_name AS nick_name
+			FROM
+		    premium AS pre
+		  JOIN
+		    user AS ue
+		  ON
+		  	ue.user_no = pre.pre_user_no
+		  WHERE
+			  pre.pre_yn = 'n'
+			ORDER BY pre.pre_no DESC
+		]]>
+	</select>
+	<update id="userUp" parameterType="String">
+		<![CDATA[ 
+			update
+				user
+			set
+				`rank` = 2
+			where
+				user_no = #{userNo}
+		]]>
+	</update>
+	<update id="preUp" parameterType="String">
+		<![CDATA[ 
+			update
+				premium
+			set
+				pre_yn = 'y'
+			where
+				pre_user_no = #{userNo}
+		]]>
+	</update>
+	<update id="preDt" parameterType="String">
+		<![CDATA[ 
+			update
+				user
+			set
+				pre_dt = now()
+			where
+				user_no = #{userNo}
+		]]>
+	</update>
+	<update id="preDt2" parameterType="String">
+		<![CDATA[ 
+			update
+				user
+			set
+				pre_dt = DATE_ADD(pre_dt, INTERVAL 30 DAY)
+			where
+				user_no = #{userNo}
+		]]>
+	</update>
+	<select id="premiumUser" resultType="coolmarket.dto.UserDto">
+		<![CDATA[ 
+			select
+				user_no,
+				email,
+				name,
+				nick_name,
+				pre_dt
+			from
+				user
+			where
+				`rank` = 2
+		]]>
+	</select>
+	<select id="marImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				mar_no = #{marNo}
+		]]>
+	</select>
+	<select id="comImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				com_no = #{comNo}
+		]]>
+	</select>
+</mapper>

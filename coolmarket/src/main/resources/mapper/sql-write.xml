@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="coolmarket.mapper.WriteMapper">
+	<insert id="marketWrite" parameterType="coolmarket.dto.MarketDto">
+		<![CDATA[ 
+			insert into market
+				(mar_title, mar_price, mar_contents, mar_addr1, mar_addr2, mar_addr3, mar_cate, mar_user_no, mar_crea_nick_name)
+			values
+				(#{marTitle}, #{marPrice}, #{marContents}, #{marAddr1}, #{marAddr2}, #{marAddr3}, #{marCate}, #{marUserNo}, #{marCreaNickName})
+		]]>
+	</insert>
+	<select id="marketWriteRe" parameterType="int" resultType="String">
+		<![CDATA[ 
+			select
+				mar_no
+			from
+				market
+			where
+				mar_del_yn = 'n'
+			and
+				mar_user_no = #{marUserNo}
+			order by mar_no desc
+			limit 0,1
+		]]>
+	</select>
+	<insert id="imgInsert" parameterType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			INSERT INTO img
+				(mar_no, com_no, ori_img_name, stored_img_path, img_size)
+			VALUES
+		]]>
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.marNo},
+			#{item.comNo},
+			#{item.oriImgName},
+			#{item.storedImgPath},
+			#{item.imgSize}
+			)
+		</foreach>
+	</insert>
+</mapper>

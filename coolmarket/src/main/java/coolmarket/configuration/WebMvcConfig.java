@@ -21,7 +21,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry regi) {
-		regi.addResourceHandler("/images/**").addResourceLocations("file:/Users/jb/javabtc/sts/coolmarket/images/");
+		regi.addResourceHandler("/images/**").addResourceLocations("file:/Users/jb/javabtc/coolmarket/coolmarket/images/");
 		
 		regi.addResourceHandler("/**").addResourceLocations("classpath:/static/").resourceChain(true)
 				.addResolver(new PathResourceResolver() {

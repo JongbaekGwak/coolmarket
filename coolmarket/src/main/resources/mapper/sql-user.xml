@@ -179,4 +179,30 @@
 				com_no = #{comNo}
 		]]>
 	</select>
+	<select id="myAdList" parameterType="int" resultType="coolmarket.dto.AdDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				ad
+			where
+				ad_del_yn = 'n'
+			and
+				ad_user_no = #{adUserNo}
+			order by ad_no desc
+		]]>
+	</select>
+	<select id="adImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				ad_no = #{adNo}
+			order by img_no
+		]]>
+	</select>
 </mapper>

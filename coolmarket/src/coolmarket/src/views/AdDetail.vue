@@ -117,7 +117,7 @@ export default {
   },
   beforeCreate() {
     if (this.$route.query.adNo == null) {
-      this.$router.go(-1);
+      this.$router.push("/MarketList");
     }
   },
   mounted() {

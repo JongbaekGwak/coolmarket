@@ -86,4 +86,9 @@ public class UserControl {
 	public boolean creaPremium(@RequestParam("userNo") String userNo) throws Exception {
 		return serv.creaPremium(userNo);
 	}
+
+	@RequestMapping(value = "/myAdList", method = RequestMethod.GET)
+	public Object myAdList(@RequestParam("adUserNo") int adUserNo) throws Exception {
+		return serv.myAdList(adUserNo);
+	}
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 
+import coolmarket.dto.AdDto;
 import coolmarket.dto.CommuDto;
 import coolmarket.dto.MarketDto;
 import coolmarket.dto.UserDto;
@@ -71,7 +72,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<MarketDto> buyList(String userNo) throws Exception {
 		List<MarketDto> buyData = map.buyList(userNo);
-		for(int i = 0; i < buyData.size(); i++) {
+		for (int i = 0; i < buyData.size(); i++) {
 			buyData.get(i).setImgList(map.marImgList(buyData.get(i).getMarNo()));
 		}
 		return buyData;
@@ -112,4 +113,16 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	@Override
+	public List<AdDto> myAdList(int adUserNo) throws Exception {
+		List<AdDto> adList = map.myAdList(adUserNo);
+		if (adList == null) {
+			return null;
+		} else {
+			for (int i = 0; i < adList.size(); i++) {
+				adList.get(i).setImgList(map.adImgList(adList.get(i).getAdNo()));
+			}
+			return adList;
+		}
+	}
 }

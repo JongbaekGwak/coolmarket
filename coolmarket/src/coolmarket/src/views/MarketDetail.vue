@@ -188,7 +188,7 @@ export default {
   },
   beforeCreate() {
     if (this.$route.query.marNo == null) {
-      this.$router.go(-1);
+      this.$router.push("/MarketList");
     }
   },
   mounted() {

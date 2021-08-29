@@ -95,7 +95,7 @@ export default {
   },
   beforeCreate() {
     if (this.$route.query.comNo == null) {
-      this.$router.go(-1);
+      this.$router.push("/CommuList");
     }
   },
   mounted() {

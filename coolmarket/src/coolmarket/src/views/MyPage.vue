@@ -174,6 +174,56 @@
           </div>
         </b-tab>
 
+        <!-- 광고 목록 -->
+        <b-tab title="광고 목록" v-if="rank == 2">
+          <div class="mt-5">
+            <div>
+              <div>
+                <h3 class="text-center" v-if="adList == ''">
+                  등록하신 목록 없습니다.
+                </h3>
+              </div>
+              <div v-if="adList != ''">
+                <b-row>
+                  <b-col
+                    sm="4"
+                    class="mx-auto"
+                    v-for="item in adList"
+                    :key="item.adNo"
+                    v-on:click="AdDetail(item.adNo)"
+                  >
+                    <b-card
+                      :img-src="imgPath(item.imgList)"
+                      img-alt="Image"
+                      img-top
+                      class="me-2 border-0 cursor"
+                      img-height="250"
+                    >
+                      <b-card-text>
+                        <p>{{ item.adTitle }}</p>
+                        <p>{{ won(item.adPrice) }} 원</p>
+                        <p>
+                          {{ item.adAddr1 }}{{ item.adAddr2 }}{{ item.adAddr3 }}
+                        </p>
+                        <p>
+                          <span>
+                            <fai :icon="['fas', 'heart']"></fai>
+                          </span>
+                          {{ item.adLike }}
+                          <span>
+                            <fai :icon="['fas', 'comment']"></fai>
+                          </span>
+                          {{ item.adTalkCnt }}
+                        </p>
+                      </b-card-text>
+                    </b-card>
+                  </b-col>
+                </b-row>
+              </div>
+            </div>
+          </div>
+        </b-tab>
+
         <!-- 커뮤니티 등록 목록 -->
         <b-tab title="커뮤니티 등록 목록">
           <div class="mt-5">
@@ -263,6 +313,7 @@ export default {
       wishList: [],
       commuList: [],
       commuNav: [],
+      adList: [],
     };
   },
   beforeCreate() {
@@ -317,6 +368,16 @@ export default {
         } else if (this.user.rank == 2) {
           this.rank = "프리미엄";
         }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    this.$axios
+      .get("http://localhost:9000/myAdList", {
+        params: { adUserNo: this.$session.get("coolUserNo") },
+      })
+      .then((res) => {
+        this.adList = res.data;
       })
       .catch((err) => {
         console.log(err);
@@ -428,6 +489,9 @@ export default {
     },
     MarketDetail(num) {
       this.$router.push({ name: "MarketDetail", query: { marNo: num } });
+    },
+    AdDetail(num) {
+      this.$router.push({ name: "AdDetail", query: { adNo: num } });
     },
     won(num) {
       if (num != null) {

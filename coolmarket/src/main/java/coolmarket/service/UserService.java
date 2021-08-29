@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.github.pagehelper.Page;
 
+import coolmarket.dto.AdDto;
 import coolmarket.dto.CommuDto;
 import coolmarket.dto.MarketDto;
 import coolmarket.dto.UserDto;
@@ -30,4 +31,6 @@ public interface UserService {
 	Page<CommuDto> commuList(int pageNo, String userNo) throws Exception;
 
 	boolean creaPremium(String userNo) throws Exception;
+
+	List<AdDto> myAdList(int adUserNo) throws Exception;
 }

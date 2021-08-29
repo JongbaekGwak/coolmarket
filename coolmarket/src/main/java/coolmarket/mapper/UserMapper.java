@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.github.pagehelper.Page;
 
+import coolmarket.dto.AdDto;
 import coolmarket.dto.CommuDto;
 import coolmarket.dto.ImgDto;
 import coolmarket.dto.MarketDto;
@@ -42,4 +43,9 @@ public interface UserMapper {
 	List<ImgDto> marImgList(int marNo) throws Exception;
 
 	List<ImgDto> comImgList(int comNo) throws Exception;
+
+	List<AdDto> myAdList(int adUserNo) throws Exception;
+
+	List<ImgDto> adImgList(int adNo) throws Exception;
+
 }

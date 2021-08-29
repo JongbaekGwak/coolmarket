@@ -382,9 +382,6 @@ export default {
   border-top: 1px solid rgb(241, 241, 241);
 }
 
-.comment-user-info-box {
-}
-
 .comment-user-img {
   width: 40px;
   height: 40px;

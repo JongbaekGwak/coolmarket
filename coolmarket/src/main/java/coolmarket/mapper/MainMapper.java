@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import coolmarket.dto.AdDto;
 import coolmarket.dto.CommuDto;
 import coolmarket.dto.ImgDto;
 import coolmarket.dto.MarketDto;
@@ -19,11 +20,15 @@ public interface MainMapper {
 
 	List<String> marCate() throws Exception;
 
+	List<AdDto> newAdList() throws Exception;
+	
+	List<ImgDto> adImgList(int adNo) throws Exception;
+
 	List<MarketDto> newMarketList() throws Exception;
 
 	List<ImgDto> marImgList(int marNo) throws Exception;
 
 	List<CommuDto> newCommuList() throws Exception;
-	
+
 	List<ImgDto> comImgList(int comNo) throws Exception;
 }

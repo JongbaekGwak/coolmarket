@@ -10,8 +10,74 @@
 				ad
 			where
 				ad_no = #{adNo}
+			and
+				ad_del_yn = 'n'
 		]]>
 	</select>
+	<select id="adImgList" parameterType="String" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				ad_no = #{adNo}
+			order by img_no
+		]]>
+	</select>
+	<update id="adViewUp" parameterType="String">
+		<![CDATA[ 
+			update
+				ad
+			set
+				ad_view = ad_view + 1
+			where
+				ad_no = #{adNo}
+		]]>
+	</update>
+	<select id="adComent" parameterType="int" resultType="coolmarket.dto.AdComentDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				ad_coment
+			where
+				ad_coment_del_yn = 'n'
+			and
+				ad_coment_ad_no = #{adComentAdNo}
+			order by ad_coment_no desc
+		]]>
+	</select>
+	<insert id="adComentInsert" parameterType="coolmarket.dto.AdComentDto">
+		<![CDATA[ 
+			insert into ad_coment
+				(ad_coment_ad_no, ad_coment_user_no, ad_coment_nick_name, ad_coment_contents)
+			values
+				(#{adComentAdNo}, #{adComentUserNo}, #{adComentNickName}, #{adComentContents})
+		]]>
+	</insert>
+	<update id="adComentDel" parameterType="int">
+		<![CDATA[ 
+			update
+				ad_coment
+			set
+				ad_coment_del_yn = 'y'
+			where
+				ad_coment_no = #{adComentNo}
+		]]>
+	</update>
+	<update id="adDelete" parameterType="int">
+		<![CDATA[ 
+			update
+				ad
+			set
+				ad_del_yn = 'y'
+			where
+				ad_no = #{adNo}
+		]]>
+	</update>
 
 	<!-- 마켓 -->
 	<select id="marketDetail" parameterType="String" resultType="coolmarket.dto.MarketDto">
@@ -144,6 +210,26 @@
 				(#{marNo})
 		]]>
 	</insert>
+	<select id="userNo" parameterType="String" resultType="String">
+		<![CDATA[ 
+			select
+				user_no
+			from
+				user
+			where
+				nick_name = #{nickName}
+		]]>
+	</select>
+	<update id="setSale" parameterType="String">
+		<![CDATA[ 
+			update
+				market
+			set
+				mar_buy_user_no = #{userNo}
+			where
+				mar_no = #{marNo}
+		]]>
+	</update>
 
 	<!-- 커뮤니티 -->
 	<select id="commuDetail" parameterType="String" resultType="coolmarket.dto.CommuDto">

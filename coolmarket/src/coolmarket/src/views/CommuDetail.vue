@@ -107,7 +107,12 @@ export default {
         params: { comNo: this.comNo },
       })
       .then((res) => {
-        this.commuDetail = res.data.commuDetail;
+        if (res.data == "") {
+          alert("삭제된 게시물입니다.");
+          this.$router.push("/CommuList");
+        } else {
+          this.commuDetail = res.data.commuDetail;
+        }
       })
       .catch((err) => {
         console.log(err);

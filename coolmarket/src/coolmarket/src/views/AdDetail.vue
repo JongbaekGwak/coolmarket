@@ -1,61 +1,17 @@
 <template>
-  <div class="wrap">
-    <div id="carouselExampleIndicators" class="carousel slide">
-      <ol class="carousel-indicators">
-        <li
-          data-target="#carouselExampleIndicators"
-          data-slide-to="0"
-          class="active"
-        ></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-      </ol>
-      <div class="carousel-inner">
-        <div class="carousel-item active" data-interval="3000">
-          <img src="" class="w-100" alt="..." />
-        </div>
-        <div class="carousel-item" data-interval="3000">
-          <img src="" class="w-100" alt="..." />
-        </div>
-        <div class="carousel-item" data-interval="3000">
-          <img src="" class="w-100" alt="..." />
-        </div>
+  <div>
+    <div class="d-flex w-100 border-bottom">
+      <div class="d-flex justify-content-center m-1 p-2">
+        <fai :icon="['far', 'user']" class="fs-1 m-auto"></fai>
       </div>
-      <a
-        class="carousel-control-prev"
-        href="#carouselExampleIndicators"
-        role="button"
-        data-slide="prev"
-      >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a
-        class="carousel-control-next"
-        href="#carouselExampleIndicators"
-        role="button"
-        data-slide="next"
-      >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
-
-    <div class="user-info-container">
-      <div class="left-section">
-        <div class="user-info">
-          <div class="user-img">
-            <i class="fa fa-user" aria-hidden="true"></i>
-          </div>
-          <div class="user-text">
-            <div class="user-name" v-on:click="MoveMsgDetail">
-              <p class="m-0 pb-1">수영구주민</p>
-            </div>
-            <div class="user-region">
-              <p class="m-0">부산광영시 수영구</p>
-            </div>
-          </div>
+      <div class="mt-3 pb-3">
+        <div>
+          <h3 class="m-0 pb-1">{{ adDetail.adCreaNickName }}</h3>
         </div>
+        <p class="m-0">
+          {{ adDetail.adAddr1 }} {{ adDetail.adAddr2 }}
+          {{ adDetail.adAddr3 }}
+        </p>
       </div>
     </div>
 
@@ -63,49 +19,49 @@
       <div class="content-title-box">
         <div class="content-title">
           <h2 class="m-0">
-            냉장고 팝니다 거의 새 것 구매한지 1년 정도 됐습니다.
+            {{ adDetail.adTitle }}
           </h2>
         </div>
         <div class="created-date">
-          <p class="m-0">2021.08.21</p>
+          <p class="m-0">
+            {{ adDetail.adCreaDt
+            }}<span class="float-end"> 조회수 : {{ adDetail.adView }} </span>
+          </p>
         </div>
         <div class="ad-text">
-          <p class="m-0">지역광고</p>
+          <p class="m-0">{{ adDetail.adCate }}</p>
         </div>
       </div>
 
       <div class="content">
-        <p class="m-0">
-          안녕하세요 물건 팝니다 이것 저것안녕하세요 물건 팝니다 이것
-          저것안녕하세요 물건 팝니다 이것 저것안녕하세요 물건 팝니다 이것
-          저것안녕하세요 물건 팝니다 이것 저것안녕하세요 물건 팝니다 이것
-          저것안녕하세요 물건 팝니다 이것 저것안녕하세요 물건 팝니다 이것
-          저것안녕하세요 물건 팝니다 이것 저것안녕하세요 물건 팝니다 이것
-          저것안녕하세요 물건 팝니다 이것 저것안녕하세요 물건 팝니다 이것
-          저것안녕하세요 물건 팝니다 이것 저것안녕하세요 물건 팝니다 이것
-          저것안녕하세요 물건 팝니다 이것 저것
-        </p>
+        <pre class="m-0">{{ adDetail.adContents }}</pre>
+      </div>
+
+      <div class="col-md-8 mx-auto">
+        <div v-if="adDetail.imgList != ''" class="text-center">
+          <div v-for="item in adDetail.imgList" :key="item.imgNo">
+            <img :src="item.storedImgPath" class="my-1" />
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="btn-container">
+    <div class="btn-container border-bottom">
       <div class="top-btn-box">
         <div class="like-comment">
           <div class="left-btn">
             <div class="like-icon">
-              <span>관심 ' </span><span class="count"> 21</span>
+              <span>관심 ' </span
+              ><span class="count"> {{ adDetail.adLike }}</span>
             </div>
             <div class="comment-icon">
-              <span>댓글 ' </span><span class="count"> 5</span>
+              <span>댓글 ' </span
+              ><span class="count"> {{ adDetail.adTalkCnt }}</span>
             </div>
           </div>
           <div class="board-report-btn">
-            <span class="report-text">게시글 신고</span
-            ><i
-              class="fa fa-bullhorn"
-              aria-hidden="true"
-              v-on:click="MoveReport"
-            ></i>
+            <span class="report-text">게시글 신고</span>
+            <fai :icon="['fas', 'bullhorn']"></fai>
           </div>
         </div>
       </div>
@@ -113,105 +69,50 @@
       <div class="bottom-btn-box">
         <div class="left-btn">
           <div class="like-btn">
-            <i class="fa fa-heart-o hidden-icon" aria-hidden="true"></i>
+            <fai :icon="['far', 'heart']"></fai>
           </div>
           <p class="m-0 text">추천</p>
         </div>
-        <div class="msg-btn my-btn" type="button" v-on:click="MoveMsgDetail">
-          문의 하기
-        </div>
       </div>
-      <div class="bottom-btn-box">
-        <div
-          class="rewrite-btn my-btn"
-          type="button"
-          vo-on:click="MoveAdUpdate"
+      <div class="d-flex justify-content-end">
+        <b-button class="m-1" variant="primary" v-on:click="MoveMarketList">
+          목록으로
+        </b-button>
+        <b-button
+          class="m-1"
+          variant="info"
+          v-on:click="MoveAdUpdate"
+          v-if="myUserNo == adDetail.adUserNo || myRank == 0"
         >
           수정
-        </div>
-        <div class="delete-btn my-btn" type="button">삭제</div>
-      </div>
-      <div class="list-btn" type="button" v-on:click="MoveMarketList">
-        목록으로
-      </div>
-    </div>
-
-    <div class="comment-container">
-      <div class="user-info-box comment-user-info-box">
-        <div class="user-info comment-user-info">
-          <div class="user-img comment-user-img">
-            <i class="fa fa-user" aria-hidden="true"></i>
-          </div>
-          <div class="user-text comment-user-text">
-            <div class="user-name comment-user-name" v-on:click="MoveMsgDetail">
-              <p class="m-0 pb-1">수영구주민</p>
-            </div>
-            <div class="user-region comment-user-region">
-              <p class="m-0">부산광영시 수영구</p>
-              <p class="m-0">&nbsp;2021.08.22</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="comment-box">
-        <div class="comment">
-          <p class="m-0">안녕하세요 여기 맛있어요 ~</p>
-        </div>
+        </b-button>
+        <b-button
+          class="m-1"
+          variant="danger"
+          v-on:click="adDelete"
+          v-if="myUserNo == adDetail.adUserNo || myRank == 0"
+          >삭제</b-button
+        >
       </div>
     </div>
 
-    <div class="menu-container">
-      <div class="send-input-left">
-        <div class="file-btn">
-          <input type="file" name="" id="file" accept=".jpg,.jpeg,.png,.gif" />
-          <label for="file"
-            ><i class="fa fa-folder-o" aria-hidden="true"></i
-          ></label>
-        </div>
-      </div>
-      <div class="report-btn">
-        <i
-          class="fa fa-bullhorn"
-          aria-hidden="true"
-          v-on:click="MoveReport"
-        ></i>
-      </div>
-    </div>
-
-    <div class="send-input-container">
-      <div class="text-input">
-        <input
-          type="text"
-          name="send-msg"
-          id="send-msg"
-          autocomplete="off"
-          v-on:keyup.enter="send"
-          v-model="msg"
-        />
-      </div>
-      <div class="send-btn" type="button" v-on:click="send">
-        <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-      </div>
-
-      <!-- <div class="text-input">
-                <input type="text" name="send-msg" id="send-msg" autocomplete='off' v-on:keyup.enter="send" v-bind:value="msg" v-on:input="inputMsg">
-            </div>
-            <div class="send-btn" type="button" v-on:click="send">
-                <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-            </div> -->
-      <!-- 테스트 -->
-      {{ msg }}
-    </div>
+    <!-- 댓글 -->
+    <AdComents />
   </div>
 </template>
 
 <script>
+import AdComents from "./AdComents.vue";
 export default {
+  components: {
+    AdComents,
+  },
   data() {
     return {
-      msg: "",
       adNo: "",
       adDetail: {},
+      myUserNo: "",
+      myRank: "",
     };
   },
   beforeCreate() {
@@ -221,30 +122,43 @@ export default {
   },
   mounted() {
     this.adNo = this.$route.query.adNo;
+    if (this.$session.get("coolUserNo") != null) {
+      this.myUserNo = this.$session.get("coolUserNo");
+      this.myRank = this.$session.get("coolRank");
+    }
     this.$axios
       .get("http://localhost:9000/adDetail", { params: { adNo: this.adNo } })
       .then((res) => {
-        this.adDetail = res.data;
+        if (res.data == "") {
+          alert("삭제된 게시물입니다.");
+          this.$router.push("/MarketList");
+        } else {
+          this.adDetail = res.data;
+        }
       })
       .catch((err) => {
         console.log(err);
       });
   },
   methods: {
-    MoveReport() {
-      this.$router.push({ name: "Report" });
-    },
-    MoveMsgDetail() {
-      this.$router.push({ name: "MsgDetail" });
-    },
     MoveMarketList() {
       this.$router.push({ name: "MarketList" });
     },
     MoveAdUpdate() {
-      this.$router.push({ name: "AdUpdate" });
+      this.$router.push({ name: "AdUpdate", query: { adNo: this.adNo } });
     },
-    send() {
-      if (this.msg == "") return;
+    adDelete() {
+      this.$axios
+        .get("http://localhost:9000/adDelete", {
+          params: { adNo: this.adNo },
+        })
+        .then(() => {
+          alert("삭제완료");
+          this.$router.push("/MarketList");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

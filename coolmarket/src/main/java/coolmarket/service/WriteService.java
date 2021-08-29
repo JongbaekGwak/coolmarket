@@ -7,5 +7,5 @@ import coolmarket.dto.MarketDto;
 public interface WriteService {
 	String marketWrite(MarketDto market) throws Exception;
 
-	void imgInsert(String marNo, String comNo, MultipartHttpServletRequest images) throws Exception;
+	void imgInsert(String adNo, String marNo, String comNo, MultipartHttpServletRequest images) throws Exception;
 }

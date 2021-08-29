@@ -16,7 +16,8 @@ import coolmarket.dto.ImgDto;
 
 @Component
 public class FileUtils {
-	public List<ImgDto> parseFileInfo(String marNo, String comNo, MultipartHttpServletRequest images) throws Exception {
+	public List<ImgDto> parseFileInfo(String adNo, String marNo, String comNo, MultipartHttpServletRequest images)
+			throws Exception {
 
 		if (ObjectUtils.isEmpty(images)) {
 			return null;
@@ -62,6 +63,9 @@ public class FileUtils {
 					newFileName = Long.toString(System.nanoTime()) + originalFileExtension;
 
 					ImgDto img = new ImgDto();
+					if (!marNo.equals("")) {
+						img.setAdNo(adNo);
+					}
 					if (!marNo.equals("")) {
 						img.setMarNo(marNo);
 					}

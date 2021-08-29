@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import coolmarket.dto.AdComentDto;
 import coolmarket.dto.ComentDto;
 import coolmarket.dto.WishDto;
 import coolmarket.service.DetailService;
@@ -19,6 +20,27 @@ public class DetailControl {
 	@RequestMapping(value = "/adDetail", method = RequestMethod.GET)
 	public Object adDetail(@RequestParam("adNo") String adNo) throws Exception {
 		return serv.adDetail(adNo);
+	}
+
+	@RequestMapping(value = "/adComent", method = RequestMethod.GET)
+	public Object adComent(@RequestParam("adComentAdNo") int adComentAdNo) throws Exception {
+		return serv.adComent(adComentAdNo);
+	}
+
+	@RequestMapping(value = "/adComentInsert", method = RequestMethod.GET)
+	public Object adComentInsert(AdComentDto coment) throws Exception {
+		return serv.adComentInsert(coment);
+	}
+
+	@RequestMapping(value = "/adComentDelete", method = RequestMethod.GET)
+	public Object adComentDelete(@RequestParam("adComentNo") int adComentNo,
+			@RequestParam("adComentAdNo") int adComentAdNo) throws Exception {
+		return serv.adComentDel(adComentNo, adComentAdNo);
+	}
+
+	@RequestMapping(value = "/adDelete", method = RequestMethod.GET)
+	public void adDelete(@RequestParam("adNo") int adNo) throws Exception {
+		serv.adDelete(adNo);
 	}
 
 //	마켓
@@ -57,6 +79,12 @@ public class DetailControl {
 	@RequestMapping(value = "/marDelete", method = RequestMethod.GET)
 	public void marDelete(@RequestParam("marNo") int marNo) throws Exception {
 		serv.marDelete(marNo);
+	}
+
+	@RequestMapping(value = "/setSale", method = RequestMethod.GET)
+	public Object setSale(@RequestParam("marNo") String marNo, @RequestParam("nickName") String nickName)
+			throws Exception {
+		return serv.setSale(marNo, nickName);
 	}
 
 //	커뮤니티

@@ -3,6 +3,7 @@ package coolmarket.service;
 import java.util.List;
 import java.util.Map;
 
+import coolmarket.dto.AdComentDto;
 import coolmarket.dto.AdDto;
 import coolmarket.dto.ComentDto;
 import coolmarket.dto.WishDto;
@@ -10,6 +11,14 @@ import coolmarket.dto.WishDto;
 public interface DetailService {
 //	광고
 	AdDto adDetail(String adNo) throws Exception;
+
+	List<AdComentDto> adComent(int adComentAdNo) throws Exception;
+
+	List<AdComentDto> adComentInsert(AdComentDto coment) throws Exception;
+
+	List<AdComentDto> adComentDel(int adComentNo, int adComentAdNo) throws Exception;
+
+	void adDelete(int adNo) throws Exception;
 
 //	마켓
 	Map<String, Object> marketDetail(String marNo) throws Exception;
@@ -21,6 +30,8 @@ public interface DetailService {
 	boolean myWishSearch(WishDto wish) throws Exception;
 
 	void marDelete(int marNo) throws Exception;
+
+	boolean setSale(String marNo, String nickName) throws Exception;
 
 //	커뮤니티
 	Map<String, Object> commuDetail(String comNo) throws Exception;

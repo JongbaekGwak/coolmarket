@@ -38,6 +38,30 @@
 			order by addr3
 		]]>
 	</select>
+	<select id="newAdList" resultType="coolmarket.dto.AdDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				ad
+			where
+				ad_del_yn = 'n'
+			order by ad_no desc
+			limit 0, 3
+		]]>
+	</select>
+	<select id="adImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				ad_no = #{adNo}
+		]]>
+	</select>
 	<select id="newMarketList" resultType="coolmarket.dto.MarketDto">
 		<![CDATA[ 
 			select

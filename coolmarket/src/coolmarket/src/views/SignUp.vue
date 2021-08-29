@@ -104,38 +104,25 @@
             </b-form-group>
 
             <!-- 주소 -->
-            <div class="mt-3 py-4">
-              <p>주소 :</p>
-              <b-row>
-                <!-- 주소1 -->
-                <b-col>
-                  <b-form-select
-                    v-on:change="addre2"
-                    v-model="address1"
-                    :options="addr1"
-                    class="btn btn-secondary"
-                  ></b-form-select>
-                </b-col>
-
-                <!-- 주소2 -->
-                <b-col>
-                  <b-form-select
-                    v-on:change="addre3"
-                    v-model="address2"
-                    :options="addr2"
-                    class="btn btn-secondary"
-                  ></b-form-select>
-                </b-col>
-
-                <!-- 주소3 -->
-                <b-col>
-                  <b-form-select
-                    v-model="address3"
-                    :options="addr3"
-                    class="btn btn-secondary"
-                  ></b-form-select>
-                </b-col>
-              </b-row>
+            <div class="mt-3 d-flex jistify-content-between">
+              <span class="me-auto">주소 : </span>
+              <b-form-select
+                v-on:change="addre2"
+                v-model="address1"
+                :options="addr1"
+                class="btn btn-sm btn-light me-auto"
+              ></b-form-select>
+              <b-form-select
+                v-on:change="addre3"
+                v-model="address2"
+                :options="addr2"
+                class="btn btn-sm btn-light me-auto"
+              ></b-form-select>
+              <b-form-select
+                v-model="address3"
+                :options="addr3"
+                class="btn btn-sm btn-light"
+              ></b-form-select>
             </div>
 
             <!-- 버튼 -->
@@ -166,12 +153,12 @@ export default {
       userName: "",
       userNickName: "",
       userTel: "",
-      address1: null,
-      address2: null,
-      address3: null,
+      address1: "",
+      address2: "",
+      address3: "",
       addr1: [],
-      addr2: [{ value: null, text: "시/군/구" }],
-      addr3: [{ value: null, text: "동" }],
+      addr2: [{ value: "", text: "시/군/구" }],
+      addr3: [{ value: "", text: "동" }],
       check: false,
       check2: false,
     };
@@ -250,17 +237,17 @@ export default {
           alert("별명을 입력해 주세요");
         } else if (this.userTel == "") {
           alert("연락처를 입력해 주세요");
-        } else if (this.address1 == null) {
+        } else if (this.address1 == "") {
           alert("주소를 선택해 주세요");
         } else {
           if (this.userPw != this.userPw2) {
             alert("비밀번호를 확인해 주세요");
           } else {
             if (this.address2 == "없음") {
-              this.address2 == null;
+              this.address2 == "";
             }
             if (this.address3 == "없음") {
-              this.address3 == null;
+              this.address3 == "";
             }
             this.$axios
               .post("http://localhost:9000/signUp", {
@@ -285,8 +272,8 @@ export default {
       }
     },
     addre2() {
-      this.address2 = null;
-      this.address3 = null;
+      this.address2 = "";
+      this.address3 = "";
       this.$axios
         .get("http://localhost:9000/addr2", {
           params: {
@@ -296,7 +283,7 @@ export default {
         .then((res) => {
           if (res.data.length == 1) {
             this.addr2 = [
-              { value: null, text: "시/군/구" },
+              { value: "", text: "시/군/구" },
               { value: "없음", text: "없음" },
             ];
           } else {
@@ -308,7 +295,7 @@ export default {
         });
     },
     addre3() {
-      this.address3 = null;
+      this.address3 = "";
       this.$axios
         .get("http://localhost:9000/addr3", {
           params: {
@@ -319,7 +306,7 @@ export default {
         .then((res) => {
           if (res.data.length == 1) {
             this.addr3 = [
-              { value: null, text: "동" },
+              { value: "", text: "동" },
               { value: "없음", text: "없음" },
             ];
           } else {

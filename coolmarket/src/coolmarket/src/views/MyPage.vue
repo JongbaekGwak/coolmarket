@@ -44,36 +44,7 @@
                     v-on:click="MarketDetail(item.marNo)"
                   >
                     <b-card
-                      v-if="item.imgList != ''"
-                      :img-src="item.imgList[0].storedImgPath"
-                      img-alt="Image"
-                      img-top
-                      class="me-2 border-0 cursor"
-                      img-height="250"
-                    >
-                      <b-card-text>
-                        <p>{{ item.marTitle }}</p>
-                        <p>{{ won(item.marPrice) }} 원</p>
-                        <p>
-                          {{ item.marAddr1 }}{{ item.marAddr2
-                          }}{{ item.marAddr3 }}
-                        </p>
-                        <p>
-                          <span>
-                            <fai :icon="['fas', 'heart']"></fai>
-                          </span>
-                          {{ item.marLike }}
-                          <span>
-                            <fai :icon="['fas', 'comment']"></fai>
-                          </span>
-                          {{ item.marTalkCnt }}
-                        </p>
-                      </b-card-text>
-                    </b-card>
-
-                    <b-card
-                      v-if="item.imgList == ''"
-                      img-src="https://placekitten.com/g/300/450"
+                      :img-src="imgPath(item.imgList)"
                       img-alt="Image"
                       img-top
                       class="me-2 border-0 cursor"
@@ -124,36 +95,7 @@
                     v-on:click="MarketDetail(item.marNo)"
                   >
                     <b-card
-                      v-if="item.imgList != ''"
-                      :img-src="item.imgList[0].storedImgPath"
-                      img-alt="Image"
-                      img-top
-                      class="me-2 border-0 cursor"
-                      img-height="250"
-                    >
-                      <b-card-text>
-                        <p>{{ item.marTitle }}</p>
-                        <p>{{ won(item.marPrice) }} 원</p>
-                        <p>
-                          {{ item.marAddr1 }}{{ item.marAddr2
-                          }}{{ item.marAddr3 }}
-                        </p>
-                        <p>
-                          <span>
-                            <fai :icon="['fas', 'heart']"></fai>
-                          </span>
-                          {{ item.marLike }}
-                          <span>
-                            <fai :icon="['fas', 'comment']"></fai>
-                          </span>
-                          {{ item.marTalkCnt }}
-                        </p>
-                      </b-card-text>
-                    </b-card>
-
-                    <b-card
-                      v-if="item.imgList == ''"
-                      img-src="https://placekitten.com/g/300/450"
+                      :img-src="imgPath(item.imgList)"
                       img-alt="Image"
                       img-top
                       class="me-2 border-0 cursor"
@@ -201,36 +143,7 @@
                   v-on:click="MarketDetail(item.marNo)"
                 >
                   <b-card
-                    v-if="item.imgList != ''"
-                    :img-src="item.imgList[0].storedImgPath"
-                    img-alt="Image"
-                    img-top
-                    class="me-2 border-0 cursor"
-                    img-height="250"
-                  >
-                    <b-card-text>
-                      <p>{{ item.marTitle }}</p>
-                      <p>{{ won(item.marPrice) }} 원</p>
-                      <p>
-                        {{ item.marAddr1 }}{{ item.marAddr2
-                        }}{{ item.marAddr3 }}
-                      </p>
-                      <p>
-                        <span>
-                          <fai :icon="['fas', 'heart']"></fai>
-                        </span>
-                        {{ item.marLike }}
-                        <span>
-                          <fai :icon="['fas', 'comment']"></fai>
-                        </span>
-                        {{ item.marTalkCnt }}
-                      </p>
-                    </b-card-text>
-                  </b-card>
-
-                  <b-card
-                    v-if="item.imgList == ''"
-                    img-src="https://placekitten.com/g/300/450"
+                    :img-src="imgPath(item.imgList)"
                     img-alt="Image"
                     img-top
                     class="me-2 border-0 cursor"
@@ -277,32 +190,7 @@
                 v-on:click="CommuDetail(item.comNo)"
               >
                 <b-card
-                  v-if="item.imgList != ''"
-                  :img-src="item.imgList[0].storedImgPath"
-                  img-alt="Card image"
-                  img-right
-                  img-height="150px"
-                  class="m-2 bg-light cursor"
-                >
-                  <b-card-text>
-                    <p class="badge rounded-pill bg-secondary">
-                      {{ item.comCate }}
-                    </p>
-                    <h4>{{ item.comTitle }}</h4>
-                    <p>
-                      {{ item.comCreaNickName }}
-                      <span> | </span>
-                      {{ item.comAddr1 }}
-                      {{ item.comAddr2 }}
-                      {{ item.comAddr3 }}
-                      <span> | </span>
-                      {{ item.comCreaDt }}
-                    </p>
-                  </b-card-text>
-                </b-card>
-                <b-card
-                  v-if="item.imgList == ''"
-                  img-src="https://placekitten.com/300/300"
+                  :img-src="imgPath(item.imgList)"
                   img-alt="Card image"
                   img-right
                   img-height="150px"
@@ -544,6 +432,13 @@ export default {
     won(num) {
       if (num != null) {
         return num.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+      }
+    },
+    imgPath(src) {
+      if (src == "") {
+        return "images/noImg.png";
+      } else {
+        return src[0].storedImgPath;
       }
     },
   },

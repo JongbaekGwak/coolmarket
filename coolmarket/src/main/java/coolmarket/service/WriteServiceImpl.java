@@ -27,8 +27,8 @@ public class WriteServiceImpl implements WriteService {
 	}
 
 	@Override
-	public void imgInsert(String marNo, String comNo, MultipartHttpServletRequest images) throws Exception {
-		List<ImgDto> list = fileutils.parseFileInfo(marNo, comNo, images);
+	public void imgInsert(String adNo, String marNo, String comNo, MultipartHttpServletRequest images) throws Exception {
+		List<ImgDto> list = fileutils.parseFileInfo(adNo, marNo, comNo, images);
 		if (CollectionUtils.isEmpty(list) == false) {
 			map.imgInsert(list);
 		}

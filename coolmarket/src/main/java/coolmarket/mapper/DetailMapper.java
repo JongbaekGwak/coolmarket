@@ -3,7 +3,9 @@ package coolmarket.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import coolmarket.dto.AdComentDto;
 import coolmarket.dto.AdDto;
 import coolmarket.dto.ComentDto;
 import coolmarket.dto.CommuDto;
@@ -16,6 +18,18 @@ public interface DetailMapper {
 
 //	광고
 	AdDto adDetail(String adNo) throws Exception;
+
+	List<ImgDto> adImgList(String marNo) throws Exception;
+
+	void adViewUp(String adNo) throws Exception;
+
+	List<AdComentDto> adComent(int adComentAdNo) throws Exception;
+
+	void adComentInsert(AdComentDto coment) throws Exception;
+
+	void adComentDel(int adComentNo) throws Exception;
+
+	void adDelete(int adNo) throws Exception;
 
 //	마켓
 	MarketDto marketDetail(String marNo) throws Exception;
@@ -39,6 +53,10 @@ public interface DetailMapper {
 	void marDelete(int marNo) throws Exception;
 
 	void mardecInsert(int marNo) throws Exception;
+
+	String userNo(String nickName) throws Exception;
+
+	void setSale(@Param("marNo") String marNo, @Param("userNo") String userNo) throws Exception;
 
 //	커뮤니티
 	CommuDto commuDetail(String comNo) throws Exception;

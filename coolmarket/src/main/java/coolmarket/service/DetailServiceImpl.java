@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import coolmarket.dto.AdComentDto;
 import coolmarket.dto.AdDto;
 import coolmarket.dto.ComentDto;
 import coolmarket.dto.CommuDto;
@@ -22,7 +23,36 @@ public class DetailServiceImpl implements DetailService {
 //	광고
 	@Override
 	public AdDto adDetail(String adNo) throws Exception {
-		return map.adDetail(adNo);
+		map.adViewUp(adNo);
+		AdDto detail = map.adDetail(adNo);
+		if (detail == null) {
+			return null;
+		} else {
+			detail.setImgList(map.adImgList(adNo));
+			return detail;
+		}
+	}
+
+	@Override
+	public List<AdComentDto> adComent(int adComentAdNo) throws Exception {
+		return map.adComent(adComentAdNo);
+	}
+
+	@Override
+	public List<AdComentDto> adComentInsert(AdComentDto coment) throws Exception {
+		map.adComentInsert(coment);
+		return map.adComent(coment.getAdComentAdNo());
+	}
+
+	@Override
+	public List<AdComentDto> adComentDel(int adComentNo, int adComentAdNo) throws Exception {
+		map.adComentDel(adComentNo);
+		return map.adComent(adComentAdNo);
+	}
+
+	@Override
+	public void adDelete(int adNo) throws Exception {
+		map.adDelete(adNo);
 	}
 
 //	마켓
@@ -74,15 +104,30 @@ public class DetailServiceImpl implements DetailService {
 		map.marDelete(marNo);
 	}
 
+	@Override
+	public boolean setSale(String marNo, String nickName) throws Exception {
+		String userNo = map.userNo(nickName);
+		if (userNo == null) {
+			return false;
+		} else {
+			map.setSale(marNo, userNo);
+			return true;
+		}
+	}
+
 //	커뮤니티
 	@Override
 	public Map<String, Object> commuDetail(String comNo) throws Exception {
 		map.comViewUp(comNo);
 		Map<String, Object> data = new HashMap<String, Object>();
 		CommuDto detail = map.commuDetail(comNo);
-		detail.setImgList(map.comImgList(comNo));
-		data.put("commuDetail", detail);
-		return data;
+		if (detail == null) {
+			return null;
+		} else {
+			detail.setImgList(map.comImgList(comNo));
+			data.put("commuDetail", detail);
+			return data;
+		}
 	}
 
 	@Override

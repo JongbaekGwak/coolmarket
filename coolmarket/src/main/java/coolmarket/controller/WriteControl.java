@@ -21,7 +21,8 @@ public class WriteControl {
 	}
 
 	@RequestMapping(value = "/imgInsert", method = RequestMethod.POST)
-	public void datatest(@RequestParam("marNo") String marNo, @RequestParam("comNo") String comNo, MultipartHttpServletRequest images) throws Exception {
-		serv.imgInsert(marNo, comNo, images);
+	public void datatest(@RequestParam("adNo") String adNo, @RequestParam("marNo") String marNo,
+			@RequestParam("comNo") String comNo, MultipartHttpServletRequest images) throws Exception {
+		serv.imgInsert(adNo, marNo, comNo, images);
 	}
 }

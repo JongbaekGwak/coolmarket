@@ -23,7 +23,7 @@ public class MainControl {
 		List<String> addr = serv.addr1();
 		List<Map<String, String>> returnAddr = new ArrayList<Map<String, String>>();
 		Map<String, String> a = new HashMap<String, String>();
-		a.put("value", null);
+		a.put("value", "");
 		a.put("text", "시/도");
 		returnAddr.add(a);
 		for (int i = 0; i < addr.size(); i++) {
@@ -40,7 +40,7 @@ public class MainControl {
 		List<String> addr = serv.addr2(addr1);
 		List<Map<String, String>> returnAddr = new ArrayList<Map<String, String>>();
 		Map<String, String> a = new HashMap<String, String>();
-		a.put("value", null);
+		a.put("value", "");
 		a.put("text", "시/군/구");
 		returnAddr.add(a);
 		for (int i = 0; i < addr.size(); i++) {
@@ -60,7 +60,7 @@ public class MainControl {
 		List<String> addr = serv.addr3(addre);
 		List<Map<String, String>> returnAddr = new ArrayList<Map<String, String>>();
 		Map<String, String> a = new HashMap<String, String>();
-		a.put("value", null);
+		a.put("value", "");
 		a.put("text", "동");
 		returnAddr.add(a);
 		for (int i = 0; i < addr.size(); i++) {
@@ -77,7 +77,7 @@ public class MainControl {
 		List<String> cate = serv.marCate();
 		List<Map<String, String>> returnCate = new ArrayList<Map<String, String>>();
 		Map<String, String> a = new HashMap<String, String>();
-		a.put("value", null);
+		a.put("value", "");
 		a.put("text", "분류");
 		returnCate.add(a);
 		for (int i = 0; i < cate.size(); i++) {
@@ -87,6 +87,11 @@ public class MainControl {
 			returnCate.add(b);
 		}
 		return returnCate;
+	}
+
+	@RequestMapping(value="/newAdList",method=RequestMethod.GET)
+	public Object newAdList() throws Exception {
+		return serv.newAdList();
 	}
 
 	@RequestMapping(value = "/newMarketList", method = RequestMethod.GET)

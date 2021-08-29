@@ -109,9 +109,7 @@ export default {
     };
   },
   beforeCreate() {
-    if (this.$session.get("coolUserNo") == null) {
-      this.$router.push("/Login");
-    } else {
+    if (this.$session.get("coolUserNo") != null) {
       this.$router.push("MyPage");
     }
   },

@@ -1,12 +1,17 @@
 <template>
   <div class="wrap">
+    <!-- CommuList Header start -->
     <div class="content-header mb-5">
+      <!-- CommuList Title start -->
       <div class="content-title">
         <h1 class="text-center fs-2 fw-bold mt-5">
-          <span>{{ region1 }}</span> <span>{{ region2 }}</span> 동네&nbsp;이야기
+          <span>{{ addr1 }}</span> <span>{{ addr2 }}</span>
+          <span>{{ addr3 }}</span> 동네&nbsp;이야기
         </h1>
       </div>
+      <!-- CommuList Title end -->
 
+      <!-- CommuList Select Form start -->
       <div class="content-select">
         <select
           class="select-box select1"
@@ -19,25 +24,30 @@
           </option>
         </select>
 
-        <select
+        <b-form-select
+          v-on:change="Getaddr2(), onSelect(), onFlush()"
+          v-model="addr1"
+          :options="selected1"
           class="select-box"
-          v-model="region1"
-          v-on:change="GetRegion2(), onSelect(), onFlush()"
-        >
-          <option value="" selected disabled>시 / 도</option>
-          <option v-for="item in selected1" v-bind:key="item.region1">
-            {{ item }}
-          </option>
-        </select>
+        ></b-form-select>
 
-        <select class="select-box" v-model="region2" v-on:change="onSelect()">
-          <option value="" selected disabled>시 / 군 / 구</option>
-          <option v-for="item in selected2" v-bind:key="item.region2">
-            {{ item }}
-          </option>
-        </select>
+        <b-form-select
+          v-on:change="Getaddr3(), onSelect()"
+          v-model="addr2"
+          :options="selected2"
+          class="select-box"
+        ></b-form-select>
+
+        <b-form-select
+          v-on:change="onSelect()"
+          v-model="addr3"
+          :options="selected3"
+          class="select-box"
+        ></b-form-select>
       </div>
+      <!-- CommuList Select Form end -->
     </div>
+    <!-- CommuList Header end -->
 
     <div class="board-wrap">
       <div
@@ -55,7 +65,7 @@
             <div class="writer-name me-3">
               <p class="m-0">{{ item.comCreaNickName }}</p>
             </div>
-            <div class="writer-region">
+            <div class="writer-addr">
               <p class="m-0">{{ item.comAddr1 }} {{ item.comAddr2 }}</p>
             </div>
             <div class="like-comment">
@@ -108,12 +118,14 @@
 export default {
   data() {
     return {
-      region1: "",
-      region2: "",
+      addr1: "",
+      addr2: "",
+      addr3: "",
       selected: "",
       cate: [],
       selected1: [],
-      selected2: [],
+      selected2: [{ value: "", text: "시/군/구" }],
+      selected3: [{ value: "", text: "동" }],
       items: [],
 
       comStartNum: 0,
@@ -132,22 +144,20 @@ export default {
         console.log("Select Cate Get Fail");
         console.log(err);
       });
-    obj.$axios
-      .get("http://localhost:9000/selectoption1")
-      .then(function (res) {
-        console.log("Select Option Get Succcess");
-        obj.selected1 = res.data;
+    this.$axios
+      .get("http://localhost:9000/addr1")
+      .then((res) => {
+        this.selected1 = res.data;
       })
-      .catch(function (err) {
-        console.log("Select Option Get Fail");
+      .catch((err) => {
         console.log(err);
       });
     obj.$axios
       .get("http://localhost:9000/getCommuList", {
         params: {
           selected: this.selected,
-          region1: this.region1,
-          region2: this.region2,
+          addr1: this.addr1,
+          addr2: this.addr2,
           comStartNum: this.comStartNum,
           comTotalNum: this.comTotalNum,
         },
@@ -170,38 +180,63 @@ export default {
         );
       }
     },
-    GetRegion2() {
-      let obj = this;
-      obj.$axios
-        .get("http://localhost:9000/selectoption2", {
+    Getaddr2() {
+      this.addr2 = "";
+      this.addr3 = "";
+      this.$axios
+        .get("http://localhost:9000/addr2", {
           params: {
-            region2: this.region1,
+            addr1: this.addr1,
           },
         })
-        .then(function (res) {
-          console.log("Select Option2 Get Success");
-          obj.selected2 = res.data;
+        .then((res) => {
+          if (res.data.length == 1) {
+            this.selected2 = [
+              { value: "", text: "시/군/구" },
+              { value: "없음", text: "없음" },
+            ];
+          } else {
+            this.selected2 = res.data;
+          }
         })
-        .catch(function (err) {
-          console.log("Select Option2 Get Fail");
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    Getaddr3() {
+      this.addr3 = "";
+      this.$axios
+        .get("http://localhost:9000/addr3", {
+          params: {
+            addr1: this.addr1,
+            addr2: this.addr2,
+          },
+        })
+        .then((res) => {
+          if (res.data.length == 1) {
+            this.selected3 = [
+              { value: "", text: "동" },
+              { value: "없음", text: "없음" },
+            ];
+          } else {
+            this.selected3 = res.data;
+          }
+        })
+        .catch((err) => {
           console.log(err);
         });
     },
     onSelect() {
       console.log(
-        this.$data.selected +
-          "\n" +
-          this.$data.region1 +
-          "\n" +
-          this.$data.region2
+        this.$data.selected + "\n" + this.$data.addr1 + "\n" + this.$data.addr2
       );
       let obj = this;
       obj.$axios
         .get("http://localhost:9000/getCommuList", {
           params: {
             selected: this.selected,
-            region1: this.region1,
-            region2: this.region2,
+            addr1: this.addr1,
+            addr2: this.addr2,
             comStartNum: (this.comStartNum = 0),
             comTotalNum: (this.comTotalNum = 10),
           },
@@ -220,17 +255,17 @@ export default {
         console.log(
           this.$data.selected +
             "\n" +
-            this.$data.region1 +
+            this.$data.addr1 +
             "\n" +
-            this.$data.region2
+            this.$data.addr2
         );
       let obj = this;
       obj.$axios
         .get("http://localhost:9000/getCommuList", {
           params: {
             selected: this.selected,
-            region1: this.region1,
-            region2: this.region2,
+            addr1: this.addr1,
+            addr2: this.addr2,
             comStartNum: this.comStartNum,
             comTotalNum: this.comTotalNum,
           },
@@ -247,9 +282,9 @@ export default {
         });
     },
     onFlush() {
-      console.log(this.$data.region1 + "\n" + this.$data.region2);
+      console.log(this.$data.addr1 + "\n" + this.$data.addr2);
       this.$data.selected2 = [];
-      this.$data.region2 = "";
+      this.$data.addr2 = "";
       this.onSelect();
     },
     DecrementList() {
@@ -405,7 +440,7 @@ export default {
   font-size: 12px;
 }
 
-.writer-region p {
+.writer-addr p {
   margin: 0;
   font-size: 10px;
 }

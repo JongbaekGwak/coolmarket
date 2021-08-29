@@ -26,11 +26,12 @@
 	<insert id="imgInsert" parameterType="coolmarket.dto.ImgDto">
 		<![CDATA[ 
 			INSERT INTO img
-				(mar_no, com_no, ori_img_name, stored_img_path, img_size)
+				(ad_no, mar_no, com_no, ori_img_name, stored_img_path, img_size)
 			VALUES
 		]]>
 		<foreach collection="list" item="item" separator=",">
 		(
+			#{item.adNo},
 			#{item.marNo},
 			#{item.comNo},
 			#{item.oriImgName},

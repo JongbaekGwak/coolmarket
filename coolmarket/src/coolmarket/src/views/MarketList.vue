@@ -16,23 +16,26 @@
           </option>
         </select>
 
-        <select
-          class="select-box"
-          v-model="addr1"
+        <b-form-select
           v-on:change="Getaddr2(), onSelect(), onFlush()"
-        >
-          <option value="" selected disabled>시 / 도</option>
-          <option v-for="item in addrList1" v-bind:key="item.addr1">
-            {{ item }}
-          </option>
-        </select>
+          v-model="addr1"
+          :options="selected1"
+          class="select-box"
+        ></b-form-select>
 
-        <select class="select-box" v-model="addr2" v-on:change="onSelect()">
-          <option value="" selected disabled>시 / 군 / 구</option>
-          <option v-for="item in addrList2" v-bind:key="item.addr2">
-            {{ item }}
-          </option>
-        </select>
+        <b-form-select
+          v-on:change="Getaddr3(), onSelect()"
+          v-model="addr2"
+          :options="selected2"
+          class="select-box"
+        ></b-form-select>
+
+        <b-form-select
+          v-on:change="onSelect()"
+          v-model="addr3"
+          :options="selected3"
+          class="select-box"
+        ></b-form-select>
       </div>
     </div>
 
@@ -145,10 +148,12 @@ export default {
     return {
       addr1: "",
       addr2: "",
+      addr3: "",
       selected: "",
       cate: "",
-      addrList1: [],
-      addrList2: [],
+      selected1: [],
+      selected2: [{ value: "", text: "시/군/구" }],
+      selected3: [{ value: "", text: "동" }],
       items: [],
 
       marStartNum: 0,
@@ -169,14 +174,12 @@ export default {
         console.log("Select Cate Get Fail");
         console.log(err);
       });
-    obj.$axios
-      .get("http://localhost:9000/selectoption1")
-      .then(function (res) {
-        console.log("Select Option Get Succcess");
-        obj.addrList1 = res.data;
+    this.$axios
+      .get("http://localhost:9000/addr1")
+      .then((res) => {
+        this.selected1 = res.data;
       })
-      .catch(function (err) {
-        console.log("Select Option Get Fail");
+      .catch((err) => {
         console.log(err);
       });
     obj.$axios
@@ -202,20 +205,48 @@ export default {
   },
   methods: {
     Getaddr2() {
-      let obj = this;
-      obj.$axios
-        .get("http://localhost:9000/selectoption2", {
+      this.addr2 = "";
+      this.addr3 = "";
+      this.$axios
+        .get("http://localhost:9000/addr2", {
           params: {
-            addr2: this.addr1,
+            addr1: this.addr1,
           },
         })
-        .then(function (res) {
-          console.log("Select Option2 Get Success");
-          obj.addrList2 = res.data;
-          // this.onSelect()
+        .then((res) => {
+          if (res.data.length == 1) {
+            this.selected2 = [
+              { value: "", text: "시/군/구" },
+              { value: "없음", text: "없음" },
+            ];
+          } else {
+            this.selected2 = res.data;
+          }
         })
-        .catch(function (err) {
-          console.log("Select Option2 Get Fail");
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    Getaddr3() {
+      this.addr3 = "";
+      this.$axios
+        .get("http://localhost:9000/addr3", {
+          params: {
+            addr1: this.addr1,
+            addr2: this.addr2,
+          },
+        })
+        .then((res) => {
+          if (res.data.length == 1) {
+            this.selected3 = [
+              { value: "", text: "동" },
+              { value: "없음", text: "없음" },
+            ];
+          } else {
+            this.selected3 = res.data;
+          }
+        })
+        .catch((err) => {
           console.log(err);
         });
     },

@@ -109,13 +109,13 @@ export default {
       price: "",
       images: "",
       contents: "",
-      address1: null,
-      address2: null,
-      address3: null,
-      marCate: null,
+      address1: "",
+      address2: "",
+      address3: "",
+      marCate: "",
       addr1: [],
-      addr2: [{ value: null, text: "시/군/구" }],
-      addr3: [{ value: null, text: "동" }],
+      addr2: [{ value: "", text: "시/군/구" }],
+      addr3: [{ value: "", text: "동" }],
       cate: [],
     };
   },
@@ -139,8 +139,8 @@ export default {
   },
   methods: {
     addre2() {
-      this.address2 = null;
-      this.address3 = null;
+      this.address2 = "";
+      this.address3 = "";
       this.$axios
         .get("http://localhost:9000/addr2", {
           params: {
@@ -150,7 +150,7 @@ export default {
         .then((res) => {
           if (res.data.length == 1) {
             this.addr2 = [
-              { value: null, text: "시/군/구" },
+              { value: "", text: "시/군/구" },
               { value: "없음", text: "없음" },
             ];
           } else {
@@ -162,7 +162,7 @@ export default {
         });
     },
     addre3() {
-      this.address3 = null;
+      this.address3 = "";
       this.$axios
         .get("http://localhost:9000/addr3", {
           params: {
@@ -173,7 +173,7 @@ export default {
         .then((res) => {
           if (res.data.length == 1) {
             this.addr3 = [
-              { value: null, text: "동" },
+              { value: "", text: "동" },
               { value: "없음", text: "없음" },
             ];
           } else {
@@ -192,9 +192,9 @@ export default {
         alert("제목을 입력해 주세요");
       } else if (this.price == "") {
         alert("가격을 입력해 주세요");
-      } else if (this.marCate == null) {
+      } else if (this.marCate == "") {
         alert("카테고리를 선택해 주세요");
-      } else if (this.address1 == null) {
+      } else if (this.address1 == "") {
         alert("주소를 선택해 주세요");
       } else {
         let marprice = parseInt(this.price);
@@ -209,7 +209,7 @@ export default {
                 marContents: this.contents,
                 marAddr1: this.address1,
                 marAddr2: this.address2,
-                marAddr3: this.Address3,
+                marAddr3: this.address3,
                 marCate: this.marCate,
                 marUserNo: this.$session.get("coolUserNo"),
                 marCreaNickName: this.$session.get("coolNickName"),
@@ -223,7 +223,7 @@ export default {
                 }
                 this.$axios
                   .post("http://localhost:9000/imgInsert", fromData, {
-                    params: { marNo: res.data, comNo: "" },
+                    params: { adNo: "", marNo: res.data, comNo: "" },
                     headers: {
                       "Content-Type": "multipart/form-data",
                     },

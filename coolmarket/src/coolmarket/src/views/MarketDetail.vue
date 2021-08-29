@@ -67,25 +67,58 @@
           >
         </p>
         <div class="d-flex justify-content-end">
-          <b-button class="m-1" variant="warning" v-on:click="MoveMsgDetail">
+          <b-button
+            class="m-1"
+            variant="warning"
+            v-on:click="MoveMsgDetail"
+            v-if="marketDetail.marUserNo != myUserNo"
+          >
             채팅으로 구매하기
+          </b-button>
+          <b-button
+            class="m-1"
+            variant="warning"
+            v-on:click="setSale1"
+            v-if="
+              marketDetail.marUserNo == myUserNo &&
+              marketDetail.marBuyUserNo == ''
+            "
+          >
+            판매완료 등록
           </b-button>
           <b-button class="m-1" variant="primary" v-on:click="MoveMarketList">
             목록으로
           </b-button>
-          <div
-            v-if="
-              myUserNo == marketDetail.marUserNo ||
-              this.$session.get('coolRank') == 0
-            "
+
+          <b-button
+            class="m-1"
+            variant="info"
+            v-on:click="MoveMarketUpdate"
+            v-if="myUserNo == marketDetail.marUserNo || myRank == 0"
           >
-            <b-button class="m-1" variant="info" v-on:click="MoveMarketUpdate">
-              수정
-            </b-button>
-            <b-button class="m-1" variant="danger" v-on:click="marDelete"
-              >삭제</b-button
+            수정
+          </b-button>
+          <b-button
+            class="m-1"
+            variant="danger"
+            v-on:click="marDelete"
+            v-if="myUserNo == marketDetail.marUserNo || myRank == 0"
+            >삭제</b-button
+          >
+        </div>
+      </div>
+
+      <div class="my-3" v-if="setSale == true">
+        <div class="d-flex">
+          <b-input-group>
+            <b-input-group-text>구매자 닉네임</b-input-group-text>
+            <b-input v-model="marBuyUser"></b-input>
+            <b-input-group-text
+              class="ms-2 bg-warning rounded cursor"
+              v-on:click="setSale2"
+              >판매완료</b-input-group-text
             >
-          </div>
+          </b-input-group>
         </div>
       </div>
     </div>
@@ -147,7 +180,10 @@ export default {
       marketDetail: [],
       hotMarket: [],
       myUserNo: "",
+      myRank: "",
       myWishSear: true,
+      marBuyUser: "",
+      setSale: false,
     };
   },
   beforeCreate() {
@@ -159,6 +195,7 @@ export default {
     window.scrollTo(0, 0);
     if (this.$session.get("coolUserNo") != null) {
       this.myUserNo = this.$session.get("coolUserNo");
+      this.myRank = this.$session.get("coolRank");
     }
     this.marNo = this.$route.query.marNo;
     this.$axios
@@ -168,7 +205,7 @@ export default {
       .then((res) => {
         if (res.data == "") {
           alert("삭제된 게시믈 입니다.");
-          this.$router.go(-1);
+          this.$router.push("/MarketList");
         }
         this.marketDetail = res.data.marketDetail;
         this.hotMarket = res.data.hotMarket;
@@ -280,6 +317,26 @@ export default {
         })
         .then(() => {
           alert("신고 하였습니다.");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    setSale1() {
+      this.setSale = true;
+    },
+    setSale2() {
+      this.$axios
+        .get("http://localhost:9000/setSale", {
+          params: { marNo: this.marNo, nickName: this.marBuyUser },
+        })
+        .then((res) => {
+          if (res.data == true) {
+            alert("판매 완료 등록");
+            this.$router.go();
+          } else {
+            alert("구매자 닉네임을 잘못 입력하셧습니다.");
+          }
         })
         .catch((err) => {
           console.log(err);

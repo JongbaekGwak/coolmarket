@@ -3,7 +3,7 @@
     <div
       class="comment-container border-bottom"
       v-for="item in coment"
-      :key="item.comentNo"
+      :key="item.adComentNo"
     >
       <div class="user-info-box comment-user-info-box">
         <div class="user-info comment-user-info">
@@ -12,24 +12,24 @@
           </div>
           <div class="user-text comment-user-text">
             <div class="user-name comment-user-name">
-              <p class="m-0 pb-1">{{ item.comentNickName }}</p>
+              <p class="m-0 pb-1">{{ item.adComentNickName }}</p>
             </div>
             <div class="user-region comment-user-region">
-              <p class="m-0">{{ item.comentCreaDt }}</p>
+              <p class="m-0">{{ item.adComentCreaDt }}</p>
             </div>
           </div>
         </div>
       </div>
       <div class="comment-box">
         <div class="comment">
-          <pre class="m-0">{{ item.comentContents }}</pre>
+          <pre class="m-0">{{ item.adComentContents }}</pre>
         </div>
         <b-button
           class="float-end"
           size="sm"
           variant="danger"
-          v-if="item.comentUserNo == myUserNo || myRank == 0"
-          v-on:click="comentDelete(item.comentNo)"
+          v-if="item.adComentUserNo == myUserNo || myRank == 0"
+          v-on:click="comentDelete(item.adComentNo)"
           >삭제</b-button
         >
       </div>
@@ -61,13 +61,14 @@ export default {
     };
   },
   mounted() {
+    this.myUserNo = this.$session.get("coolUserNo");
     if (this.$session.get("coolUserNo") != null) {
       this.myUserNo = this.$session.get("coolUserNo");
       this.myRank = this.$session.get("coolRank");
     }
     this.$axios
-      .get("http://localhost:9000/coment", {
-        params: { comentComNo: this.$route.query.comNo },
+      .get("http://localhost:9000/adComent", {
+        params: { adComentAdNo: this.$route.query.adNo },
       })
       .then((res) => {
         this.coment = res.data;
@@ -82,12 +83,12 @@ export default {
         alert("로그인 해주세요");
       } else {
         this.$axios
-          .get("http://localhost:9000/comentInsert", {
+          .get("http://localhost:9000/adComentInsert", {
             params: {
-              comentComNo: this.$route.query.comNo,
-              comentUserNo: this.$session.get("coolUserNo"),
-              comentNickName: this.$session.get("coolNickName"),
-              comentContents: this.insert,
+              adComentAdNo: this.$route.query.adNo,
+              adComentUserNo: this.$session.get("coolUserNo"),
+              adComentNickName: this.$session.get("coolNickName"),
+              adComentContents: this.insert,
             },
           })
           .then((res) => {
@@ -104,8 +105,8 @@ export default {
         alert("로그인 해주세요");
       } else {
         this.$axios
-          .get("http://localhost:9000/comentDelete", {
-            params: { comentNo: num, comentComNo: this.$route.query.comNo },
+          .get("http://localhost:9000/adComentDelete", {
+            params: { adComentNo: num, adComentAdNo: this.$route.query.adNo },
           })
           .then((res) => {
             this.coment = res.data;
@@ -120,12 +121,6 @@ export default {
 };
 </script>
 <style scoped>
-.cursor {
-  cursor: pointer;
-}
-.pre {
-  white-space: pre-wrap;
-}
 .wrap {
   max-width: 650px;
   margin: 30px auto;
@@ -341,6 +336,9 @@ export default {
   flex-direction: column;
   padding: 16px 0;
   border-top: 1px solid rgb(241, 241, 241);
+}
+
+.comment-user-info-box {
 }
 
 .comment-user-img {

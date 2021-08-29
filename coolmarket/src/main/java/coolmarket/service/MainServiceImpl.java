@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import coolmarket.dto.AdDto;
 import coolmarket.dto.CommuDto;
 import coolmarket.dto.ImgDto;
 import coolmarket.dto.MarketDto;
@@ -37,6 +38,16 @@ public class MainServiceImpl implements MainService {
 	@Override
 	public List<String> marCate() throws Exception {
 		return map.marCate();
+	}
+
+	@Override
+	public List<AdDto> newAdList() throws Exception {
+		List<AdDto> data = map.newAdList();
+		for (int i = 0; i < data.size(); i++) {
+			List<ImgDto> imgList = map.adImgList(data.get(i).getAdNo());
+			data.get(i).setImgList(imgList);
+		}
+		return data;
 	}
 
 	@Override

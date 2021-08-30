@@ -160,13 +160,7 @@ export default {
     },
     comDelete() {
       this.$axios
-<<<<<<< HEAD
-        .get("http://localhost:9000/comDelete", { params: { comNo: this.ComNo } })
-=======
-        .get("http://localhost:9000/comDelete", {
-          params: { comNo: this.ComNo },
-        })
->>>>>>> 487c186034528f403247c566e1072658b5b599f2
+        .get("http://localhost:9000/comDelete", { params: { comNo: this.comNo } })
         .then(() => {
           alert("삭제 완료");
         })

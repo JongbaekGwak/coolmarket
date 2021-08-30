@@ -9,7 +9,7 @@
 				(#{marTitle}, #{marPrice}, #{marContents}, #{marAddr1}, #{marAddr2}, #{marAddr3}, #{marCate}, #{marUserNo}, #{marCreaNickName})
 		]]>
 	</insert>
-	<update id="marketUpdate" parameterType="btc.dto.MarketDto">
+	<update id="marketUpdate" parameterType="coolmarket.dto.MarketDto">
 		<![CDATA[
 			UPDATE
 				market

@@ -43,14 +43,13 @@
       <div class="sale-section">
         <div
           class="card-section ad-card-section"
-          v-on:click="MoveAdDetail(item.adNo)"
           v-for="(item, idx) in items"
           v-bind:key="idx"
         >
           <div
             class="card-box"
             v-if="item.adCate != null"
-            v-on:click="MoveMarketDetail(item.marNo)"
+            v-on:click="MoveAdDetail(item.adNo)"
           >
             <div class="card-img-box">
               <img src="" alt="광고이미지" />
@@ -81,7 +80,7 @@
               </div>
             </div>
           </div>
-          <div class="card-box" v-if="item.adCate == null">
+          <div class="card-box" v-if="item.adCate == null" v-on:click="MoveMarketDetail(item.marNo)">
             <div class="card-img-box">
               <img src="" alt="광고이미지" />
             </div>
@@ -129,11 +128,11 @@
         >
           <span>접기</span>
         </div>
-        <div class="write-btn-section">
+        <div class="write-btn-section" v-if="this.user.userNo != null">
           <div class="my-btn sale-btn" v-on:click="MoveMarketWrite">
             <span>판매 등록</span>
           </div>
-          <div class="my-btn ad-btn" v-on:click="MoveMarketWrite">
+          <div class="my-btn ad-btn" v-on:click="MoveAdtWrite" v-if="this.user.rank != 1">
             <span>광고 등록</span>
           </div>
         </div>
@@ -146,6 +145,7 @@
 export default {
   data() {
     return {
+      user: [],
       addr1: "",
       addr2: "",
       addr3: "",
@@ -161,6 +161,25 @@ export default {
       marTotalNum: 9,
       adTotalNum: 3,
     };
+  },
+  beforeCreate() {
+    this.$axios
+      .get("http://localhost:9000/me", {
+        params: {
+          userNo: this.$session.get("coolUserNo"),
+        },
+      })
+      .then((res) => {
+        this.user = res.data;
+        if (this.user.rank == 1) {
+          this.rank = "일반";
+        } else if (this.user.rank == 2) {
+          this.rank = "프리미엄";
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
   mounted() {
     let obj = this;
@@ -204,6 +223,9 @@ export default {
       });
   },
   methods: {
+    sessioncheck() {
+      this.session.get("userNo" != null)
+    },
     Getaddr2() {
       this.addr2 = "";
       this.addr3 = "";
@@ -323,6 +345,9 @@ export default {
     },
     MoveMarketWrite() {
       this.$router.push({ name: "MarketWrite" });
+    },
+    MoveAdtWrite() {
+      this.$router.push({ name: "AdWrite" });
     },
   },
 };

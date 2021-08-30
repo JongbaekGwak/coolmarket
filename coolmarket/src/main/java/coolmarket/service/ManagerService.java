@@ -10,7 +10,7 @@ public interface ManagerService {
 
 	void comAllDel() throws Exception;
 
-	void preAllUp(List<String> userNoList) throws Exception;
+	void preAllUp(List<Integer> userNoList) throws Exception;
 
-	void preUp(String userNo) throws Exception;
+	void preUp(int userNo) throws Exception;
 }

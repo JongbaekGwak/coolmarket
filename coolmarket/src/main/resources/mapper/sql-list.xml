@@ -23,6 +23,7 @@
 	<select id="getAdBoardList" parameterType="coolmarket.dto.MarketPagingDto" resultType="coolmarket.dto.AdDto">
 		<![CDATA[
 			SELECT
+				ad_no,
 				ad_user_no,
 				ad_cate,
 				ad_title,

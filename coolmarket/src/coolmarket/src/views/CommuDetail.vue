@@ -55,19 +55,26 @@
             <b-button class="m-1" variant="primary" v-on:click="moveComList"
               >목록으로</b-button
             >
-            <span
+            <b-button
+              class="m-1"
+              variant="info"
+              v-on:click="moveComUpdate"
               v-if="
                 myUserNo == commuDetail.comUserNo ||
                 this.$session.get('coolRank') == 0
               "
+              >수정</b-button
             >
-              <b-button class="m-1" variant="info" v-on:click="moveComUpdate"
-                >수정</b-button
-              >
-              <b-button class="m-1" variant="danger" v-on:click="comDelete"
-                >삭제</b-button
-              >
-            </span>
+            <b-button
+              class="m-1"
+              variant="danger"
+              v-on:click="comDelete"
+              v-if="
+                myUserNo == commuDetail.comUserNo ||
+                this.$session.get('coolRank') == 0
+              "
+              >삭제</b-button
+            >
           </div>
         </div>
       </div>
@@ -153,7 +160,9 @@ export default {
     },
     comDelete() {
       this.$axios
-        .get("http://localhost/comDelete", { params: { comNo: this.ComNo } })
+        .get("http://localhost:9000/comDelete", {
+          params: { comNo: this.ComNo },
+        })
         .then(() => {
           alert("삭제 완료");
         })

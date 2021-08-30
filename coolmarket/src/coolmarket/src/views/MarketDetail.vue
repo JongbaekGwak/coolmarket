@@ -138,11 +138,8 @@
           v-on:click="MoveDetail(item.marNo)"
         >
           <div class="card-box">
-            <div class="card-img-box" v-if="item.imgList != ''">
-              <img :src="path(item.imgList.storedImgPath)" alt="광고이미지" />
-            </div>
-            <div class="card-img-box" v-if="item.imgList == ''">
-              <img src="https://placekitten.com/g/300/450" alt="광고이미지" />
+            <div class="card-img-box">
+              <img :src="imgPath(item.imgList)" alt="광고이미지" />
             </div>
             <div class="card-body">
               <div class="card-title">
@@ -341,6 +338,13 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    imgPath(src) {
+      if (src == "") {
+        return "images/noImg.png";
+      } else {
+        return src[0].storedImgPath;
+      }
     },
   },
 };

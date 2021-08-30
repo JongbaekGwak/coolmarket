@@ -31,12 +31,12 @@ public class ManagerControl {
 	}
 
 	@RequestMapping(value = "/preAllUp", method = RequestMethod.GET)
-	public void preAllUp(List<String> userNoList) throws Exception {
+	public void preAllUp(@RequestParam("userNoList") List<Integer> userNoList) throws Exception {
 		serv.preAllUp(userNoList);
 	}
 
 	@RequestMapping(value = "/preUp", method = RequestMethod.GET)
-	public void preUp(@RequestParam("userNo") String userNo) throws Exception {
+	public void preUp(@RequestParam("userNo") int userNo) throws Exception {
 		serv.preUp(userNo);
 	}
 }

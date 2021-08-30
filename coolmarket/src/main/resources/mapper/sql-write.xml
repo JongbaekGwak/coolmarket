@@ -9,6 +9,23 @@
 				(#{marTitle}, #{marPrice}, #{marContents}, #{marAddr1}, #{marAddr2}, #{marAddr3}, #{marCate}, #{marUserNo}, #{marCreaNickName})
 		]]>
 	</insert>
+	<update id="marketUpdate" parameterType="coolmarket.dto.MarketDto">
+		<![CDATA[
+			UPDATE
+				market
+			SET
+				mar_title=#{marTitle},
+				mar_price=#{marPrice}
+				mar_contents=#{marContents},
+				mar_addr1=#{marAddr1},
+				mar_addr2=#{marAddr2},
+				mar_addr3=#{marAddr3},
+				mar_cate=#{marCate},
+				mar_up_dt=NOW(),
+			WHERE
+				mar_No=#{marNo}
+		]]>
+	</update>
 	<select id="marketWriteRe" parameterType="int" resultType="String">
 		<![CDATA[ 
 			select
@@ -23,6 +40,53 @@
 			limit 0,1
 		]]>
 	</select>
+	<insert id="commuWrite" parameterType="coolmarket.dto.CommuDto">
+		<![CDATA[ 
+			insert into commu
+				(com_title, com_contents, com_addr1, com_addr2, com_addr3, com_cate, com_user_no, com_crea_nick_name)
+			values
+				(#{comTitle}, #{comContents}, #{comAddr1}, #{comAddr2}, #{comAddr3}, #{comCate}, #{comUserNo}, #{comCreaNickName})
+		]]>
+	</insert>
+	<select id="commuWriteRe" parameterType="int" resultType="String">
+		<![CDATA[ 
+			select
+				com_no
+			from
+				commu
+			where
+				com_del_yn = 'n'
+			and
+				com_user_no = #{comUserNo}
+			order by com_no desc
+			limit 0,1
+		]]>
+	</select>
+	<insert id="adWrite" parameterType="coolmarket.dto.AdDto">
+	    <![CDATA[ 
+	    	insert into ad
+		    	(ad_title, ad_contents, ad_addr1, ad_addr2, ad_addr3, ad_user_no, ad_crea_nick_name)
+		    values
+		    	(#{adTitle}, #{adContents}, #{adAddr1}, #{adAddr2}, #{adAddr3}, #{adUserNo}, #{adCreaNickName})
+	    ]]>
+    </insert>
+	<select id="adWriteRe" parameterType="int" resultType="String">
+	    <![CDATA[ 
+		    select
+		    	ad_no
+		    from
+		    	ad
+		    where
+			    ad_del_yn = 'n'
+		    and
+		    	ad_user_no = #{adUserNo}
+		    order by ad_no desc
+		    limit 0,1
+	    ]]>
+	</select>
+
+	
+	
 	<insert id="imgInsert" parameterType="coolmarket.dto.ImgDto">
 		<![CDATA[ 
 			INSERT INTO img

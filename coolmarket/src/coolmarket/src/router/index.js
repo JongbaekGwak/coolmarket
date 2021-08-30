@@ -12,6 +12,12 @@ import CommuDetail from '../views/CommuDetail.vue'
 import MarketWrite from '../views/MarketWrite.vue'
 import MarketList from '../views/MarketList.vue'
 import CommuList from '../views/CommuList.vue'
+import CommuWrite from '../views/CommuWrite.vue'
+import AdWrite from '../views/AdWrite.vue'
+// import MarketUpdate from '../views/MarketUpdate.vue'
+// import CommuUpdate from '../views/CommuUpdate'
+// import AdUpdate from '../views/AdUpdate'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -60,6 +66,31 @@ const routes = [
     name: 'MarketWrite',
     component: MarketWrite,
   },
+  {
+    path: '/CommuWrite',
+    name: 'CommuWrite',
+    component: CommuWrite,
+  },
+  {
+    path: '/AdWrite',
+    name: 'AdWrite',
+    component: AdWrite,
+  },
+  // {
+  //   path: '/MarketUpdate',
+  //   name: 'MarketUpdate',
+  //   component: MarketUpdate,
+  // },
+  // {
+  //   path: '/CommuUpdate',
+  //   name: 'CommuUpdate',
+  //   component: CommuUpdate,
+  // },
+  // {
+  //   path: '/AdUpdate',
+  //   name: 'AdUpdate',
+  //   component: AdUpdate,
+  // },
   {
     path: '/MarketList',
     name: 'MarketList',

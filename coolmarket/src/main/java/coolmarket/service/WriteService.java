@@ -9,6 +9,8 @@ import coolmarket.dto.MarketDto;
 public interface WriteService {
 	String marketWrite(MarketDto market) throws Exception;
 	
+	void marketUpdate(MarketDto market) throws Exception;
+	
 	String commuWrite(CommuDto commu) throws Exception;
 	
 	String adWrite(AdDto ad) throws Exception;

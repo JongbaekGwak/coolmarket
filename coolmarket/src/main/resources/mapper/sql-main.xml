@@ -119,4 +119,13 @@
 			order by mar_cate_name
 		]]>
 	</select>
+	<select id="commuCate" resultType="String">
+		<![CDATA[ 
+			select
+				commu_cate_name
+			from
+				commu_cate
+			order by commu_cate_name
+		]]>
+	</select>
 </mapper>

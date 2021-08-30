@@ -22,7 +22,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry regi) {
 //		각자 환경에 맞게 설성
-		regi.addResourceHandler("/images/**").addResourceLocations("file:///E:/minsu/coolmarket/coolmarke/images/");
+		regi.addResourceHandler("/images/**").addResourceLocations("file:/Users/jb/javabtc/coolmarket/coolmarket/images/");
 		
 		regi.addResourceHandler("/**").addResourceLocations("classpath:/static/").resourceChain(true)
 				.addResolver(new PathResourceResolver() {

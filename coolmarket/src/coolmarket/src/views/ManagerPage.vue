@@ -281,13 +281,20 @@ export default {
         });
     },
     preAllUp() {
-      let userNoList = [];
+      let arr = [];
       for (let i = 0; i < this.premiumWait.length; i++) {
-        userNoList.push(this.premiumWait[i].userNo);
+        arr[i] = this.premiumWait[i].userNo;
       }
       this.$axios
         .get("http://localhost:9000/preAllUp", {
-          params: { userNoList: userNoList },
+          params: { userNoList: arr },
+          paramsSerializer(paramObj) {
+            const params = new URLSearchParams();
+            for (const key in paramObj) {
+              params.append(key, paramObj[key]);
+            }
+            return params.toString();
+          },
         })
         .then(() => {
           alert("일괄등업 완료");

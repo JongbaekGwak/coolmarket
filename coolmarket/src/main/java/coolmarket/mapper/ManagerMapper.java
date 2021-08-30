@@ -30,13 +30,13 @@ public interface ManagerMapper {
 
 	List<PreWaitUserDto> PreWaitUser() throws Exception;
 
-	void userUp(String userNo) throws Exception;
+	void userUp(int userNo) throws Exception;
 
-	void preUp(String userNo) throws Exception;
+	void preUp(int userNo) throws Exception;
 
-	void preDt(String userNo) throws Exception;
+	void preDt(int userNo) throws Exception;
 
-	void preDt2(String userNo) throws Exception;
+	void preDt2(int userNo) throws Exception;
 
 	List<UserDto> premiumUser() throws Exception;
 

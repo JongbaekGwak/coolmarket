@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ImgDto {
-	private int imgNo;
+	private String imgNo;
 	private String adNo;
 	private String marNo;
 	private String comNo;

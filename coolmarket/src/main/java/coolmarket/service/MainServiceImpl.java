@@ -39,6 +39,11 @@ public class MainServiceImpl implements MainService {
 	public List<String> marCate() throws Exception {
 		return map.marCate();
 	}
+	
+	@Override
+	public List<String> commuCate() throws Exception {
+		return map.commuCate();
+	}
 
 	@Override
 	public List<AdDto> newAdList() throws Exception {

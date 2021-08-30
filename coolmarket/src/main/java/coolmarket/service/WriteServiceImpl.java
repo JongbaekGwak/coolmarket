@@ -39,6 +39,11 @@ public class WriteServiceImpl implements WriteService {
 		map.adWrite(ad);
 		return map.adWriteRe(ad.getAdUserNo());
 	}
+	
+	@Override
+	public 	void marketUpdate(MarketDto market) throws Exception{
+		map.marketUpdate(market);
+	}
 
 
 	@Override

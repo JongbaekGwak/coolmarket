@@ -88,6 +88,23 @@ public class MainControl {
 		}
 		return returnCate;
 	}
+	
+	@RequestMapping(value = "/comCate", method = RequestMethod.GET)
+	public Object comCate() throws Exception {
+		List<String> cate = serv.commuCate();
+		List<Map<String, String>> returnCate = new ArrayList<Map<String, String>>();
+		Map<String, String> a = new HashMap<String, String>();
+		a.put("value", null);
+		a.put("text", "분류");
+		returnCate.add(a);
+		for (int i = 0; i < cate.size(); i++) {
+			Map<String, String> b = new HashMap<String, String>();
+			b.put("value", cate.get(i));
+			b.put("text", cate.get(i));
+			returnCate.add(b);
+		}
+		return returnCate;
+	}
 
 	@RequestMapping(value="/newAdList",method=RequestMethod.GET)
 	public Object newAdList() throws Exception {

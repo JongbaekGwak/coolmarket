@@ -153,7 +153,7 @@ export default {
     },
     comDelete() {
       this.$axios
-        .get("http://localhost/comDelete", { params: { comNo: this.ComNo } })
+        .get("http://localhost:9000/comDelete", { params: { comNo: this.ComNo } })
         .then(() => {
           alert("삭제 완료");
         })

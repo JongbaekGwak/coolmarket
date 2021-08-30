@@ -15,6 +15,8 @@ public interface MainService {
 	List<String> addr3(Map<String, String> addr) throws Exception;
 
 	List<String> marCate() throws Exception;
+	
+	List<String> commuCate() throws Exception;
 
 	List<AdDto> newAdList() throws Exception;
 

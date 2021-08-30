@@ -8,6 +8,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import coolmarket.common.FileUtils;
+import coolmarket.dto.AdDto;
+import coolmarket.dto.CommuDto;
 import coolmarket.dto.ImgDto;
 import coolmarket.dto.MarketDto;
 import coolmarket.mapper.WriteMapper;
@@ -25,6 +27,19 @@ public class WriteServiceImpl implements WriteService {
 		map.marketWrite(market);
 		return map.marketWriteRe(market.getMarUserNo());
 	}
+	
+	@Override
+	public String commuWrite(CommuDto commu) throws Exception {
+        map.commuWrite(commu);
+		return map.commuWriteRe(commu.getComUserNo());
+	}
+	
+	@Override
+	public String adWrite(AdDto ad) throws Exception {
+		map.adWrite(ad);
+		return map.adWriteRe(ad.getAdUserNo());
+	}
+
 
 	@Override
 	public void imgInsert(String adNo, String marNo, String comNo, MultipartHttpServletRequest images) throws Exception {

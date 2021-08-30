@@ -52,7 +52,7 @@
     <div class="board-wrap">
       <div
         class="board-card"
-        v-on:click="MoveCommuDetail"
+        v-on:click="MoveCommuDetail(item.comNo)"
         v-for="item in items"
         v-bind:key="item.comNo"
       >
@@ -105,7 +105,7 @@
       >
         <span>접기</span>
       </div>
-      <div class="write-btn-section">
+      <div class="write-btn-section" v-if="this.user.userNo != null">
         <div class="my-btn write-btn" v-on:click="MoveCommuWrite">
           <span>글쓰기</span>
         </div>
@@ -118,6 +118,7 @@
 export default {
   data() {
     return {
+      user:[],
       addr1: "",
       addr2: "",
       addr3: "",
@@ -131,6 +132,25 @@ export default {
       comStartNum: 0,
       comTotalNum: 10,
     };
+  },
+  beforeCreate() {
+    this.$axios
+      .get("http://localhost:9000/me", {
+        params: {
+          userNo: this.$session.get("coolUserNo"),
+        },
+      })
+      .then((res) => {
+        this.user = res.data;
+        if (this.user.rank == 1) {
+          this.rank = "일반";
+        } else if (this.user.rank == 2) {
+          this.rank = "프리미엄";
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
   mounted() {
     let obj = this;
@@ -290,8 +310,8 @@ export default {
     DecrementList() {
       (this.comStartNum = 0), (this.comTotalNum -= 10), this.onSelect();
     },
-    MoveCommuDetail() {
-      this.$router.push({ name: "CommuDetail" });
+    MoveCommuDetail(comNo) {
+      this.$router.push({ name: "CommuDetail", query: {comNo: comNo}});
     },
     MoveCommuWrite() {
       this.$router.push({ name: "CommuWrite" });

@@ -123,7 +123,11 @@ export default {
 .cursor {
   cursor: pointer;
 }
-.pre {
+pre {
+  white-space: pre-wrap;
+  word-break:break-all;
+}
+pre {
   white-space: pre-wrap;
 }
 .wrap {

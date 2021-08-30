@@ -22,7 +22,7 @@
       </div>
       <div class="comment-box">
         <div class="comment">
-          <pre class="m-0">{{ item.comentContents }}</pre>
+          <pre class="m-0 pre">{{ item.comentContents }}</pre>
         </div>
         <b-button
           class="float-end"
@@ -129,6 +129,7 @@ pre {
 }
 pre {
   white-space: pre-wrap;
+  word-break: break-all;
 }
 .wrap {
   max-width: 650px;

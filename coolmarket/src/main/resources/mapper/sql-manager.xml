@@ -118,7 +118,7 @@
 			ORDER BY pre.pre_no DESC
 		]]>
 	</select>
-	<update id="userUp" parameterType="String">
+	<update id="userUp" parameterType="int">
 		<![CDATA[ 
 			update
 				user
@@ -128,7 +128,7 @@
 				user_no = #{userNo}
 		]]>
 	</update>
-	<update id="preUp" parameterType="String">
+	<update id="preUp" parameterType="int">
 		<![CDATA[ 
 			update
 				premium
@@ -138,7 +138,7 @@
 				pre_user_no = #{userNo}
 		]]>
 	</update>
-	<update id="preDt" parameterType="String">
+	<update id="preDt" parameterType="int">
 		<![CDATA[ 
 			update
 				user
@@ -148,7 +148,7 @@
 				user_no = #{userNo}
 		]]>
 	</update>
-	<update id="preDt2" parameterType="String">
+	<update id="preDt2" parameterType="int">
 		<![CDATA[ 
 			update
 				user

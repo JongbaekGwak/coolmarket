@@ -67,8 +67,8 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public void preAllUp(List<String> userNoList) throws Exception {
-		List<String> userNo = userNoList;
+	public void preAllUp(List<Integer> userNoList) throws Exception {
+		List<Integer> userNo = userNoList;
 		for (int i = 0; i < userNo.size(); i++) {
 			map.userUp(userNo.get(i));
 			map.preUp(userNo.get(i));
@@ -78,7 +78,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public void preUp(String userNo) throws Exception {
+	public void preUp(int userNo) throws Exception {
 		map.userUp(userNo);
 		map.preUp(userNo);
 		map.preDt(userNo);

@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean creaPremium(String userNo) throws Exception {
 		String yn = map.searchPremium(userNo);
-		if (yn.equals(null)) {
+		if (yn == null) {
 			map.creaPremium(userNo);
 			return true;
 		} else {

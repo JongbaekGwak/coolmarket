@@ -63,13 +63,19 @@ public class FileUtils {
 					newFileName = Long.toString(System.nanoTime()) + originalFileExtension;
 
 					ImgDto img = new ImgDto();
-					if (!marNo.equals("")) {
+					if (adNo.equals("")) {
+						img.setAdNo(null);
+					} else {
 						img.setAdNo(adNo);
 					}
-					if (!marNo.equals("")) {
+					if (marNo.equals("")) {
+						img.setMarNo(null);
+					} else {
 						img.setMarNo(marNo);
 					}
-					if (!comNo.equals("")) {
+					if (comNo.equals("")) {
+						img.setComNo(null);
+					} else {
 						img.setComNo(comNo);
 					}
 					img.setImgSize(multiFile.getSize());

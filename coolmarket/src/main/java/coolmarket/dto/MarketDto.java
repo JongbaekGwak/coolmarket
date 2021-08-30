@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class MarketDto {
+	
 	private int marNo;
 	private int marUserNo;
 	private int marBuyUserNo;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="mt-3 pb-3 border-bottom">광고 글쓰기</h2>
+    <h2 class="mt-3 pb-3 border-bottom">광고 수정하기</h2>
     <div class="d-lg-flex justify-content-end d-block">
       <div class="mt-3">
         <span class="me-1">주소 : </span>
@@ -64,8 +64,8 @@
       >
         목록으로
       </button>
-      <button type="button" class="btn btn-success mx-1" v-on:click="adWrite">
-        글쓰기
+      <button type="button" class="btn btn-success mx-1" v-on:click="adUpdate">
+        수정하기
       </button>
     </div>
   </div>
@@ -75,6 +75,7 @@
 export default {
   data() {
     return {
+      adNo:"",
       title: "",
       images: "",
       files: [],
@@ -94,10 +95,27 @@ export default {
     }
   },
   mounted() {
+    this.adNo = this.$route.query.adNo;
     this.$axios
       .get("http://localhost:9000/addr1")
       .then((res) => {
         this.addr1 = res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    this.$axios
+      .get("http://localhost:9000/adDetail", { 
+        params: { adNo: this.adNo } 
+        })
+      .then((res) => {
+        this.title = res.data.adTitle;
+        this.contents = res.data.adContents;
+        this.address1 = res.data.adAddr1;
+        this.addre2();
+        this.address2 = res.data.adAddr2;
+        this.addre3();
+        this.address3 = res.data.adAddr3;
       })
       .catch((err) => {
         console.log(err);
@@ -153,7 +171,7 @@ export default {
     moveMarketList() {
       this.$router.push("/MarketList");
     },
-    adWrite() {
+    adUpdate() {
       if (this.title == "") {
         alert("제목을 입력해 주세요");
       } else if (this.address1 == null) {
@@ -163,15 +181,14 @@ export default {
           console.log(this.images);
         }
         this.$axios
-          .get("http://localhost:9000/adWrite", {
+          .get("http://localhost:9000/adUpdate", {
             params: {
+              adNo : this.adNo,
               adTitle: this.title,
               adContents: this.contents,
               adAddr1: this.address1,
               adAddr2: this.address2,
-              adAddr3: this.address3,
-              adUserNo: this.$session.get("coolUserNo"),
-              adCreaNickName: this.$session.get("coolNickName")
+              adAddr3: this.address3
             },
           })
           .then((res) => {

@@ -5,13 +5,12 @@ import java.io.IOException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
-
-import jdk.internal.loader.Resource;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -24,7 +23,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public void addResourceHandlers(ResourceHandlerRegistry regi) {
 //		각자 환경에 맞게 설성
 		regi.addResourceHandler("/images/**").addResourceLocations("file:///E:/minsu/coolmarket/coolmarket/images/");
-		
+
 		regi.addResourceHandler("/**").addResourceLocations("classpath:/static/").resourceChain(true)
 				.addResolver(new PathResourceResolver() {
 					@Override

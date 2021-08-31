@@ -1,11 +1,12 @@
 <template>
   <div>
-    <h2 class="mt-3 pb-3 border-bottom">커뮤니티 글쓰기</h2>
+    <h2 class="mt-3 pb-3 border-bottom">마켓 물건 수정하기</h2>
+
     <div class="d-lg-flex justify-content-between d-block">
       <div class="mt-3">
         <span class="me-1">카테고리 :</span>
         <b-form-select
-          v-model="comCate"
+          v-model="marCate"
           :options="cate"
           class="btn btn-sm btn-warning"
         ></b-form-select>
@@ -32,7 +33,7 @@
       </div>
     </div>
 
-    <div class="mt-3">
+    <b-row class="mt-3">
       <b-col>
         <div class="input-group">
           <div class="input-group-text">제목</div>
@@ -46,7 +47,21 @@
           />
         </div>
       </b-col>
-    </div>
+
+      <b-col>
+        <div class="input-group">
+          <div class="input-group-text">가격</div>
+          <input
+            type="text"
+            class="form-control"
+            id="price"
+            name="price"
+            placeholder="가격을 입력하세요"
+            v-model="price"
+          />
+        </div>
+      </b-col>
+    </b-row>
 
     <div class="mt-3">
       <input
@@ -71,16 +86,16 @@
       <button
         type="button"
         class="btn btn-primary mx-1"
-        v-on:click="moveCommuList"
+        v-on:click="moveMarketList"
       >
         목록으로
       </button>
       <button
         type="button"
         class="btn btn-success mx-1"
-        v-on:click="commuWrite"
+        v-on:click="marketUpdate"
       >
-        글쓰기
+        수정하기
       </button>
     </div>
   </div>
@@ -90,13 +105,15 @@
 export default {
   data() {
     return {
+      marNo: "",
       title: "",
+      price: "",
       images: "",
       contents: "",
       address1: "",
       address2: "",
       address3: "",
-      comCate: "",
+      marCate: "",
       addr1: [],
       addr2: [{ value: "", text: "시/군/구" }],
       addr3: [{ value: "", text: "동" }],
@@ -110,6 +127,7 @@ export default {
     }
   },
   mounted() {
+    this.marNo = this.$route.query.marNo;
     this.$axios
       .get("http://localhost:9000/addr1")
       .then((res) => {
@@ -119,9 +137,27 @@ export default {
         console.log(err);
       });
     this.$axios
-      .get("http://localhost:9000/comCate")
+      .get("http://localhost:9000/marCate")
       .then((res) => {
         this.cate = res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    this.$axios
+      .get("http://localhost:9000/marketDetail", {
+        params: { marNo: this.marNo },
+      })
+      .then((res) => {
+        this.title = res.data.marketDetail.marTitle;
+        this.price = res.data.marketDetail.marPrice;
+        this.contents = res.data.marketDetail.marContents;
+        this.address1 = res.data.marketDetail.marAddr1;
+        this.marCate = res.data.marketDetail.marCate;
+        this.addre2();
+        this.address2 = res.data.marketDetail.marAddr2;
+        this.addre3();
+        this.address3 = res.data.marketDetail.marAddr3;
       })
       .catch((err) => {
         console.log(err);
@@ -174,67 +210,69 @@ export default {
           console.log(err);
         });
     },
-    moveCommuList() {
-      this.$router.push("/CommuList");
+    moveMarketList() {
+      this.$router.push("/MarketList");
     },
-    commuWrite() {
+    marketUpdate() {
       if (this.title == "") {
         alert("제목을 입력해 주세요");
-      } else if (this.comCate == null) {
+      } else if (this.price == "") {
+        alert("가격을 입력해 주세요");
+      } else if (this.marCate == "") {
         alert("카테고리를 선택해 주세요");
-      } else if (this.address1 == null) {
+      } else if (this.address1 == "") {
         alert("주소를 선택해 주세요");
       } else {
-        if (this.images != "") {
-          console.log(this.images);
-        }
-        this.$axios
-          .get("http://localhost:9000/commuWrite", {
-            params: {
-              comTitle: this.title,
-              comContents: this.contents,
-              comAddr1: this.address1,
-              comAddr2: this.address2,
-              comAddr3: this.address3,
-              comCate: this.comCate,
-              comUserNo: this.$session.get("coolUserNo"),
-              comCreaNickName: this.$session.get("coolNickName")
-            },
-          })
-          .then((res) => {
-            if (this.images != "") {
-              let fromData = new FormData();
-              for (let i = 0; i < this.images.length; i++) {
-                fromData.append("image", this.images[i]);
-              }
-              this.$axios
-                .post("http://localhost:9000/imgInsert", fromData, {
-                  params: { adNo: "", marNo: "", comNo: res.data },
-                  headers: {
-                    "Content-Type": "multipart/form-data",
-                  },
-                })
-                .then(() => {
-                  alert("작성완료");
-                  this.$router.push({
-                    name: "CommuDetail",
-                    query: { comNo: res.data },
+        let marprice = parseInt(this.price);
+        if (isNaN(marprice)) {
+          alert("가격은 숫자만 입력할 수 있습니다.");
+        } else {
+          this.$axios
+            .put("http://localhost:9000/marketUpdate", {
+                marNo: this.marNo,
+                marTitle: this.title,
+                marPrice: this.price,
+                marContents: this.contents,
+                marAddr1: this.address1,
+                marAddr2: this.address2,
+                marAddr3: this.address3,
+                marCate: this.marCate
+            })
+            .then(() => {
+              if (this.images != "") {
+                let fromData = new FormData();
+                for (let i = 0; i < this.images.length; i++) {
+                  fromData.append("image", this.images[i]);
+                }
+                this.$axios
+                  .post("http://localhost:9000/imgInsert", fromData, {
+                    params: { adNo: "", marNo: this.marNo, comNo: "" },
+                    headers: {
+                      "Content-Type": "multipart/form-data",
+                    },
+                  })
+                  .then(() => {
+                    alert("수정완료");
+                    this.$router.push({
+                      name: "MarketDetail",
+                      query: { marNo: this.marNo},
+                    });
+                  })
+                  .catch((err) => {
+                    console.log(err);
                   });
-                })
-                .catch((err) => {
-                  console.log(err);
+              } else {
+                alert("수정완료");
+                this.$router.push({
+                  name: "MarketDetail",
+                  query: { marNo: this.marNo },
                 });
-            } else {
-              alert("작성완료");
-              this.$router.push({
-                name: "CommuDetail",
-                query: { comNo: res.data },
-              });
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
       }
     },
     up(file) {

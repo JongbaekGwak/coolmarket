@@ -196,7 +196,7 @@ export default {
     }
     this.marNo = this.$route.query.marNo;
     this.$axios
-      .get("http://localhost:9000/marketDetail", {
+      .get("http://localhost:8000/marketDetail", {
         params: { marNo: this.marNo },
       })
       .then((res) => {
@@ -246,7 +246,7 @@ export default {
     },
     MoveMarketUpdate() {
       this.$router.push({
-        name: "MarkeUpdate",
+        name: "MarketUpdate",
         query: { marNo: this.marketDetail.marNo },
       });
     },

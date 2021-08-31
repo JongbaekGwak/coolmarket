@@ -1,6 +1,7 @@
 package coolmarket.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,21 +17,40 @@ import coolmarket.service.WriteService;
 public class WriteControl {
 	@Autowired
 	private WriteService serv;
-
+    
+//	마켓
 	@RequestMapping(value = "/marketWrite", method = RequestMethod.GET)
 	public Object marketWrite(MarketDto market) throws Exception {
 		return serv.marketWrite(market);
 	}
 	
+	@RequestMapping(value = "/marketUpdate", method = RequestMethod.PUT)
+	public void marketUpdate(@RequestBody MarketDto market) throws Exception {
+		serv.marketUpdate(market);
+	}
+	
+//	커뮤
 	@RequestMapping(value = "/commuWrite", method = RequestMethod.GET)
 	public Object marketWrite(CommuDto commu) throws Exception {
 		return serv.commuWrite(commu);
 	}
 	
+	@RequestMapping(value = "/commuUpdate", method = RequestMethod.PUT)
+	public void commuUpdate(@RequestBody CommuDto commu) throws Exception {
+		serv.commuUpdate(commu);
+	}
+	
+//	광고
 	@RequestMapping(value = "/adWrite", method = RequestMethod.GET)
 	public Object adWrite(AdDto ad) throws Exception {
 		return serv.adWrite(ad);
 	}
+	
+	@RequestMapping(value = "/adUpdate", method = RequestMethod.PUT)
+	public void adUpdate(@RequestBody AdDto ad) throws Exception {
+		serv.adUpdate(ad);
+	}
+	
 
 	@RequestMapping(value = "/imgInsert", method = RequestMethod.POST)
 	public void datatest(@RequestParam("adNo") String adNo, @RequestParam("marNo") String marNo,

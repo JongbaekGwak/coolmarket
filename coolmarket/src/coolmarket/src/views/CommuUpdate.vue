@@ -1,7 +1,15 @@
 <template>
   <div>
-    <h2 class="mt-3 pb-3 border-bottom">광고 글쓰기</h2>
-    <div class="d-lg-flex justify-content-end d-block">
+    <h2 class="mt-3 pb-3 border-bottom">커뮤니티 수정하기</h2>
+    <div class="d-lg-flex justify-content-between d-block">
+      <div class="mt-3">
+        <span class="me-1">카테고리 :</span>
+        <b-form-select
+          v-model="comCate"
+          :options="cate"
+          class="btn btn-sm btn-warning"
+        ></b-form-select>
+      </div>
       <div class="mt-3">
         <span class="me-1">주소 : </span>
         <b-form-select
@@ -23,6 +31,7 @@
         ></b-form-select>
       </div>
     </div>
+
     <div class="mt-3">
       <b-col>
         <div class="input-group">
@@ -38,6 +47,7 @@
         </div>
       </b-col>
     </div>
+
     <div class="mt-3">
       <input
         type="file"
@@ -47,6 +57,7 @@
         @change="up"
       />
     </div>
+
     <div class="form-group mt-3">
       <textarea
         name="contents"
@@ -60,12 +71,16 @@
       <button
         type="button"
         class="btn btn-primary mx-1"
-        v-on:click="moveMarketList"
+        v-on:click="moveCommuList"
       >
         목록으로
       </button>
-      <button type="button" class="btn btn-success mx-1" v-on:click="adWrite">
-        글쓰기
+      <button
+        type="button"
+        class="btn btn-success mx-1"
+        v-on:click="commuUpdate"
+      >
+        수정하기
       </button>
     </div>
   </div>
@@ -75,16 +90,18 @@
 export default {
   data() {
     return {
+      comNo:"",
       title: "",
       images: "",
-      files: [],
       contents: "",
       address1: "",
       address2: "",
       address3: "",
+      comCate: "",
       addr1: [],
       addr2: [{ value: "", text: "시/군/구" }],
       addr3: [{ value: "", text: "동" }],
+      cate: [],
     };
   },
   beforeCreate() {
@@ -94,6 +111,7 @@ export default {
     }
   },
   mounted() {
+    this.comNo = this.$route.query.comNo;
     this.$axios
       .get("http://localhost:9000/addr1")
       .then((res) => {
@@ -102,6 +120,30 @@ export default {
       .catch((err) => {
         console.log(err);
       });
+    this.$axios
+      .get("http://localhost:9000/comCate")
+      .then((res) => {
+        this.cate = res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    this.$axios
+      .get("http://localhost:9000/comDetail",{
+        params: { comNo: this.comNo },
+      })
+      .then((res) => {
+        this.title = res.data.commuDetail.comTitle;
+        this.contents = res.data.commuDetail.comContents;
+        this.address1 = res.data.commuDetail.comAddr1;
+        this.addre2();
+        this.address2 = res.data.commuDetail.comaddr2;
+        this.addre3();
+        this.address3 = res.data.commuDetail.comaddr3;
+      })
+    .catch((err) => {
+      console.log(err);
+    });
   },
   methods: {
     addre2() {
@@ -150,12 +192,14 @@ export default {
           console.log(err);
         });
     },
-    moveMarketList() {
-      this.$router.push("/MarketList");
+    moveCommuList() {
+      this.$router.push("/CommuList");
     },
-    adWrite() {
+    commuUpdate() {
       if (this.title == "") {
         alert("제목을 입력해 주세요");
+      } else if (this.comCate == null) {
+        alert("카테고리를 선택해 주세요");
       } else if (this.address1 == null) {
         alert("주소를 선택해 주세요");
       } else {
@@ -163,15 +207,15 @@ export default {
           console.log(this.images);
         }
         this.$axios
-          .get("http://localhost:9000/adWrite", {
+          .get("http://localhost:9000/commuUpdate", {
             params: {
-              adTitle: this.title,
-              adContents: this.contents,
-              adAddr1: this.address1,
-              adAddr2: this.address2,
-              adAddr3: this.address3,
-              adUserNo: this.$session.get("coolUserNo"),
-              adCreaNickName: this.$session.get("coolNickName")
+              comNo: this.comNo,
+              comTitle: this.title,
+              comContents: this.contents,
+              comAddr1: this.address1,
+              comAddr2: this.address2,
+              comAddr3: this.address3,
+              comCate: this.comCate,
             },
           })
           .then((res) => {
@@ -182,26 +226,26 @@ export default {
               }
               this.$axios
                 .post("http://localhost:9000/imgInsert", fromData, {
-                  params: { adNo: res.data, marNo: "", comNo: "" },
+                  params: { adNo: "", marNo: "", comNo: res.data },
                   headers: {
                     "Content-Type": "multipart/form-data",
                   },
                 })
                 .then(() => {
-                  alert("작성완료");
+                  alert("수정완료");
                   this.$router.push({
-                    name: "AdDetail",
-                    query: { adNo: res.data },
+                    name: "CommuDetail",
+                    query: { comNo: res.data },
                   });
                 })
                 .catch((err) => {
                   console.log(err);
                 });
             } else {
-              alert("작성완료");
+              alert("수정완료");
               this.$router.push({
-                name: "AdDetail",
-                query: { adNo: res.data },
+                name: "CommuDetail",
+                query: { comNo: res.data },
               });
             }
           })

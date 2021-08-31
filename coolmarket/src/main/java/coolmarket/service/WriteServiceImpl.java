@@ -29,9 +29,19 @@ public class WriteServiceImpl implements WriteService {
 	}
 	
 	@Override
+	public 	void marketUpdate(MarketDto market) throws Exception{
+		map.marketUpdate(market);
+	}
+	
+	@Override
 	public String commuWrite(CommuDto commu) throws Exception {
         map.commuWrite(commu);
 		return map.commuWriteRe(commu.getComUserNo());
+	}
+	
+	@Override
+	public void commuUpdate(CommuDto commu) throws Exception{
+		map.commuUpdate(commu);
 	}
 	
 	@Override
@@ -41,9 +51,11 @@ public class WriteServiceImpl implements WriteService {
 	}
 	
 	@Override
-	public 	void marketUpdate(MarketDto market) throws Exception{
-		map.marketUpdate(market);
+	public void adUpdate(AdDto ad) throws Exception{
+		map.adUpdate(ad);
 	}
+	
+
 
 
 	@Override

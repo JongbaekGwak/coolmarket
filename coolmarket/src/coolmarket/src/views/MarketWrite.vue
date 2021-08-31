@@ -218,7 +218,7 @@ export default {
                 marAddr3: this.address3,
                 marCate: this.marCate,
                 marUserNo: this.$session.get("coolUserNo"),
-                marCreaNickName: this.$session.get("coolNickName"),
+                marCreaNickName: this.$session.get("coolNickName")
               },
             })
             .then((res) => {

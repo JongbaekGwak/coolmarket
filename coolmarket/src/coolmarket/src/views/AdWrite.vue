@@ -1,7 +1,6 @@
 <template>
   <div>
     <h2 class="mt-3 pb-3 border-bottom">광고 글쓰기</h2>
-
     <div class="d-lg-flex justify-content-end d-block">
       <div class="mt-3">
         <span class="me-1">주소 : </span>
@@ -24,7 +23,6 @@
         ></b-form-select>
       </div>
     </div>
-
     <div class="mt-3">
       <b-col>
         <div class="input-group">
@@ -40,16 +38,15 @@
         </div>
       </b-col>
     </div>
-
     <div class="mt-3">
       <input
         type="file"
         class="form-control"
         multiple
         accept="image/*"
+        @change="up"
       />
     </div>
-
     <div class="form-group mt-3">
       <textarea
         name="contents"
@@ -67,11 +64,7 @@
       >
         목록으로
       </button>
-      <button
-        type="button"
-        class="btn btn-success mx-1"
-        v-on:click="adWrite"
-      >
+      <button type="button" class="btn btn-success mx-1" v-on:click="adWrite">
         글쓰기
       </button>
     </div>
@@ -93,6 +86,12 @@ export default {
       addr2: [{ value: "", text: "시/군/구" }],
       addr3: [{ value: "", text: "동" }],
     };
+  },
+  beforeCreate() {
+    if (this.$session.get("coolUserNo") == null) {
+      alert("로그인 해주세요");
+      this.$router.push("/Login");
+    }
   },
   mounted() {
     this.$axios
@@ -172,20 +171,47 @@ export default {
               adAddr2: this.address2,
               adAddr3: this.address3,
               adUserNo: this.$session.get("coolUserNo"),
-              adCreaNickName: this.$session.get("coolNickName")
+              adCreaNickName: this.$session.get("coolNickName"),
             },
           })
           .then((res) => {
-            alert("작성완료");
-            this.$router.push({
-              name: "AdDetail",
-              query: { adNo: res.data },
-            });
+            if (this.images != "") {
+              let fromData = new FormData();
+              for (let i = 0; i < this.images.length; i++) {
+                fromData.append("image", this.images[i]);
+              }
+              this.$axios
+                .post("http://localhost:9000/imgInsert", fromData, {
+                  params: { adNo: res.data, marNo: "", comNo: "" },
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                  },
+                })
+                .then(() => {
+                  alert("작성완료");
+                  this.$router.push({
+                    name: "AdDetail",
+                    query: { adNo: res.data },
+                  });
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            } else {
+              alert("작성완료");
+              this.$router.push({
+                name: "AdDetail",
+                query: { adNo: res.data },
+              });
+            }
           })
           .catch((err) => {
             console.log(err);
           });
       }
+    },
+    up(file) {
+      this.images = file.target.files;
     },
   },
 };

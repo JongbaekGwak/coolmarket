@@ -1,7 +1,6 @@
 <template>
   <div>
     <h2 class="mt-3 pb-3 border-bottom">커뮤니티 글쓰기</h2>
-
     <div class="d-lg-flex justify-content-between d-block">
       <div class="mt-3">
         <span class="me-1">카테고리 :</span>
@@ -55,6 +54,7 @@
         class="form-control"
         multiple
         accept="image/*"
+        @change="up"
       />
     </div>
 
@@ -92,7 +92,6 @@ export default {
     return {
       title: "",
       images: "",
-      files: [],
       contents: "",
       address1: "",
       address2: "",
@@ -103,6 +102,12 @@ export default {
       addr3: [{ value: "", text: "동" }],
       cate: [],
     };
+  },
+  beforeCreate() {
+    if (this.$session.get("coolUserNo") == null) {
+      alert("로그인 해주세요");
+      this.$router.push("/Login");
+    }
   },
   mounted() {
     this.$axios
@@ -147,7 +152,7 @@ export default {
         });
     },
     addre3() {
-      this.address3 = '';
+      this.address3 = "";
       this.$axios
         .get("http://localhost:9000/addr3", {
           params: {
@@ -158,7 +163,7 @@ export default {
         .then((res) => {
           if (res.data.length == 1) {
             this.addr3 = [
-              { value: '', text: "동" },
+              { value: "", text: "동" },
               { value: "없음", text: "없음" },
             ];
           } else {
@@ -197,18 +202,43 @@ export default {
             },
           })
           .then((res) => {
-        
-                alert("작성완료");
-                this.$router.push({
-                  name: "CommuDetail",
-                  query: { comNo: res.data },
+            if (this.images != "") {
+              let fromData = new FormData();
+              for (let i = 0; i < this.images.length; i++) {
+                fromData.append("image", this.images[i]);
+              }
+              this.$axios
+                .post("http://localhost:9000/imgInsert", fromData, {
+                  params: { adNo: "", marNo: "", comNo: res.data },
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                  },
+                })
+                .then(() => {
+                  alert("작성완료");
+                  this.$router.push({
+                    name: "CommuDetail",
+                    query: { comNo: res.data },
+                  });
+                })
+                .catch((err) => {
+                  console.log(err);
                 });
-            
+            } else {
+              alert("작성완료");
+              this.$router.push({
+                name: "CommuDetail",
+                query: { comNo: res.data },
+              });
+            }
           })
           .catch((err) => {
             console.log(err);
           });
       }
+    },
+    up(file) {
+      this.images = file.target.files;
     },
   },
 };

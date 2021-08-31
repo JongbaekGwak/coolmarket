@@ -119,6 +119,12 @@ export default {
       cate: [],
     };
   },
+  beforeCreate() {
+    if (this.$session.get("coolUserNo") == null) {
+      alert("로그인 해주세요");
+      this.$router.push("/Login");
+    }
+  },
   mounted() {
     this.$axios
       .get("http://localhost:9000/addr1")

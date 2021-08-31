@@ -63,15 +63,15 @@
 		]]>
 	</select>
 	<insert id="adWrite" parameterType="coolmarket.dto.AdDto">
-	    <![CDATA[ 
+		<![CDATA[ 
 	    	insert into ad
 		    	(ad_title, ad_contents, ad_addr1, ad_addr2, ad_addr3, ad_user_no, ad_crea_nick_name)
 		    values
 		    	(#{adTitle}, #{adContents}, #{adAddr1}, #{adAddr2}, #{adAddr3}, #{adUserNo}, #{adCreaNickName})
 	    ]]>
-    </insert>
+	</insert>
 	<select id="adWriteRe" parameterType="int" resultType="String">
-	    <![CDATA[ 
+		<![CDATA[ 
 		    select
 		    	ad_no
 		    from
@@ -84,9 +84,6 @@
 		    limit 0,1
 	    ]]>
 	</select>
-
-	
-	
 	<insert id="imgInsert" parameterType="coolmarket.dto.ImgDto">
 		<![CDATA[ 
 			INSERT INTO img

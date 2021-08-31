@@ -11,11 +11,11 @@
         <b-carousel-slide
           v-for="item in newAdList"
           :key="item.adNo"
-          :text="item.adTitle"
           :img-src="imgPath(item.imgList)"
           style="width: 100%; height: 500px"
-          v-on:click="moveAdDetail(item.adNo)"
-        >
+          ><spran v-on:click="moveAdDetail(item.adNo)" class="cursor">{{
+            item.adTitle
+          }}</spran>
         </b-carousel-slide>
       </b-carousel>
     </div>

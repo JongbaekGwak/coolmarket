@@ -156,4 +156,37 @@
 				addr2 != ""
 		]]>
 	</select>
+	<select id="adImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				ad_no = #{adNo}
+			order by img_no
+		]]>
+	</select>
+	<select id="marImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				mar_no = #{marNo}
+			order by img_no
+		]]>
+	</select>
+	<select id="comImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				com_no = #{comNo}
+			order by img_no
+		]]>
+	</select>
 </mapper>

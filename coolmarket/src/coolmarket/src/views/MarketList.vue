@@ -52,7 +52,7 @@
             v-on:click="MoveAdDetail(item.adNo)"
           >
             <div class="card-img-box">
-              <img src="" alt="광고이미지" />
+              <img :src="imgPath(item.imgList)" alt="광고이미지" />
             </div>
             <div class="card-body">
               <div class="card-title">
@@ -80,9 +80,13 @@
               </div>
             </div>
           </div>
-          <div class="card-box" v-if="item.adCate == null" v-on:click="MoveMarketDetail(item.marNo)">
+          <div
+            class="card-box"
+            v-if="item.adCate == null"
+            v-on:click="MoveMarketDetail(item.marNo)"
+          >
             <div class="card-img-box">
-              <img src="" alt="광고이미지" />
+              <img :src="imgPath(item.imgList)" alt="광고이미지" />
             </div>
             <div class="card-body">
               <div class="card-title">
@@ -132,7 +136,11 @@
           <div class="my-btn sale-btn" v-on:click="MoveMarketWrite">
             <span>판매 등록</span>
           </div>
-          <div class="my-btn ad-btn" v-on:click="MoveAdtWrite" v-if="this.user.rank != 1">
+          <div
+            class="my-btn ad-btn"
+            v-on:click="MoveAdtWrite"
+            v-if="this.user.rank != 1"
+          >
             <span>광고 등록</span>
           </div>
         </div>
@@ -224,7 +232,7 @@ export default {
   },
   methods: {
     sessioncheck() {
-      this.session.get("userNo" != null)
+      this.session.get("userNo" != null);
     },
     Getaddr2() {
       this.addr2 = "";
@@ -348,6 +356,13 @@ export default {
     },
     MoveAdtWrite() {
       this.$router.push({ name: "AdWrite" });
+    },
+    imgPath(src) {
+      if (src == "") {
+        return "/images/noImg.png";
+      } else {
+        return src[0].storedImgPath;
+      }
     },
   },
 };

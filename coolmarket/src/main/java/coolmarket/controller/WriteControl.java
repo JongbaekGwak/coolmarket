@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import coolmarket.dto.AdDto;
+import coolmarket.dto.CommuDto;
 import coolmarket.dto.MarketDto;
 import coolmarket.service.WriteService;
 
@@ -18,6 +20,16 @@ public class WriteControl {
 	@RequestMapping(value = "/marketWrite", method = RequestMethod.GET)
 	public Object marketWrite(MarketDto market) throws Exception {
 		return serv.marketWrite(market);
+	}
+	
+	@RequestMapping(value = "/commuWrite", method = RequestMethod.GET)
+	public Object marketWrite(CommuDto commu) throws Exception {
+		return serv.commuWrite(commu);
+	}
+	
+	@RequestMapping(value = "/adWrite", method = RequestMethod.GET)
+	public Object adWrite(AdDto ad) throws Exception {
+		return serv.adWrite(ad);
 	}
 
 	@RequestMapping(value = "/imgInsert", method = RequestMethod.POST)

@@ -15,6 +15,8 @@ public interface WriteMapper {
 
 	String marketWriteRe(int marUserNo) throws Exception;
 	
+	void marketUpdate(MarketDto market) throws Exception;
+	
 	void commuWrite(CommuDto commu) throws Exception;
 
 	String commuWriteRe(int comUserNo) throws Exception;
@@ -22,6 +24,8 @@ public interface WriteMapper {
 	void adWrite(AdDto ad) throws Exception;
 
 	String adWriteRe(int adUserNo) throws Exception;
+	
+
 
 	void imgInsert(List<ImgDto> list) throws Exception;
 }

@@ -175,7 +175,7 @@
         </b-tab>
 
         <!-- 광고 목록 -->
-        <b-tab title="광고 목록" v-if="rank == 2">
+        <b-tab title="광고 목록" v-if="rank == '프리미엄'">
           <div class="mt-5">
             <div>
               <div>

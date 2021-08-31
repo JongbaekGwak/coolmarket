@@ -19,6 +19,8 @@ public interface MainMapper {
 	List<String> addr3(Map<String, String> addr) throws Exception;
 
 	List<String> marCate() throws Exception;
+	
+	List<String> commuCate() throws Exception;
 
 	List<AdDto> newAdList() throws Exception;
 	
@@ -31,4 +33,5 @@ public interface MainMapper {
 	List<CommuDto> newCommuList() throws Exception;
 
 	List<ImgDto> comImgList(int comNo) throws Exception;
+	
 }

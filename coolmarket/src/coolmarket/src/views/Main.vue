@@ -7,14 +7,13 @@
         style="text-shadow: 0px 0px 2px #000"
         indicators
         controls
-        img-width="1024"
-        img-height="480"
       >
         <b-carousel-slide
           v-for="item in newAdList"
           :key="item.adNo"
           :text="item.adTitle"
           :img-src="imgPath(item.imgList)"
+          style="width: 100%; height: 500px"
         >
         </b-carousel-slide>
       </b-carousel>

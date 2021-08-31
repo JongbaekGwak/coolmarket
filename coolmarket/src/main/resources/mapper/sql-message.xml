@@ -7,14 +7,55 @@
 
 <mapper namespace="coolmarket.mapper.MessageMapper">
 
-	<insert id="insertMessage" parameterType="com.dto.MessageDto">
+	<insert id="insertMessage" parameterType="coolmarket.dto.MessageDto">
 
 		<![CDATA[ 
 			INSERT INTO
-				msg (buyre_no, buyer_name, buyer_no)
+				msg (buyer_no, buyer_name, contents)
 			VALUES
-				(#{buyerNo}, #{buyerName}, #{buyerNo})
+				(#{buyerNo}, #{buyerName}, #{contents})
 		]]>
 	</insert>
+	
+	<select id="checkRoom" resultType="coolmarket.dto.ChatRoomDto" parameterType="coolmarket.dto.ChatRoomDto">
+		
+		<![CDATA[
+			SELECT 
+				room_no, mar_no, seller_no, buyer_no
+			FROM 
+				chat_room
+			WHERE 
+				seller_no = #{sellerNo} 
+			AND buyer_no = #{buyerNo}
+			AND mar_no = #{marNo}
+		]]>
+
+	</select>
+	
+	
+	<insert id="createRoom" useGeneratedKeys="true" keyProperty="roomNo" parameterType="coolmarket.dto.ChatRoomDto">
+		
+		<![CDATA[ 
+			INSERT INTO 
+				chat_room 
+				(mar_no, seller_no, buyer_no)
+			VALUES 
+				(#{marNo}, #{sellerNo}, #{buyerNo})
+		]]>
+			
+	</insert>
+	
+	<select id="checkRoom1" resultType="coolmarket.dto.ChatRoomDto" parameterType="int">
+		
+		<![CDATA[
+			SELECT 
+				room_no, mar_no, seller_no, buyer_no
+			FROM 
+				chat_room
+			WHERE 
+				room_no = #{chatRoomNo}
+		]]>
+
+	</select>
 	
 </mapper>

@@ -24,7 +24,7 @@
         <div class="item-info-card" >
             <div class="item-left-section" v-on:click="MoveMarketDetail">
                 <div class="contact-item">
-                    <img src="../assets/bicycle.jpeg" alt="상품이미지">
+                    <img src="" alt="상품이미지">
                 </div>
                 <div class="item-info">
                     <h2>자전거 판매합니다~</h2>
@@ -46,7 +46,7 @@
                             <p class="m-0">수영구주민</p>
                         </div>
                         <div class="receive-msg">
-                            <p class="m-0 msg">{{item.content}}</p>
+                            <p class="m-0 msg">{{item.contents}}</p>
                         </div>
                     </div>
                     <div class="receive-time">
@@ -108,11 +108,32 @@ import SockJS from 'sockjs-client'
 export default {
     data() {
         return {
-            userNo: 1,
-            userName: "보내는사람",
+            user: [],
             message: "",
             recvList: [],
+            marketDetail: [],
+            sellerName: this.router.sellerName,
+            sellerNo : this.router.sellerNo
         }
+    },
+    beforeCreate() {
+        this.$axios
+        .get("http://localhost:9000/me", {
+        params: {
+            userNo: this.$session.get("coolUserNo"),
+        },
+        })
+        .then((res) => {
+            this.user = res.data;
+            if (this.user.rank == 1) {
+                this.rank = "일반";
+            } else if (this.user.rank == 2) {
+                this.rank = "프리미엄";
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     },
     created() {
         // App.vue가 생성되면 소켓 연결을 시도합니다.
@@ -129,9 +150,11 @@ export default {
             console.log("Send message:" + this.message);
             if (this.stompClient && this.stompClient.connected) {
                 const msg = { 
-                    userNo: this.userNo,
-                    userName: this.userName,
-                    content: this.message 
+                    buyerNo: this.user.coolUser,
+                    buyerName: this.user.nickName,
+                    sellerNo: this.sellerNo,
+                    sellerName: this.sellerName,
+                    contents: this.message
                 };
                 this.stompClient.send("/pub/receive", JSON.stringify(msg), {});
             }
@@ -146,8 +169,8 @@ export default {
                 frame => {
                     // 소켓 연결 성공
                     this.connected = true;
-                    console.log('소켓 연결 성공', frame); 
-                    this.stompClient.subscribe("/send"+this.message, res => {
+                    console.log('소켓 연결 성공', frame);
+                    this.stompClient.subscribe("/send/"+ 1, res => {
                     // 연결 성공했으면 /send를 subscribe(구독)해 메세지 요청
                     console.log('구독으로 받은 메시지 입니다.', res.body);
                     // 받은 데이터를 json으로 파싱하고 리스트에 넣어줌

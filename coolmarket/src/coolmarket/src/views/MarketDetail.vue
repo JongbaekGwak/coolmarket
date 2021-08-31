@@ -70,7 +70,7 @@
           <b-button
             class="m-1"
             variant="warning"
-            v-on:click="MoveMsgDetail"
+            v-on:click="MoveMsgDetail(marketDetail)"
             v-if="marketDetail.marUserNo != myUserNo"
           >
             채팅으로 구매하기
@@ -235,8 +235,8 @@ export default {
         this.$router.push({
           name: "MsgDetail",
           query: {
-            marUserNo: this.marketDetail.marUserNo,
-            userNo: this.myUserNo,
+            sellerName: this.marketDetail.marCreaNickName,
+            sellerNo : this.marketDetail.marUserNo
           },
         });
       }

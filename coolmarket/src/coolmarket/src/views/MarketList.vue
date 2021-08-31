@@ -223,9 +223,6 @@ export default {
       });
   },
   methods: {
-    sessioncheck() {
-      this.session.get("userNo" != null)
-    },
     Getaddr2() {
       this.addr2 = "";
       this.addr3 = "";

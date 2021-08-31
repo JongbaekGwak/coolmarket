@@ -12,6 +12,8 @@ import CommuDetail from '../views/CommuDetail.vue'
 import MarketWrite from '../views/MarketWrite.vue'
 import MarketList from '../views/MarketList.vue'
 import CommuList from '../views/CommuList.vue'
+import MsgList from '../views/MsgList.vue'
+import MsgDetail from '../views/MsgDetail.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -69,6 +71,16 @@ const routes = [
     path: '/CommuList',
     name: 'CommuList',
     component: CommuList,
+  },
+  {
+    path: '/MsgList',
+    name: 'MsgList',
+    component: MsgList
+  },
+  {
+    path: '/MsgDetail',
+    name: 'MsgDetail',
+    component: MsgDetail
   },
   { path: '/*', component: NotFoundComponent },
 ]

@@ -3,7 +3,7 @@
 <mapper namespace="coolmarket.mapper.WriteMapper">
 
 
-    <!-- 마켓 -->
+	<!-- 마켓 -->
 	<insert id="marketWrite" parameterType="coolmarket.dto.MarketDto">
 		<![CDATA[ 
 			insert into market
@@ -43,8 +43,19 @@
 			limit 0,1
 		]]>
 	</select>
-	
-	
+	<select id="marImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				mar_no = #{marNo}
+		]]>
+	</select>
+
 	<!-- 커뮤 -->
 	<insert id="commuWrite" parameterType="coolmarket.dto.CommuDto">
 		<![CDATA[ 
@@ -84,7 +95,19 @@
 			limit 0,1
 		]]>
 	</select>
-	
+	<select id="comImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				com_no = #{comNo}
+		]]>
+	</select>
+
 	<!-- 광고 -->
 	<insert id="adWrite" parameterType="coolmarket.dto.AdDto">
 		<![CDATA[ 
@@ -101,10 +124,10 @@
 			set
 				ad_title = #{adTitle},
 				ad_contents = #{adContents},
-				mar_addr1 = #{marAddr1},
-				mar_addr2 = #{marAddr2},
-				mar_addr3 = #{marAddr3},
-				mar_up_dt = now()
+				ad_addr1 = #{adAddr1},
+				ad_addr2 = #{adAddr2},
+				ad_addr3 = #{adAddr3},
+				ad_up_dt = now()
 			where
 				ad_no = #{adNo}
 		]]>
@@ -140,4 +163,29 @@
 			)
 		</foreach>
 	</insert>
+	<select id="adImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				ad_no = #{adNo}
+		]]>
+	</select>
+
+
+	<!-- 공용-->
+	<update id="imgDelete" parameterType="int">
+		<![CDATA[ 
+			update
+				img
+			set
+				img_del_yn = 'y'
+			where
+				img_no = #{imgNo}
+		]]>
+	</update>
 </mapper>

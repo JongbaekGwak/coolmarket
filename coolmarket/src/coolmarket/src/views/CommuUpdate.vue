@@ -42,7 +42,7 @@
             id="title"
             name="title"
             placeholder="제목을 입력하세요"
-            v-model="title"
+            v-model="com.comTitle"
           />
         </div>
       </b-col>
@@ -58,13 +58,26 @@
       />
     </div>
 
+    <div class="mt-2">
+      <b-input-group v-for="item in com.imgList" :key="item.imgNo">
+        <b-input-group-text> 등록된 이미지 </b-input-group-text>
+        <b-input readonly :value="imgName(item)"></b-input>
+        <b-input-group-text
+          class="btn btn-danger"
+          v-on:click="imgDelete(item.imgNo)"
+        >
+          삭제
+        </b-input-group-text>
+      </b-input-group>
+    </div>
+
     <div class="form-group mt-3">
       <textarea
         name="contents"
         id="contents"
         rows="10"
         class="form-control"
-        v-model="contents"
+        v-model="com.comContents"
       ></textarea>
     </div>
     <div class="d-flex justify-content-end mt-3">
@@ -90,10 +103,9 @@
 export default {
   data() {
     return {
-      comNo:"",
-      title: "",
+      comNo: "",
+      com: [],
       images: "",
-      contents: "",
       address1: "",
       address2: "",
       address3: "",
@@ -129,21 +141,26 @@ export default {
         console.log(err);
       });
     this.$axios
-      .get("http://localhost:9000/comDetail",{
+      .get("http://localhost:9000/commuDetail", {
         params: { comNo: this.comNo },
       })
       .then((res) => {
-        this.title = res.data.commuDetail.comTitle;
-        this.contents = res.data.commuDetail.comContents;
-        this.address1 = res.data.commuDetail.comAddr1;
-        this.addre2();
-        this.address2 = res.data.commuDetail.comaddr2;
-        this.addre3();
-        this.address3 = res.data.commuDetail.comaddr3;
+        this.com = res.data.commuDetail;
+        if (this.com.comUserNo != this.$session.get("coolUserNo")) {
+          alert("수정권한이 없습니다.");
+          this.$router.push("/");
+        } else {
+          this.comCate = this.com.comCate;
+          this.address1 = this.com.comAddr1;
+          this.addre2();
+          this.address2 = this.com.comAddr2;
+          this.addre3();
+          this.address3 = this.com.comAddr3;
+        }
       })
-    .catch((err) => {
-      console.log(err);
-    });
+      .catch((err) => {
+        console.log(err);
+      });
   },
   methods: {
     addre2() {
@@ -207,18 +224,16 @@ export default {
           console.log(this.images);
         }
         this.$axios
-          .get("http://localhost:9000/commuUpdate", {
-            params: {
-              comNo: this.comNo,
-              comTitle: this.title,
-              comContents: this.contents,
-              comAddr1: this.address1,
-              comAddr2: this.address2,
-              comAddr3: this.address3,
-              comCate: this.comCate,
-            },
+          .put("http://localhost:9000/commuUpdate", {
+            comNo: this.comNo,
+            comTitle: this.com.comTitle,
+            comContents: this.com.comContents,
+            comAddr1: this.address1,
+            comAddr2: this.address2,
+            comAddr3: this.address3,
+            comCate: this.comCate,
           })
-          .then((res) => {
+          .then(() => {
             if (this.images != "") {
               let fromData = new FormData();
               for (let i = 0; i < this.images.length; i++) {
@@ -226,7 +241,7 @@ export default {
               }
               this.$axios
                 .post("http://localhost:9000/imgInsert", fromData, {
-                  params: { adNo: "", marNo: "", comNo: res.data },
+                  params: { adNo: "", marNo: "", comNo: this.comNo },
                   headers: {
                     "Content-Type": "multipart/form-data",
                   },
@@ -235,7 +250,7 @@ export default {
                   alert("수정완료");
                   this.$router.push({
                     name: "CommuDetail",
-                    query: { comNo: res.data },
+                    query: { comNo: this.comNo },
                   });
                 })
                 .catch((err) => {
@@ -245,7 +260,7 @@ export default {
               alert("수정완료");
               this.$router.push({
                 name: "CommuDetail",
-                query: { comNo: res.data },
+                query: { comNo: this.comNo },
               });
             }
           })
@@ -256,6 +271,28 @@ export default {
     },
     up(file) {
       this.images = file.target.files;
+    },
+    imgName(img) {
+      if (img == null) {
+        return "이미지가 없습니다.";
+      } else {
+        return img.oriImgName;
+      }
+    },
+    imgDelete(num) {
+
+      this.$axios
+        .get("http://localhost:9000/comImgDelete", {
+          params: { comNo: this.comNo, imgNo: num },
+        })
+        .then((res) => {
+          this.com.imgList = res.data;
+
+          console.log(num);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

@@ -72,7 +72,6 @@ public class DetailServiceImpl implements DetailService {
 			}
 			data.put("marketDetail", detail);
 			data.put("hotMarket", hotMarket);
-
 			return data;
 		}
 	}

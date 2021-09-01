@@ -13,9 +13,9 @@
           :key="item.adNo"
           :img-src="imgPath(item.imgList)"
           style="width: 100%; height: 500px"
-          ><spran v-on:click="moveAdDetail(item.adNo)" class="cursor">{{
+          ><span v-on:click="moveAdDetail(item.adNo)" class="cursor">{{
             item.adTitle
-          }}</spran>
+          }}</span>
         </b-carousel-slide>
       </b-carousel>
     </div>

@@ -317,7 +317,7 @@ export default {
       this.$router.push({ name: "CommuWrite" });
     },
     imgPath(src) {
-      if (src == null) {
+      if (src == "") {
         return "/images/noImg.png";
       } else {
         return src[0].storedImgPath;

@@ -23,6 +23,7 @@
         ></b-form-select>
       </div>
     </div>
+
     <div class="mt-3">
       <b-col>
         <div class="input-group">
@@ -33,11 +34,12 @@
             id="title"
             name="title"
             placeholder="제목을 입력하세요"
-            v-model="title"
+            v-model="ad.adTitle"
           />
         </div>
       </b-col>
     </div>
+
     <div class="mt-3">
       <input
         type="file"
@@ -47,15 +49,30 @@
         @change="up"
       />
     </div>
+
+    <div class="mt-2">
+      <b-input-group v-for="item in ad.imgList" :key="item.imgNo">
+        <b-input-group-text> 등록된 이미지 </b-input-group-text>
+        <b-input readonly :value="imgName(item)"></b-input>
+        <b-input-group-text
+          class="btn btn-danger"
+          v-on:click="imgDelete(item.imgNo)"
+        >
+          삭제
+        </b-input-group-text>
+      </b-input-group>
+    </div>
+
     <div class="form-group mt-3">
       <textarea
         name="contents"
         id="contents"
         rows="10"
         class="form-control"
-        v-model="contents"
+        v-model="ad.adContents"
       ></textarea>
     </div>
+
     <div class="d-flex justify-content-end mt-3">
       <button
         type="button"
@@ -75,11 +92,9 @@
 export default {
   data() {
     return {
-      adNo:"",
-      title: "",
+      adNo: "",
+      ad: [],
       images: "",
-      files: [],
-      contents: "",
       address1: "",
       address2: "",
       address3: "",
@@ -105,17 +120,27 @@ export default {
         console.log(err);
       });
     this.$axios
+<<<<<<< HEAD
       .get("http://localhost:8000/adDetail", { 
         params: { adNo: this.adNo } 
         })
+=======
+      .get("http://localhost:9000/adDetail", {
+        params: { adNo: this.adNo },
+      })
+>>>>>>> f330cfd77028780f9afd38890c865b0c62117672
       .then((res) => {
-        this.title = res.data.adTitle;
-        this.contents = res.data.adContents;
-        this.address1 = res.data.adAddr1;
-        this.addre2();
-        this.address2 = res.data.adAddr2;
-        this.addre3();
-        this.address3 = res.data.adAddr3;
+        this.ad = res.data;
+        if (this.ad.adUserNo != this.$session.get("coolUserNo")) {
+          alert("수정권한이 없습니다.");
+          this.$router.push("/");
+        } else {
+          this.address1 = res.data.adAddr1;
+          this.addre2();
+          this.address2 = res.data.adAddr2;
+          this.addre3();
+          this.address3 = res.data.adAddr3;
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -181,6 +206,7 @@ export default {
           console.log(this.images);
         }
         this.$axios
+<<<<<<< HEAD
           .put("http://localhost:8000/adUpdate", {
             params: {
               adNo : this.adNo,
@@ -190,16 +216,30 @@ export default {
               adAddr2: this.address2,
               adAddr3: this.address3
             },
+=======
+          .put("http://localhost:9000/adUpdate", {
+            adNo: this.adNo,
+            adTitle: this.ad.adTitle,
+            adContents: this.ad.adContents,
+            adAddr1: this.address1,
+            adAddr2: this.address2,
+            adAddr3: this.address3,
+>>>>>>> f330cfd77028780f9afd38890c865b0c62117672
           })
-          .then((res) => {
+          .then(() => {
             if (this.images != "") {
               let fromData = new FormData();
               for (let i = 0; i < this.images.length; i++) {
                 fromData.append("image", this.images[i]);
               }
               this.$axios
+<<<<<<< HEAD
                 .post("http://localhost:8000/imgInsert", fromData, {
                   params: { adNo: res.data, marNo: "", comNo: "" },
+=======
+                .post("http://localhost:9000/imgInsert", fromData, {
+                  params: { adNo: this.ad.adNo, marNo: "", comNo: "" },
+>>>>>>> f330cfd77028780f9afd38890c865b0c62117672
                   headers: {
                     "Content-Type": "multipart/form-data",
                   },
@@ -229,6 +269,25 @@ export default {
     },
     up(file) {
       this.images = file.target.files;
+    },
+    imgName(img) {
+      if (img == null) {
+        return "이미지가 없습니다.";
+      } else {
+        return img.oriImgName;
+      }
+    },
+    imgDelete(num) {
+      this.$axios
+        .get("http://localhost:9000/adImgDelete", {
+          params: { adNo: this.adNo, imgNo: num },
+        })
+        .then((res) => {
+          this.ad.imgList = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

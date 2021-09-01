@@ -94,7 +94,7 @@ public class MainControl {
 		List<String> cate = serv.commuCate();
 		List<Map<String, String>> returnCate = new ArrayList<Map<String, String>>();
 		Map<String, String> a = new HashMap<String, String>();
-		a.put("value", null);
+		a.put("value", "");
 		a.put("text", "분류");
 		returnCate.add(a);
 		for (int i = 0; i < cate.size(); i++) {

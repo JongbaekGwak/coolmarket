@@ -80,7 +80,7 @@ public class ListServiceImpl implements ListService {
 			List<ImgDto> imgList = map.comImgList(comList.get(i).getComNo());
 			comList.get(i).setImgList(imgList);
 		}
-		return map.getCommuList(marketPageDto);
+		return comList;
 	}
 
 	@Override

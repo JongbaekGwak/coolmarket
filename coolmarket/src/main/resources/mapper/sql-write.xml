@@ -101,10 +101,10 @@
 			set
 				ad_title = #{adTitle},
 				ad_contents = #{adContents},
-				mar_addr1 = #{marAddr1},
-				mar_addr2 = #{marAddr2},
-				mar_addr3 = #{marAddr3},
-				mar_up_dt = now()
+				ad_addr1 = #{adAddr1},
+				ad_addr2 = #{adAddr2},
+				ad_addr3 = #{adAddr3},
+				ad_up_dt = now()
 			where
 				ad_no = #{adNo}
 		]]>

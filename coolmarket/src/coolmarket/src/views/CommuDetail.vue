@@ -110,7 +110,7 @@ export default {
     this.myUserNo = this.$session.get("coolUserNo");
     this.comNo = this.$route.query.comNo;
     this.$axios
-      .get("http://localhost:9000/commuDetail", {
+      .get("http://localhost:8000/commuDetail", {
         params: { comNo: this.comNo },
       })
       .then((res) => {
@@ -131,7 +131,7 @@ export default {
         alert("로인후 이용해 주세요");
       } else {
         this.$axios
-          .get("http://localhost:9000/likeUp", {
+          .get("http://localhost:8000/likeUp", {
             params: { comNo: this.commuDetail.comNo },
           })
           .then(() => {
@@ -142,7 +142,7 @@ export default {
     },
     decInsert() {
       this.$axios
-        .get("http://localhost:9000/decInsert", {
+        .get("http://localhost:8000/decInsert", {
           params: { marNo: 0, comNo: this.comNo },
         })
         .then(() => {
@@ -160,7 +160,7 @@ export default {
     },
     comDelete() {
       this.$axios
-        .get("http://localhost:9000/comDelete", { params: { comNo: this.comNo } })
+        .get("http://localhost:8000/comDelete", { params: { comNo: this.comNo } })
         .then(() => {
           alert("삭제 완료");
         })

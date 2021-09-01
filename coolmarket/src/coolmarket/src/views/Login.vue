@@ -121,7 +121,7 @@ export default {
         alert("비밀번호를 입력하세요");
       } else {
         this.$axios
-          .post("http://localhost:9000/login", null, {
+          .post("http://localhost:8000/login", null, {
             params: {
               email: this.userId,
               password: this.userPw,
@@ -158,7 +158,7 @@ export default {
     },
     find() {
       this.$axios
-        .post("http://localhost:9000/find", {
+        .post("http://localhost:8000/find", {
           email: this.findId,
           name: this.findName,
           tel: this.findTel,

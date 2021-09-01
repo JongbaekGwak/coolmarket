@@ -95,7 +95,7 @@ export default {
   },
   mounted() {
     this.$axios
-      .get("http://localhost:9000/addr1")
+      .get("http://localhost:8000/addr1")
       .then((res) => {
         this.addr1 = res.data;
       })
@@ -108,7 +108,7 @@ export default {
       this.address2 = "";
       this.address3 = "";
       this.$axios
-        .get("http://localhost:9000/addr2", {
+        .get("http://localhost:8000/addr2", {
           params: {
             addr1: this.address1,
           },
@@ -130,7 +130,7 @@ export default {
     addre3() {
       this.address3 = "";
       this.$axios
-        .get("http://localhost:9000/addr3", {
+        .get("http://localhost:8000/addr3", {
           params: {
             addr1: this.address1,
             addr2: this.address2,
@@ -163,7 +163,7 @@ export default {
           console.log(this.images);
         }
         this.$axios
-          .get("http://localhost:9000/adWrite", {
+          .get("http://localhost:8000/adWrite", {
             params: {
               adTitle: this.title,
               adContents: this.contents,
@@ -181,7 +181,7 @@ export default {
                 fromData.append("image", this.images[i]);
               }
               this.$axios
-                .post("http://localhost:9000/imgInsert", fromData, {
+                .post("http://localhost:8000/imgInsert", fromData, {
                   params: { adNo: res.data, marNo: "", comNo: "" },
                   headers: {
                     "Content-Type": "multipart/form-data",

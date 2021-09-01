@@ -129,17 +129,18 @@ export default {
         console.log(err);
       });
     this.$axios
-      .get("http://localhost:9000/comDetail",{
+      .get("http://localhost:9000/commuDetail",{
         params: { comNo: this.comNo },
       })
       .then((res) => {
         this.title = res.data.commuDetail.comTitle;
         this.contents = res.data.commuDetail.comContents;
+        this.comCate = res.data.commuDetail.comCate;
         this.address1 = res.data.commuDetail.comAddr1;
         this.addre2();
-        this.address2 = res.data.commuDetail.comaddr2;
+        this.address2 = res.data.commuDetail.comAddr2;
         this.addre3();
-        this.address3 = res.data.commuDetail.comaddr3;
+        this.address3 = res.data.commuDetail.comAddr3;
       })
     .catch((err) => {
       console.log(err);
@@ -207,16 +208,14 @@ export default {
           console.log(this.images);
         }
         this.$axios
-          .get("http://localhost:9000/commuUpdate", {
-            params: {
+          .put("http://localhost:9000/commuUpdate", {
               comNo: this.comNo,
               comTitle: this.title,
               comContents: this.contents,
               comAddr1: this.address1,
               comAddr2: this.address2,
               comAddr3: this.address3,
-              comCate: this.comCate,
-            },
+              comCate: this.comCate
           })
           .then((res) => {
             if (this.images != "") {
@@ -235,7 +234,7 @@ export default {
                   alert("수정완료");
                   this.$router.push({
                     name: "CommuDetail",
-                    query: { comNo: res.data },
+                    query: { comNo: this.comNo },
                   });
                 })
                 .catch((err) => {
@@ -245,7 +244,7 @@ export default {
               alert("수정완료");
               this.$router.push({
                 name: "CommuDetail",
-                query: { comNo: res.data },
+                query: { comNo: this.comNo },
               });
             }
           })

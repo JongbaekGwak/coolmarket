@@ -254,7 +254,7 @@ export default {
   },
   mounted() {
     this.$axios
-      .get("http://localhost:9000/newAdList")
+      .get("http://localhost:8000/newAdList")
       .then((res) => {
         this.newAdList = res.data;
       })
@@ -262,7 +262,7 @@ export default {
         console.log(err);
       });
     this.$axios
-      .get("http://localhost:9000/newMarketList")
+      .get("http://localhost:8000/newMarketList")
       .then((res) => {
         this.newMarketList = res.data;
       })
@@ -270,7 +270,7 @@ export default {
         console.log(err);
       });
     this.$axios
-      .get("http://localhost:9000/newCommuList")
+      .get("http://localhost:8000/newCommuList")
       .then((res) => {
         this.newCommuList = res.data;
       })

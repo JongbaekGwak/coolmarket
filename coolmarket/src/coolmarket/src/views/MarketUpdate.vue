@@ -129,7 +129,7 @@ export default {
   mounted() {
     this.marNo = this.$route.query.marNo;
     this.$axios
-      .get("http://localhost:9000/addr1")
+      .get("http://localhost:8000/addr1")
       .then((res) => {
         this.addr1 = res.data;
       })
@@ -137,7 +137,7 @@ export default {
         console.log(err);
       });
     this.$axios
-      .get("http://localhost:9000/marCate")
+      .get("http://localhost:8000/marCate")
       .then((res) => {
         this.cate = res.data;
       })
@@ -145,7 +145,7 @@ export default {
         console.log(err);
       });
     this.$axios
-      .get("http://localhost:9000/marketDetail", {
+      .get("http://localhost:8000/marketDetail", {
         params: { marNo: this.marNo },
       })
       .then((res) => {
@@ -168,7 +168,7 @@ export default {
       this.address2 = "";
       this.address3 = "";
       this.$axios
-        .get("http://localhost:9000/addr2", {
+        .get("http://localhost:8000/addr2", {
           params: {
             addr1: this.address1,
           },
@@ -190,7 +190,7 @@ export default {
     addre3() {
       this.address3 = "";
       this.$axios
-        .get("http://localhost:9000/addr3", {
+        .get("http://localhost:8000/addr3", {
           params: {
             addr1: this.address1,
             addr2: this.address2,
@@ -228,7 +228,7 @@ export default {
           alert("가격은 숫자만 입력할 수 있습니다.");
         } else {
           this.$axios
-            .put("http://localhost:9000/marketUpdate", {
+            .put("http://localhost:8000/marketUpdate", {
                 marNo: this.marNo,
                 marTitle: this.title,
                 marPrice: this.price,
@@ -245,7 +245,7 @@ export default {
                   fromData.append("image", this.images[i]);
                 }
                 this.$axios
-                  .post("http://localhost:9000/imgInsert", fromData, {
+                  .post("http://localhost:8000/imgInsert", fromData, {
                     params: { adNo: "", marNo: this.marNo, comNo: "" },
                     headers: {
                       "Content-Type": "multipart/form-data",

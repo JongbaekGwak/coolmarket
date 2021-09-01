@@ -263,7 +263,7 @@ export default {
         alert("로그인 해주세요");
       } else {
         this.$axios
-          .get("http://localhost:9000/wish", {
+          .get("http://localhost:8000/wish", {
             params: {
               wishUserNo: this.$session.get("coolUserNo"),
               wishMarNo: this.marketDetail.marNo,
@@ -280,7 +280,7 @@ export default {
     },
     wishCancel() {
       this.$axios
-        .get("http://localhost:9000/wishCancel", {
+        .get("http://localhost:8000/wishCancel", {
           params: {
             wishUserNo: this.$session.get("coolUserNo"),
             wishMarNo: this.marketDetail.marNo,
@@ -296,7 +296,7 @@ export default {
     },
     marDelete() {
       this.$axios
-        .get("http://localhost:9000/marDelete", {
+        .get("http://localhost:8000/marDelete", {
           params: { marNo: this.marNo },
         })
         .then(() => {
@@ -309,7 +309,7 @@ export default {
     },
     decInsert() {
       this.$axios
-        .get("http://localhost:9000/decInsert", {
+        .get("http://localhost:8000/decInsert", {
           params: { marNo: this.marNo, comNo: 0 },
         })
         .then(() => {
@@ -324,7 +324,7 @@ export default {
     },
     setSale2() {
       this.$axios
-        .get("http://localhost:9000/setSale", {
+        .get("http://localhost:8000/setSale", {
           params: { marNo: this.marNo, nickName: this.marBuyUser },
         })
         .then((res) => {

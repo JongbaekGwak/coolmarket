@@ -97,7 +97,7 @@ export default {
   mounted() {
     this.adNo = this.$route.query.adNo;
     this.$axios
-      .get("http://localhost:9000/addr1")
+      .get("http://localhost:8000/addr1")
       .then((res) => {
         this.addr1 = res.data;
       })
@@ -105,7 +105,7 @@ export default {
         console.log(err);
       });
     this.$axios
-      .get("http://localhost:9000/adDetail", { 
+      .get("http://localhost:8000/adDetail", { 
         params: { adNo: this.adNo } 
         })
       .then((res) => {
@@ -126,7 +126,7 @@ export default {
       this.address2 = "";
       this.address3 = "";
       this.$axios
-        .get("http://localhost:9000/addr2", {
+        .get("http://localhost:8000/addr2", {
           params: {
             addr1: this.address1,
           },
@@ -148,7 +148,7 @@ export default {
     addre3() {
       this.address3 = "";
       this.$axios
-        .get("http://localhost:9000/addr3", {
+        .get("http://localhost:8000/addr3", {
           params: {
             addr1: this.address1,
             addr2: this.address2,
@@ -181,7 +181,7 @@ export default {
           console.log(this.images);
         }
         this.$axios
-          .get("http://localhost:9000/adUpdate", {
+          .put("http://localhost:8000/adUpdate", {
             params: {
               adNo : this.adNo,
               adTitle: this.title,
@@ -198,27 +198,27 @@ export default {
                 fromData.append("image", this.images[i]);
               }
               this.$axios
-                .post("http://localhost:9000/imgInsert", fromData, {
+                .post("http://localhost:8000/imgInsert", fromData, {
                   params: { adNo: res.data, marNo: "", comNo: "" },
                   headers: {
                     "Content-Type": "multipart/form-data",
                   },
                 })
                 .then(() => {
-                  alert("작성완료");
+                  alert("수정완료");
                   this.$router.push({
                     name: "AdDetail",
-                    query: { adNo: res.data },
+                    query: { adNo: this.adNo },
                   });
                 })
                 .catch((err) => {
                   console.log(err);
                 });
             } else {
-              alert("작성완료");
+              alert("수정완료");
               this.$router.push({
                 name: "AdDetail",
-                query: { adNo: res.data },
+                query: { adNo: this.adNo },
               });
             }
           })

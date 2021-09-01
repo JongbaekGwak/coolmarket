@@ -127,7 +127,7 @@ export default {
       this.myRank = this.$session.get("coolRank");
     }
     this.$axios
-      .get("http://localhost:9000/adDetail", { params: { adNo: this.adNo } })
+      .get("http://localhost:8000/adDetail", { params: { adNo: this.adNo } })
       .then((res) => {
         if (res.data == "") {
           alert("삭제된 게시물입니다.");
@@ -149,7 +149,7 @@ export default {
     },
     adDelete() {
       this.$axios
-        .get("http://localhost:9000/adDelete", {
+        .get("http://localhost:8000/adDelete", {
           params: { adNo: this.adNo },
         })
         .then(() => {

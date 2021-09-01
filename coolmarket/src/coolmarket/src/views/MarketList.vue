@@ -172,7 +172,7 @@ export default {
   },
   beforeCreate() {
     this.$axios
-      .get("http://localhost:9000/me", {
+      .get("http://localhost:8000/me", {
         params: {
           userNo: this.$session.get("coolUserNo"),
         },
@@ -192,7 +192,7 @@ export default {
   mounted() {
     let obj = this;
     obj.$axios
-      .get("http://localhost:9000/getMarOption")
+      .get("http://localhost:8000/getMarOption")
       .then(function (res) {
         console.log("Select Cate Get Succcess");
         obj.cate = res.data;
@@ -202,7 +202,7 @@ export default {
         console.log(err);
       });
     this.$axios
-      .get("http://localhost:9000/addr1")
+      .get("http://localhost:8000/addr1")
       .then((res) => {
         this.selected1 = res.data;
       })
@@ -210,7 +210,7 @@ export default {
         console.log(err);
       });
     obj.$axios
-      .get("http://localhost:9000/getMarketList", {
+      .get("http://localhost:8000/getMarketList", {
         params: {
           selected: this.selected,
           addr1: this.addr1,
@@ -238,7 +238,7 @@ export default {
       this.addr2 = "";
       this.addr3 = "";
       this.$axios
-        .get("http://localhost:9000/addr2", {
+        .get("http://localhost:8000/addr2", {
           params: {
             addr1: this.addr1,
           },
@@ -260,7 +260,7 @@ export default {
     Getaddr3() {
       this.addr3 = "";
       this.$axios
-        .get("http://localhost:9000/addr3", {
+        .get("http://localhost:8000/addr3", {
           params: {
             addr1: this.addr1,
             addr2: this.addr2,
@@ -286,7 +286,7 @@ export default {
       );
       let obj = this;
       obj.$axios
-        .get("http://localhost:9000/getSelectBoardList", {
+        .get("http://localhost:8000/getSelectBoardList", {
           params: {
             selected: this.selected,
             addr1: this.addr1,
@@ -314,7 +314,7 @@ export default {
       );
       let obj = this;
       obj.$axios
-        .get("http://localhost:9000/getSelectBoardList", {
+        .get("http://localhost:8000/getSelectBoardList", {
           params: {
             selected: this.selected,
             addr1: this.addr1,

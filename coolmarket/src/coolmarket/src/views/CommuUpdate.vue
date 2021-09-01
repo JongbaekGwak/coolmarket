@@ -280,15 +280,12 @@ export default {
       }
     },
     imgDelete(num) {
-
       this.$axios
         .get("http://localhost:9000/comImgDelete", {
           params: { comNo: this.comNo, imgNo: num },
         })
         .then((res) => {
           this.com.imgList = res.data;
-
-          console.log(num);
         })
         .catch((err) => {
           console.log(err);

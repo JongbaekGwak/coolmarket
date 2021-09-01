@@ -141,7 +141,6 @@
 				distinct addr1
 			FROM
 				address
-			
 		]]>
 	</select>
 	<select id="getSelectOption2" parameterType="String" resultType="String">
@@ -163,6 +162,8 @@
 			from
 				img
 			where
+				img_del_yn = 'n'
+			and
 				ad_no = #{adNo}
 			order by img_no
 		]]>
@@ -174,6 +175,8 @@
 			from
 				img
 			where
+				img_del_yn = 'n'
+			and
 				mar_no = #{marNo}
 			order by img_no
 		]]>
@@ -185,6 +188,8 @@
 			from
 				img
 			where
+				img_del_yn = 'n'
+			and
 				com_no = #{comNo}
 			order by img_no
 		]]>

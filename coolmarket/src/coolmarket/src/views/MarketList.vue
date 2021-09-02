@@ -91,7 +91,7 @@
                 <h2>{{ item.marTitle }}</h2>
               </div>
               <div class="price" style="font-size: 14px; font-weight: bold">
-                {{ item.marPrice }}
+                {{ won(item.marPrice) }}
                 <span class="price-tag" v-if="item.marPrice">원</span>
               </div>
               <div class="card-addr" style="font-size: 12px">
@@ -368,6 +368,11 @@ export default {
         return "/images/noImg.png";
       } else {
         return src[0].storedImgPath;
+      }
+    },
+    won(num) {
+      if (num != null) {
+        return num.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
       }
     },
   },

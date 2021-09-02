@@ -70,11 +70,11 @@
             </div>
             <div class="like-comment">
               <div class="like-icon">
-                <fai :icon="['far','heart']"></fai>
+                <fai :icon="['fas', 'heart']"></fai>
                 <span class="count"> {{ item.comLike }}</span>
               </div>
               <div class="comment-icon">
-                <fai :icon="['far','comment']"></fai>
+                <fai :icon="['fas', 'comment']"></fai>
                 <span class="count"> {{ item.comTalkCnt }}</span>
               </div>
             </div>
@@ -103,7 +103,7 @@
       >
         <span>접기</span>
       </div>
-      <div class="write-btn-section" v-if="this.user.userNo != null">
+      <div class="write-btn-section" v-if="this.$session.get('coolUserNo')">
         <div class="my-btn write-btn" v-on:click="MoveCommuWrite">
           <span>글쓰기</span>
         </div>
@@ -116,7 +116,6 @@
 export default {
   data() {
     return {
-      user: [],
       addr1: "",
       addr2: "",
       addr3: "",
@@ -131,7 +130,6 @@ export default {
       comTotalNum: 10,
     };
   },
-
   mounted() {
     if (this.$session.get("coolUserNo") != null) {
       this.$axios

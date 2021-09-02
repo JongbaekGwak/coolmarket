@@ -54,10 +54,6 @@
               <span>관심 ' </span
               ><span class="count"> {{ adDetail.adLike }}</span>
             </div>
-            <div class="comment-icon">
-              <span>댓글 ' </span
-              ><span class="count"> {{ adDetail.adTalkCnt }}</span>
-            </div>
           </div>
           <div class="board-report-btn">
             <span class="report-text">게시글 신고</span>
@@ -67,11 +63,17 @@
       </div>
 
       <div class="bottom-btn-box">
-        <div class="left-btn">
+        <div class="left-btn" v-on:click="likeUp" v-if="!like">
           <div class="like-btn">
             <fai :icon="['far', 'heart']"></fai>
           </div>
           <p class="m-0 text">추천</p>
+        </div>
+        <div class="left-btn" v-on:click="likeDown" v-else>
+          <div class="like-btn">
+            <fai :icon="['fas', 'heart']"></fai>
+          </div>
+          <p class="m-0 text">추천 취소</p>
         </div>
       </div>
       <div class="d-flex justify-content-end">
@@ -113,6 +115,7 @@ export default {
       adDetail: {},
       myUserNo: "",
       myRank: "",
+      like: false,
     };
   },
   beforeCreate() {
@@ -125,6 +128,16 @@ export default {
     if (this.$session.get("coolUserNo") != null) {
       this.myUserNo = this.$session.get("coolUserNo");
       this.myRank = this.$session.get("coolRank");
+      this.$axios
+        .post("http://localhost:9000/adLike", null, {
+          params: { adNo: this.adNo, userNo: this.myUserNo },
+        })
+        .then((res) => {
+          this.like = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
     this.$axios
       .get("http://localhost:9000/adDetail", { params: { adNo: this.adNo } })
@@ -159,6 +172,34 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    likeUp() {
+      if (this.myUserNo == "") {
+        alert("로그인 해주세요");
+      } else {
+        this.$axios
+          .get("http://localhost:9000/adLikeUp", {
+            params: { adNo: this.adNo, userNo: this.myUserNo },
+          })
+          .then(() => {
+            alert("좋아요!!");
+            this.$router.go();
+          });
+      }
+    },
+    likeDown() {
+      if (this.myUserNo == "") {
+        alert("로그인 해주세요");
+      } else {
+        this.$axios
+          .get("http://localhost:9000/adLikeDown", {
+            params: { adNo: this.adNo, userNo: this.myUserNo },
+          })
+          .then(() => {
+            alert("좋아요 취소");
+            this.$router.go();
+          });
+      }
     },
   },
 };

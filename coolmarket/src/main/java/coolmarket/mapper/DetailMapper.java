@@ -27,9 +27,23 @@ public interface DetailMapper {
 
 	void adComentInsert(AdComentDto coment) throws Exception;
 
+	void adComentCntUp(int adNo) throws Exception;
+
+	void adComentCntDown(int adNo) throws Exception;
+
 	void adComentDel(int adComentNo) throws Exception;
 
 	void adDelete(int adNo) throws Exception;
+
+	String adLike(@Param("adNo") int adNo, @Param("userNo") int userNo) throws Exception;
+
+	void adLikeUp(@Param("adNo") int adNo, @Param("userNo") int userNo) throws Exception;
+
+	void adLikeDown(@Param("adNo") int adNo, @Param("userNo") int userNo) throws Exception;
+
+	void adLikeUp2(int adNo) throws Exception;
+
+	void adLikeDown2(int adNo) throws Exception;
 
 //	마켓
 	MarketDto marketDetail(String marNo) throws Exception;
@@ -68,6 +82,10 @@ public interface DetailMapper {
 	List<ComentDto> coment(int comentComNo) throws Exception;
 
 	void comentInsert(ComentDto coment) throws Exception;
+
+	void comentCntUp(int comNo) throws Exception;
+
+	void comentCntDown(int comNo) throws Exception;
 
 	void comentDel(int comentNo) throws Exception;
 

@@ -20,6 +20,12 @@ public interface DetailService {
 
 	void adDelete(int adNo) throws Exception;
 
+	boolean adLike(int adNo, int userNo) throws Exception;
+
+	void adLikeUp(int adNo, int userNo) throws Exception;
+
+	void adLikeDown(int adNo, int userNo) throws Exception;
+
 //	마켓
 	Map<String, Object> marketDetail(String marNo) throws Exception;
 

@@ -34,6 +34,7 @@
 				ad_addr1,
 				ad_addr2,
 				ad_like,
+				ad_talk_cnt,
 				DATE_FORMAT(ad_crea_dt, '%Y-%m-%d') AS ad_crea_dt
 			FROM
 				ad
@@ -82,6 +83,7 @@
 				ad_addr1,
 				ad_addr2,
 				ad_like,
+				ad_talk_cnt,
 				DATE_FORMAT(ad_crea_dt, '%Y-%m-%d') AS ad_crea_dt
 			FROM
 				ad
@@ -200,6 +202,7 @@
 			order by img_no
 		]]>
 	</select>
+<<<<<<< HEAD
 
 	
 	<select id="getMarTalkCnt" parameterType="int" resultType="int">
@@ -218,6 +221,8 @@
 	</select>
 	
 
+=======
+>>>>>>> 088d7a32dddaa3e234116beabfc42808a0c30eca
 	<select id="userAddr" parameterType="int" resultType="coolmarket.dto.UserDto">
 		<![CDATA[ 
 			select
@@ -229,5 +234,22 @@
 			where
 				user_no = #{userNo}
 		]]>
+<<<<<<< HEAD
+=======
+	</select>
+	<select id="getMarTalkCnt" parameterType="int" resultType="int">
+
+		<![CDATA[
+		
+			SELECT COUNT(*) 
+			FROM 
+				chat_room
+			WHERE 
+				mar_no = #{marNo}
+			AND 
+				del_yn= 'n';
+		]]>
+
+>>>>>>> 088d7a32dddaa3e234116beabfc42808a0c30eca
 	</select>
 </mapper>

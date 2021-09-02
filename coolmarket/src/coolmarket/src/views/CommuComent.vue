@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>댓글 : {{ coment.length }}</p>
     <div
       class="comment-container border-bottom"
       v-for="item in coment"
@@ -123,11 +124,7 @@ export default {
 .cursor {
   cursor: pointer;
 }
-pre {
-  white-space: pre-wrap;
-  word-break:break-all;
-}
-pre {
+.pre {
   white-space: pre-wrap;
   word-break: break-all;
 }

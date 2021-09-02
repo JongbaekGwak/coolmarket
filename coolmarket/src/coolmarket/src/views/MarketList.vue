@@ -68,12 +68,12 @@
 
               <div class="like-comment">
                 <div class="like-icon">
-                  <fai :icon="['far','heart']"></fai>
-                    <span class="count"> {{ item.adLike }}</span>
+                  <fai :icon="['fas', 'heart']"></fai>
+                  <span class="count"> {{ item.adLike }}</span>
                 </div>
                 <div class="comment-icon">
-                  <fai :icon="['far','comment']"></fai>
-                    <span class="count"> {{ item.adView }}</span>
+                  <fai :icon="['fas', 'comment']"></fai>
+                  <span class="count"> {{ item.adView }}</span>
                 </div>
               </div>
             </div>
@@ -91,7 +91,7 @@
                 <h2>{{ item.marTitle }}</h2>
               </div>
               <div class="price" style="font-size: 14px; font-weight: bold">
-                {{ item.marPrice }}
+                {{ won(item.marPrice) }}
                 <span class="price-tag" v-if="item.marPrice">원</span>
               </div>
               <div class="card-addr" style="font-size: 12px">
@@ -100,12 +100,12 @@
 
               <div class="like-comment">
                 <div class="like-icon">
-                  <fai :icon="['far','heart']"></fai>
-                    <span class="count"> {{ item.marLike }}</span>
+                  <fai :icon="['fas', 'heart']"></fai>
+                  <span class="count"> {{ item.marLike }}</span>
                 </div>
                 <div class="comment-icon">
-                  <fai :icon="['far','comment']"></fai>
-                    <span class="count"> {{ item.marTalkCnt }}</span>
+                  <fai :icon="['fas', 'comment']"></fai>
+                  <span class="count"> {{ item.marView }}</span>
                 </div>
               </div>
             </div>
@@ -128,14 +128,14 @@
         >
           <span>접기</span>
         </div>
-        <div class="write-btn-section" v-if="this.user.userNo != null">
+        <div class="write-btn-section" v-if="this.$session.get('coolUserNo')">
           <div class="my-btn sale-btn" v-on:click="MoveMarketWrite">
             <span>판매 등록</span>
           </div>
           <div
             class="my-btn ad-btn"
             v-on:click="MoveAdtWrite"
-            v-if="this.user.rank != 1"
+            v-if="this.$session.get('coolRank') == 0"
           >
             <span>광고 등록</span>
           </div>
@@ -370,6 +370,11 @@ export default {
         return src[0].storedImgPath;
       }
     },
+    won(num) {
+      if (num != null) {
+        return num.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+      }
+    },
   },
 };
 </script>
@@ -409,7 +414,7 @@ export default {
 }
 
 .wrap {
-  max-width: 1000px;
+  max-width: 950px;
   width: 80%;
   margin: 0 auto;
 }
@@ -513,7 +518,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  max-width: 1000px;
+  max-width: 950px;
   justify-content: space-around;
 }
 

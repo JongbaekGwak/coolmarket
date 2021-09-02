@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import coolmarket.dto.ChatRoomDto;
+import coolmarket.dto.ImgDto;
 import coolmarket.dto.MarketDto;
 import coolmarket.dto.MessageDto;
 
@@ -25,4 +26,8 @@ public interface MessageMapper {
 	
 	MarketDto getContactItem(@Param("marNo") int marNo) throws Exception;
 	
+	List<ImgDto> getContactImgList(int marNo) throws Exception;
+	
+	void deleteMsg(@Param("roomNo") int roomNo) throws Exception;
+	void deleteRoom(@Param("roomNo") int roomNo) throws Exception;
 }

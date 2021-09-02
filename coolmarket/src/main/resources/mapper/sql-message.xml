@@ -27,6 +27,7 @@
 			WHERE 
 				seller_no = #{sellerNo} 
 			AND buyer_no = #{buyerNo}
+			AND del_yn = 'n'
 			AND mar_no = #{marNo}
 		]]>
 
@@ -54,6 +55,7 @@
 				msg
 			WHERE 
 				room_no = #{roomNo}
+			AND msg_del_yn = 'n'
 			ORDER BY msg_no
 		
 		]]>
@@ -73,9 +75,11 @@
 			ON 
 				a.seller_no = b.user_no
 			WHERE 
-				buyer_no = #{buyerNo}
+				a.del_yn ='n'
+			and
+				(buyer_no = #{buyerNo}
 			OR 
-				seller_no = #{buyerNo}
+				seller_no = #{buyerNo})
 			ORDER BY 
 				room_no DESC;
 		]]>
@@ -92,10 +96,43 @@
 				market
 			WHERE 
 				mar_no = #{marNo}
-		
 		]]>
 	
 	</select>
+	
+	<select id="getContactImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				mar_no = #{marNo}
+			order by img_no
+			LIMIT 1;
+		]]>
+	</select>
+	
+	<delete id="deleteMsg" parameterType="int">
+	
+		<![CDATA[
+		
+			UPDATE msg SET msg_del_yn = 'y' WHERE room_no = #{roomNo}
+			
+		]]>
+	
+	</delete>
+	<delete id="deleteRoom" parameterType="int">
+	
+		<![CDATA[
+		
+			UPDATE chat_room SET del_yn = 'y' WHERE room_no = #{roomNo}
+			
+		]]>
+	
+	</delete>
 
 	
 </mapper>

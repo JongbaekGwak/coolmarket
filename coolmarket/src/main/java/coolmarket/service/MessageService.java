@@ -18,5 +18,6 @@ public interface MessageService {
 	
 	MarketDto getContactItem(int marNo) throws Exception;
 	
+	void deleteMsg(int roomNo) throws Exception;
 	
 }

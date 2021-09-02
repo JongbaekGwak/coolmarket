@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import coolmarket.dto.ChatRoomDto;
+import coolmarket.dto.ImgDto;
 import coolmarket.dto.MarketDto;
 import coolmarket.dto.MessageDto;
 import coolmarket.mapper.MessageMapper;
@@ -46,9 +47,24 @@ public class MessageServiceImpl implements MessageService {
 		return messageMapper.getRoomList(buyerNo);
 	}
 	
+//	List<CommuDto> comList = map.getCommuList(marketPageDto);
+//	for (int i = 0; i < comList.size(); i++) {
+//		List<ImgDto> imgList = map.comImgList(comList.get(i).getComNo());
+//		comList.get(i).setImgList(imgList);
+//	}
+//	return comList;
 	public MarketDto getContactItem(int marNo) throws Exception {
-		
-		return messageMapper.getContactItem(marNo);
+		MarketDto marketItem = messageMapper.getContactItem(marNo);
+		List<ImgDto> imgList = messageMapper.getContactImgList(marNo);
+		marketItem.setImgList(imgList);
+
+		return marketItem;
+	}
+	
+	
+	public void deleteMsg(int roomNo) throws Exception {
+		messageMapper.deleteMsg(roomNo);
+		messageMapper.deleteRoom(roomNo);
 	}
 
 }

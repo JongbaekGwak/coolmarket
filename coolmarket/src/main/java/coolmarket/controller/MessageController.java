@@ -2,6 +2,7 @@ package coolmarket.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import coolmarket.dto.ChatRoomDto;
@@ -36,4 +37,12 @@ public class MessageController {
 		
 		return messageService.getContactItem(marNo);
 	}
+	
+	@GetMapping("/deleteMsg")
+	public void deleteMsg(@RequestParam("roomNo") int roomNo) throws Exception {
+		
+		messageService.deleteMsg(roomNo);
+	}
+	
+	
 }

@@ -70,14 +70,12 @@
             </div>
             <div class="like-comment">
               <div class="like-icon">
-                <i class="fa fa-heart-o hidden-icon" aria-hidden="true"
-                  ><span class="count"> {{ item.comLike }}</span></i
-                >
+                <fai :icon="['far','heart']"></fai>
+                <span class="count"> {{ item.comLike }}</span>
               </div>
               <div class="comment-icon">
-                <i class="fa fa-comment-o hidden-icon" aria-hidden="true"
-                  ><span class="count"> {{ item.comTalkCnt }}</span></i
-                >
+                <fai :icon="['far','comment']"></fai>
+                <span class="count"> {{ item.comTalkCnt }}</span>
               </div>
             </div>
           </div>

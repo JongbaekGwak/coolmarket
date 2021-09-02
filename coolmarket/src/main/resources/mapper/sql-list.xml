@@ -12,6 +12,8 @@
 				mar_contents,
 				mar_addr1,
 				mar_addr2,
+				mar_like,
+				mar_talk_cnt,
 				DATE_FORMAT(mar_crea_dt, '%Y-%m-%d') AS mar_crea_dt
 			FROM
 				market
@@ -31,6 +33,7 @@
 				ad_contents,
 				ad_addr1,
 				ad_addr2,
+				ad_like,
 				DATE_FORMAT(ad_crea_dt, '%Y-%m-%d') AS ad_crea_dt
 			FROM
 				ad
@@ -51,6 +54,8 @@
 				mar_contents,
 				mar_addr1,
 				mar_addr2,
+				mar_like,
+				mar_talk_cnt,
 				DATE_FORMAT(mar_crea_dt, '%Y-%m-%d') AS mar_crea_dt
 			FROM
 				market
@@ -76,6 +81,7 @@
 				ad_contents,
 				ad_addr1,
 				ad_addr2,
+				ad_like,
 				DATE_FORMAT(ad_crea_dt, '%Y-%m-%d') AS ad_crea_dt
 			FROM
 				ad
@@ -193,5 +199,20 @@
 				com_no = #{comNo}
 			order by img_no
 		]]>
+	</select>
+	
+	<select id="getMarTalkCnt" parameterType="int" resultType="int">
+	
+		<![CDATA[
+		
+			SELECT COUNT(*) 
+			FROM 
+				chat_room
+			WHERE 
+				mar_no = #{marNo}
+			AND 
+				del_yn= 'n';
+		]]>
+	
 	</select>
 </mapper>

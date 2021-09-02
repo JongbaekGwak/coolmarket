@@ -31,6 +31,8 @@ public class ListServiceImpl implements ListService {
 		List<MarketDto> mdList = map.getMarBoardList(marketPageDto);
 		for (int i = 0; i < mdList.size(); i++) {
 			List<ImgDto> imgList = map.marImgList(mdList.get(i).getMarNo());
+			int talkCount = map.getMarTalkCnt(mdList.get(i).getMarNo());
+			mdList.get(i).setMarTalkCnt(talkCount);
 			mdList.get(i).setImgList(imgList);
 		}
 		List<Object> dataList = new ArrayList<Object>();

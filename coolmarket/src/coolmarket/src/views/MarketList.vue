@@ -68,14 +68,12 @@
 
               <div class="like-comment">
                 <div class="like-icon">
-                  <i class="fa fa-heart-o hidden-icon" aria-hidden="true">
+                  <fai :icon="['far','heart']"></fai>
                     <span class="count"> {{ item.adLike }}</span>
-                  </i>
                 </div>
                 <div class="comment-icon">
-                  <i class="fa fa-comment-o hidden-icon" aria-hidden="true">
+                  <fai :icon="['far','comment']"></fai>
                     <span class="count"> {{ item.adView }}</span>
-                  </i>
                 </div>
               </div>
             </div>
@@ -102,14 +100,12 @@
 
               <div class="like-comment">
                 <div class="like-icon">
-                  <i class="fa fa-heart-o hidden-icon" aria-hidden="true">
+                  <fai :icon="['far','heart']"></fai>
                     <span class="count"> {{ item.marLike }}</span>
-                  </i>
                 </div>
                 <div class="comment-icon">
-                  <i class="fa fa-comment-o hidden-icon" aria-hidden="true">
-                    <span class="count"> {{ item.marView }}</span>
-                  </i>
+                  <fai :icon="['far','comment']"></fai>
+                    <span class="count"> {{ item.marTalkCnt }}</span>
                 </div>
               </div>
             </div>
@@ -403,7 +399,7 @@ export default {
 }
 
 .wrap {
-  max-width: 950px;
+  max-width: 1000px;
   width: 80%;
   margin: 0 auto;
 }
@@ -507,7 +503,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  max-width: 950px;
+  max-width: 1000px;
   justify-content: space-around;
 }
 

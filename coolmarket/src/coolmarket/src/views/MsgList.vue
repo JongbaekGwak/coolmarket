@@ -10,7 +10,7 @@
             <div class="left-section" v-on:click="MoveMsgDetail(item.roomNo, item.marNo, item.buyerNo, item.nickName)">
                 <div class="sender-info">
                     <div class="sender-img">
-                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <fai :icon="['far', 'user']" class="fs-1 m-auto"></fai>
                     </div>
                     <div class="sender-text">
                         <div class="sender-name">
@@ -25,8 +25,11 @@
                     <p class="m-0">메세지를 확인하세요 </p>
                 </div>
             </div>
-            <div class="receive-date">
+            <!-- <div class="receive-date">
                 <p class="m-0">16:25</p>
+            </div> -->
+            <div type="button" class="delete-btn" v-on:click="deleteMsg(item.roomNo)">
+                삭제
             </div>
         </div>
     </div>
@@ -79,6 +82,21 @@ export default {
         })
     },
     methods: {
+        deleteMsg(roomNo) {
+            let obj = this
+            obj.axios.get("http://localhost:9000/deleteMsg", {
+                params: {
+                    roomNo: roomNo
+                }
+            })
+            .then(function () {
+                console.log("메세지 삭제");
+            })
+            .catch(function (err) {
+                console.log("삭제 실패");
+                console.log(err);
+            })
+        },
         MoveMyPage() {
             this.$router.push({ name: 'MyPage' });
         },
@@ -119,9 +137,9 @@ export default {
         .receive-text {
             margin-left: 0 !important;
         }
-        .receive-date {
+        /* .receive-date {
             padding-right: 30px;
-        }
+        } */
     }
     .wrap {
         width: 70%;
@@ -173,6 +191,7 @@ export default {
         background-color: #ffff;
         text-align: center;
         font-size: 32px;
+        padding: 6px 0;
     }
     .sender-text {
         height: 50px;
@@ -193,14 +212,22 @@ export default {
         min-width: 150px;
     }
     
-  
 
     .left-section {
         display: flex;
         align-items: center;
     }
 
-    .receive-date {
-        font-size: 13px;
+    .delete-btn {
+        min-width: 48px;
+        padding: 6px 8px;
+        color: rgb(255, 132, 132);
     }
+    .delete-btn:hover {
+        color: red;
+    }
+
+    /* .receive-date {
+        font-size: 13px;
+    } */
 </style>

@@ -3,7 +3,7 @@
         <div class="item-info-card" >
             <div class="item-left-section" v-on:click="MoveMarketDetail">
                 <div class="contact-item">
-                    <img src="" alt="상품이미지">
+                    <img :src="imgPath(contactItem.imgList)" alt="마켓이미지" />
                 </div>
                 <div class="item-info">
                     <h2>{{contactItem.marTitle}}</h2>
@@ -25,7 +25,7 @@
                 <div class="receive-box" v-if="item.buyerNo != userNo">
                     <div class="recieve-sender-img-box">
                         <div class="sender-img recieve-sender-img">
-                            <i class="fa fa-user" aria-hidden="true"></i>
+                            <fai :icon="['far', 'user']" class="fs-3 m-auto"></fai>
                         </div>
                     </div>
                     <div class="receive-data">
@@ -67,9 +67,6 @@
                 </div>
                 <div class="input-report-btn">
                     <i class="fa fa-bullhorn" aria-hidden="true" v-on:click="MoveReport"></i>
-                </div>
-                <div class="delete-btn">
-                    <span>삭제</span>
                 </div>
             </div>
 
@@ -224,7 +221,13 @@ export default {
                 }
             );
         },
-
+        imgPath(src) {
+            if (src == "") {
+                return "/images/noImg.png";
+            } else {
+                return src[0].storedImgPath;
+            }
+        },
 
         MoveMsgList() {
             this.$router.push({ name: 'MsgList' });
@@ -400,11 +403,13 @@ export default {
     }
     .recieve-sender-img-box {
         display: flex;
+        align-items: center;
     }
     .recieve-sender-img {
-        /* display: flex; */
+        display: flex;
         width: 50px;
         height: 50px;
+        align-items: center;
     }
 
     .receive-data {
@@ -531,10 +536,6 @@ export default {
     }
     .report-btn:hover {
         transform: scale(1.1);
-    }
-
-    .delete-btn {
-        
     }
 
     .send-input-container {

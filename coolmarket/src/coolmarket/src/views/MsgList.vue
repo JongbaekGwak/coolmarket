@@ -6,18 +6,18 @@
                 <i class="fa fa-times fs-4" aria-hidden="true"></i>
             </div>
         </div>
-        <div class="message-card" v-on:click="MoveMsgDetail">
-            <div class="left-section">
+        <div class="message-card" v-for="item in roomList" v-bind:key="item.roomNo">
+            <div class="left-section" v-on:click="MoveMsgDetail(item.roomNo, item.marNo, item.buyerNo, item.nickName)">
                 <div class="sender-info">
                     <div class="sender-img">
                         <i class="fa fa-user" aria-hidden="true"></i>
                     </div>
                     <div class="sender-text">
                         <div class="sender-name">
-                            <p class="m-0">수영구주민</p>
+                            <p class="m-0">{{item.nickName}}</p>
                         </div>
                         <div class="sender-region">
-                            <p class="m-0">부산광영시 수영구</p>
+                            <p class="m-0">{{item.addr1}} {{item.addr2}}</p>
                         </div>
                     </div>
                 </div>
@@ -36,16 +36,64 @@
 export default {
     data() {
         return {
-
+            user: [],
+            roomList: [],
+            myUserNo: ""
         }
+    },
+    beforeCreate() {
+        this.$axios
+        .get("http://localhost:9000/me", {
+        params: {
+            userNo: this.$session.get("coolUserNo"),
+        },
+        })
+        .then((res) => {
+            this.user = res.data;
+            this.user.userNo = this.$session.get("coolUserNo")
+            if (this.user.rank == 1) {
+                this.rank = "일반";
+            } else if (this.user.rank == 2) {
+                this.rank = "프리미엄";
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    },
+    mounted() {
+        this.myUserNo = this.$session.get("coolUserNo");
+        let obj = this
+        obj.axios.get("http://localhost:9000/getRoomList", {
+            params: {
+                buyerNo: this.$session.get("coolUserNo"),
+            }
+        })
+        .then(function (res) {
+            console.log("RoomList Get Success");
+            obj.roomList = res.data
+        })
+        .catch(function (err) {
+            console.log("RoomList Get Fail");
+            console.log(err);
+        })
     },
     methods: {
         MoveMyPage() {
             this.$router.push({ name: 'MyPage' });
         },
-        MoveMsgDetail() {
-            this.$router.push({ name: 'MsgDetail' });
-        }
+        MoveMsgDetail(roomNo, marNo, buyerNo, nickName) {
+            this.$router.push({ name: 'MsgDetail', 
+                query: {
+                    roomNo: roomNo,
+                    marNo: marNo,
+                    buyerName: this.user.nickName,
+                    buyerNo: this.myUserNo,
+                    sellerNo: buyerNo,
+                    sellerName: nickName
+                } 
+            });
+        },
     }
 }
 </script>
@@ -144,11 +192,8 @@ export default {
         margin-left: 15px;
         min-width: 150px;
     }
-    .receive-date {
-
-        display: flex;
-        /* justify-self: end; */
-    }
+    
+  
 
     .left-section {
         display: flex;

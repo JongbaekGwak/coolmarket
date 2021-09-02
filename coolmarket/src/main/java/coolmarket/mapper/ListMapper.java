@@ -31,4 +31,5 @@ public interface ListMapper {
 	List<AdDto> getSelectAdBoardList(MarketPagingDto marketPageDto) throws Exception;
 
 	List<CommuDto> getCommuList(MarketPagingDto marketPageDto) throws Exception;
+
 }

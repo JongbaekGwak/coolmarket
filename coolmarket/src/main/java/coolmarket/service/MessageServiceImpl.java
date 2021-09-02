@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import coolmarket.dto.ChatRoomDto;
+import coolmarket.dto.MarketDto;
 import coolmarket.dto.MessageDto;
 import coolmarket.mapper.MessageMapper;
 
@@ -30,19 +31,24 @@ public class MessageServiceImpl implements MessageService {
 		if (chatRoom.isEmpty()) {
 			messageMapper.createRoom(chatRoomDto);
 			chatRoom = messageMapper.checkRoom(chatRoomDto);
-//			chatRoom = messageMapper.createRoom(chatRoomNo);
-//			List<ChatRoomDto> newChatRoom = messageMapper.createRoom(chatRoomDto);
-			
-//			if (newChatRoom.isEmpty()) {
-//			
-//				chatRoom = messageMapper.checkRoom(chatRoomDto);
-//			
-//			}
+
 		}
 		return chatRoom;
+	}
+	
+	public List<MessageDto> getChatList(int roomNo) throws Exception {
 		
+		return messageMapper.getChatList(roomNo);
+	}
+	
+	public List<MessageDto> getRoomList(int buyerNo) throws Exception {
 		
+		return messageMapper.getRoomList(buyerNo);
+	}
+	
+	public MarketDto getContactItem(int marNo) throws Exception {
 		
+		return messageMapper.getContactItem(marNo);
 	}
 
 }

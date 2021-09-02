@@ -12,7 +12,7 @@ public class WebScoketConfiguration implements WebSocketMessageBrokerConfigurer 
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/")
+		registry.addEndpoint("/chat")
 				.setAllowedOrigins("http://localhost:8080")  // "*"로 설정시 cors 해제 왜 안됨 ?
 				.withSockJS();
 				//.setHeartbeatTime(20000); // 소켓 연결상태 확인 주기 2초.
@@ -23,14 +23,14 @@ public class WebScoketConfiguration implements WebSocketMessageBrokerConfigurer 
 	// 그럼 기본 url을 여기서 지정하고 컨트롤러에서 mapping주소를 다르게해서 여러 컨트롤러를 만드는건가.. 컨트롤러 여러개 만들어서 어따쓰지 ..?
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
-		// publish, destination(목적지)이 /pub으로 된 메세지를 Coㅜtroller의 MessageMapping으로 라우팅한다
+		// publish, destination(목적지)이 /pub으로 된 메세지를 Controller의 MessageMapping으로 라우팅한다
 		// 현재 컨트롤러의 MessageMapping은 /receive,  클라이언트에서 stompClient.send로 보낼때 주소가 /pub/receive가 됨
 		// 컨트롤러의 MessageMapping만 있으면 될텐데 이건 왜 필요한거 ??
 		// 위의 addEndpoint까지 있으면 주소는 /add/pub/receive가 되는데 ??
-		registry.setApplicationDestinationPrefixes("/pub"); 
+		registry.setApplicationDestinationPrefixes("/app"); 
 		// 클라이언트의 메세지 구독 endpoint
 		// 웹소켓의 입장에서 /send를 subscribe(구독하는/요청하는)하는 클라이언트에게 메세지를 보낸다 ? 
-		registry.enableSimpleBroker("/send"); //현재 컨트롤러의 @SendTo("/send") ?
+		registry.enableSimpleBroker("/topic"); //현재 컨트롤러의 @SendTo("/send") ?
 
 		// 여튼 /pub+컨트롤러의 mapping 으로 클라이언트가 보낸걸 받고 /send로 구독 요청하는 클라이언트에게 보내준다 ?
 	}

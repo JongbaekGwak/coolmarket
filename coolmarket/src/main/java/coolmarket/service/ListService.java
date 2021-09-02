@@ -22,4 +22,5 @@ public interface ListService {
 	List<SelectOptionDto> getSelectOption1(String addr1) throws Exception;
 
 	List<SelectOptionDto> getSelectOption2(String addr2) throws Exception;
+
 }

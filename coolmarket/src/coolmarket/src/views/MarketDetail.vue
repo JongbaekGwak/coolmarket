@@ -70,7 +70,7 @@
           <b-button
             class="m-1"
             variant="warning"
-            v-on:click="MoveMsgDetail(marketDetail)"
+            v-on:click="MoveMsgDetail"
             v-if="marketDetail.marUserNo != myUserNo"
           >
             채팅으로 구매하기
@@ -181,6 +181,7 @@ export default {
       myWishSear: true,
       marBuyUser: "",
       setSale: false,
+      chatRoom: []
     };
   },
   beforeCreate() {
@@ -232,13 +233,32 @@ export default {
       if (this.$session.get("coolUserNo") == null) {
         alert("로그인 해주세요");
       } else {
-        this.$router.push({
-          name: "MsgDetail",
-          query: {
-            sellerName: this.marketDetail.marCreaNickName,
-            sellerNo : this.marketDetail.marUserNo
-          },
-        });
+        let obj = this
+        obj.axios.get("http://localhost:9000/checkRoom", {
+          params: {
+            marNo: this.marketDetail.marNo,
+            sellerNo: this.marketDetail.marUserNo,
+            buyerNo: this.myUserNo
+          }
+        })
+        .then(function (res) {
+          console.log('방 번호 생성 성공');
+          obj.chatRoom = res.data;
+          obj.$router.push({
+            name: "MsgDetail", 
+            query:{
+              roomNo: obj.chatRoom[0].roomNo,
+              marNo: obj.marketDetail.marNo,
+              buyerNo: obj.myUserNo,
+              sellerNo: obj.marketDetail.marUserNo,
+              sellerName: obj.marketDetail.marCreaNickName
+            }
+          })
+        })
+        .catch(function (err) {
+          console.log(err);
+          console.log("채팅 연결 실패");
+        })
       }
     },
     MoveMarketList() {
@@ -347,7 +367,7 @@ export default {
       }
     },
   },
-};
+}
 </script>
 
 <style scoped>

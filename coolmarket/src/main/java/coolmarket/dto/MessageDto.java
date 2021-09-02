@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MessageDto {
 
-
+	private int roomNo;
 	private int msgNo;
 	private int marNo;
 	private int readYn;
@@ -19,5 +19,5 @@ public class MessageDto {
 	private String buyerName;
 	private String sendDt;
 	private String msgDelYn;
-	private String contents;
+	private String message;
 }

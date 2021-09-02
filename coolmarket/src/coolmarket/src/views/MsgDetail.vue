@@ -1,41 +1,28 @@
 <template>
     <div class="wrap">
-        <div class="message-card">
-            <div class="left-section">
-                <div class="sender-info">
-                    <div class="sender-img">
-                        <i class="fa fa-user" aria-hidden="true"></i>
-                    </div>
-                    <div class="sender-text">
-                        <div class="sender-name">
-                            <p class="m-0">수영구주민</p>
-                        </div>
-                        <div class="sender-region">
-                            <p class="m-0">부산광영시 수영구</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="close-btn" v-on:click="MoveMsgList">
-                <i class="fa fa-times fs-4" aria-hidden="true"></i>
-            </div>
-        </div>
-        
         <div class="item-info-card" >
             <div class="item-left-section" v-on:click="MoveMarketDetail">
                 <div class="contact-item">
                     <img src="" alt="상품이미지">
                 </div>
                 <div class="item-info">
-                    <h2>자전거 판매합니다~</h2>
-                    <p>30,0000원</p>
+                    <h2>{{contactItem.marTitle}}</h2>
+                    <p>{{contactItem.marPrice}} 원</p>
                 </div>
+            </div>
+            <div class="close-btn" v-on:click="MoveMsgList">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+  <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+</svg>
             </div>
         </div>
 
         <div class="msg-container">
-            <div class="msg-content">
-                <div class="receive-box" v-for="(item, idx) in recvList" v-bind:key="idx">
+            <div class="msg-content"  ref="recvList">
+            <div  v-for="(item, idx) in recvList" v-bind:key="idx">
+
+                <div class="receive-box" v-if="item.buyerNo != userNo">
                     <div class="recieve-sender-img-box">
                         <div class="sender-img recieve-sender-img">
                             <i class="fa fa-user" aria-hidden="true"></i>
@@ -43,30 +30,32 @@
                     </div>
                     <div class="receive-data">
                         <div class="receive-name">
-                            <p class="m-0">수영구주민</p>
+                            <p class="m-0">{{item.buyerName}}</p>
                         </div>
                         <div class="receive-msg">
-                            <p class="m-0 msg">{{item.contents}}</p>
+                            <p class="m-0 msg">{{item.message}}</p>
                         </div>
                     </div>
                     <div class="receive-time">
-                        <p class="m-0">16:30</p><span><i class="fa fa-check mx-1" aria-hidden="true"></i></span>
+                        <p class="m-0">{{item.sendDt}}</p><span><i class="fa fa-check mx-1" aria-hidden="true"></i></span>
                     </div>
                 </div>
-                <div class="send-box">
+                
+                <div class="send-box"  v-if="item.buyerNo == userNo">
                     <div class="receive-time">
                         <span><i class="fa fa-check mx-1" aria-hidden="true"></i></span>
-                        <p class="m-0">16:35</p>
+                        <p class="m-0">{{item.sendDt}}</p>
                     </div>
                     <div class="send-data">
                         <div class="my-name">
                             <p class="m-0">나</p>
                         </div>
                         <div class="send-msg">
-                            <p class="m-0 my-msg">방금 팔렸어요 ~ ㅈㅅ ㅈㅅ</p>
+                            <p class="m-0 my-msg">{{item.message}}</p>
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
 
             <div class="menu-container">
@@ -79,6 +68,9 @@
                 <div class="input-report-btn">
                     <i class="fa fa-bullhorn" aria-hidden="true" v-on:click="MoveReport"></i>
                 </div>
+                <div class="delete-btn">
+                    <span>삭제</span>
+                </div>
             </div>
 
             <div class="send-input-container">
@@ -88,14 +80,6 @@
                 <div class="send-btn" type="button" v-on:click="send">
                     <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
                 </div>
-
-                <!-- <div class="text-input">
-                    <input type="text" name="send-msg" id="send-msg" autocomplete='off' v-on:keyup.enter="send" v-bind:value="msg" v-on:input="inputMsg">
-                </div>
-                <div class="send-btn" type="button" v-on:click="send">
-                    <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
-                </div> -->
-                <!-- 테스트 -->
             </div>
         </div>
     </div>
@@ -111,9 +95,15 @@ export default {
             user: [],
             message: "",
             recvList: [],
-            marketDetail: [],
-            sellerName: this.router.sellerName,
-            sellerNo : this.router.sellerNo
+            // marketDetail: [],
+            // chatRoom: [],
+            roomNo: "",
+            marNo: "",
+            buyerNo: "",
+            sellerNo: "",
+            sellerName: "",
+            userNo: "",
+            contactItem: "",
         }
     },
     beforeCreate() {
@@ -136,12 +126,57 @@ export default {
         });
     },
     created() {
-        // App.vue가 생성되면 소켓 연결을 시도합니다.
+        // this.marketDetail= this.$route.query.marketDetail;
+        // this.chatRoom= this.$route.query.chatRoom;
+        this.roomNo = this.$route.query.roomNo,
+        this.marNo = this.$route.query.marNo,
+        this.buyerNo = this.$route.query.buyerNo,
+        this.sellerNo = this.$route.query.sellerNo,
+        this.sellerName = this.$route.query.sellerName
         this.connect()
+        
+    },
+    mounted() {
+        this.userNo = this.$session.get("coolUserNo")
+        let obj = this
+        obj.axios.get("http://localhost:9000/getChatList", {
+            params: {
+                roomNo: obj.roomNo
+            }
+        })
+        .then (function (res){
+            console.log("Message Get Success");
+            obj.recvList = res.data;
+        })
+        .catch (function (err) {
+            console.log("Message Get Fail");
+            console.log(err);
+        });
+        obj.axios.get("http://localhost:9000/getContactItem", {
+            params: {
+                marNo: obj.marNo
+            }
+        })
+        .then (function (res) {
+            console.log("ContactItem Get Success");
+            obj.contactItem = res.data;
+        })
+        .catch (function (err) {
+            console.log("ContactItem Get Success");
+            console.log(err)
+        })
+    },
+    watch: {
+        recvList() {
+            this.$nextTick(() => {
+                let recvList = this.$refs.recvList;
+                recvList.scrollTo({ top: recvList.scrollHeight, behavior: 'smooth' });
+            });
+        },
     },
     methods: {
         sendMessage (e) {
-            if(e.keyCode === 13 && this.userName !== '' && this.message !== ''){
+            if(e.keyCode === 13 && this.message !== ''){
                 this.send()
                 this.message = ''
             }
@@ -149,40 +184,45 @@ export default {
         send() {
             console.log("Send message:" + this.message);
             if (this.stompClient && this.stompClient.connected) {
-                const msg = { 
-                    buyerNo: this.user.coolUser,
-                    buyerName: this.user.nickName,
-                    sellerNo: this.sellerNo,
-                    sellerName: this.sellerName,
-                    contents: this.message
+                const message = { 
+                    'roomNo': this.roomNo,
+                    'marNo': this.marNo,
+                    'buyerNo': this.buyerNo,
+                    'buyerName': this.user.nickName,
+                    'sellerNo': this.sellerNo,
+                    'sellerName': this.sellerName,
+                    'message': this.message
                 };
-                this.stompClient.send("/pub/receive", JSON.stringify(msg), {});
+                this.stompClient.send("/app/chat/send", JSON.stringify(message), {});
             }
         },    
         connect() {
-            const serverURL = "http://localhost:9000"
+            const serverURL = "http://localhost:9000/chat"
             let socket = new SockJS(serverURL);
+
             this.stompClient = Stomp.over(socket);
             console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`)
+
+            let obj = this;
             this.stompClient.connect(
                 {},
                 frame => {
                     // 소켓 연결 성공
-                    this.connected = true;
+                    obj.connected = true;
                     console.log('소켓 연결 성공', frame);
-                    this.stompClient.subscribe("/send/"+ 1, res => {
+                    obj.stompClient.subscribe("/topic/" + obj.roomNo, res => {
                     // 연결 성공했으면 /send를 subscribe(구독)해 메세지 요청
-                    console.log('구독으로 받은 메시지 입니다.', res.body);
+                    console.log('구독으로 받은 메시지 입니다.', res.body);  
                     // 받은 데이터를 json으로 파싱하고 리스트에 넣어줌
-                    this.recvList.push(JSON.parse(res.body))
+                    obj.recvList.push(JSON.parse(res.body))
                     });
                 },
                 error => {
                     // 소켓 연결 실패
                     console.log('소켓 연결 실패', error);
-                    this.connected = false;
+                    obj.connected = false;
                 }
-            );        
+            );
         },
 
 
@@ -202,9 +242,6 @@ export default {
 
 <style scoped>
     @media (max-width: 550px) {
-        .message-card {
-            min-width: 330px !important;
-        }
         .sender-img {
             width: 45px !important;
             height: 45px !important;
@@ -214,16 +251,9 @@ export default {
             min-width: 270px !important;
         }
     }
-    @media (max-width: 767px) {
-
-    }
     @media (max-width: 990px) {
         .wrap {
             width: 100% !important;
-        }
-        .message-card {
-            height: 110px !important;
-            padding-left: 0 !important;
         }
         .sender-info {
             flex-direction: column;
@@ -248,19 +278,7 @@ export default {
         border: 1px solid rgb(194, 194, 194);
         box-shadow: 1px 1px 10px 1px lightgrey;
     }
-    .message-card {
-        display: flex;
-        width: 100%;
-        height: 100px;
-        padding: 0 32px;
-        border-bottom: 1px solid rgb(243, 243, 243);
-        align-items: center;
-        justify-content: space-between;
-    }
-    .sender-info {
-        display: flex;
-        align-items: center;
-    }
+
     .sender-img {
         width: 65px;
         height: 65px;
@@ -270,33 +288,12 @@ export default {
         text-align: center;
         font-size: 32px;
     }
-    .sender-text {
-        height: 50px;
-        display: flex;
-        flex-direction: column;
-        margin: 0 15px;
-        /* align-items: stretch; */
-        justify-content: space-between;
-    }
-    .sender-name {
-        font-size: 14px;
-        font-weight: bold;
-    }
-    .sender-region {
-        font-size: calc(.4rem + .3vw);
-    }
-
-    .left-section {
-        display: flex;
-        align-items: center;
-    }
 
     .close-btn {
         cursor: pointer;
     }
     .close-btn:hover {
-        transform: scale(.9);
-        transition: .1s;
+        color: rgb(0, 153, 255);
     }
 
     .item-info-card {
@@ -306,6 +303,7 @@ export default {
         padding: 0 32px;
         border-bottom: 1px solid rgb(243, 243, 243);
         align-items: center;
+        justify-content: space-between;
     }
 
     .item-left-section {
@@ -405,8 +403,8 @@ export default {
     }
     .recieve-sender-img {
         /* display: flex; */
-        width: 65px;
-        height: 65px;
+        width: 50px;
+        height: 50px;
     }
 
     .receive-data {
@@ -483,6 +481,7 @@ export default {
 
 
     .menu-container {
+        justify-content: flex-end;
         display: flex;
         width: 100%;
         padding: 0 32px;
@@ -534,12 +533,15 @@ export default {
         transform: scale(1.1);
     }
 
+    .delete-btn {
+        
+    }
 
     .send-input-container {
         display: flex;
         width: 100%;
         padding: 3px 32px;
-        background-color: #fafafafa;
+        background-color: #ffff;
         /* align-items: center; */
         justify-content: space-between;
     }

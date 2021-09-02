@@ -11,9 +11,9 @@
 
 		<![CDATA[ 
 			INSERT INTO
-				msg (buyer_no, buyer_name, contents)
+				msg (room_no, mar_no, buyer_no, buyer_name, message, seller_no, seller_name)
 			VALUES
-				(#{buyerNo}, #{buyerName}, #{contents})
+				(#{roomNo}, #{marNo}, #{buyerNo}, #{buyerName}, #{message}, #{sellerNo}, #{sellerName})
 		]]>
 	</insert>
 	
@@ -45,17 +45,57 @@
 			
 	</insert>
 	
-	<select id="checkRoom1" resultType="coolmarket.dto.ChatRoomDto" parameterType="int">
+	<select id="getChatList" resultType="coolmarket.dto.MessageDto" parameterType="int">
 		
 		<![CDATA[
 			SELECT 
-				room_no, mar_no, seller_no, buyer_no
+				room_no, seller_no, seller_name, buyer_no, buyer_name, DATE_FORMAT(send_dt, '%H:%i') AS send_dt, message
 			FROM 
-				chat_room
+				msg
 			WHERE 
-				room_no = #{chatRoomNo}
+				room_no = #{roomNo}
+			ORDER BY msg_no
+		
 		]]>
-
+		
 	</select>
+	
+	<select id="getRoomList" resultType="coolmarket.dto.ChatListDto" parameterType="int">
+	
+		<![CDATA[
+		
+			SELECT  
+				a.room_no, a.seller_no, a.buyer_no, a.mar_no, b.nick_name, b.addr1, b.addr2
+			FROM 
+				chat_room AS a
+			JOIN 
+				user AS b
+			ON 
+				a.seller_no = b.user_no
+			WHERE 
+				buyer_no = #{buyerNo}
+			OR 
+				seller_no = #{buyerNo}
+			ORDER BY 
+				room_no DESC;
+		]]>
+	
+	</select>
+	
+	<select id="getContactItem" parameterType="int" resultType="coolmarket.dto.MarketDto">
+		
+		<![CDATA[
+			
+			SELECT 
+				mar_title, mar_price
+			FROM 
+				market
+			WHERE 
+				mar_no = #{marNo}
+		
+		]]>
+	
+	</select>
+
 	
 </mapper>

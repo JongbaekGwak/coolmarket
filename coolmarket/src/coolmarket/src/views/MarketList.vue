@@ -68,14 +68,12 @@
 
               <div class="like-comment">
                 <div class="like-icon">
-                  <i class="fa fa-heart-o hidden-icon" aria-hidden="true">
-                    <span class="count"> {{ item.adLike }}</span>
-                  </i>
+                  <fai :icon="['fas', 'heart']"></fai>
+                  <span class="count"> {{ item.adLike }}</span>
                 </div>
                 <div class="comment-icon">
-                  <i class="fa fa-comment-o hidden-icon" aria-hidden="true">
-                    <span class="count"> {{ item.adView }}</span>
-                  </i>
+                  <fai :icon="['fas', 'comment']"></fai>
+                  <span class="count"> {{ item.adView }}</span>
                 </div>
               </div>
             </div>
@@ -102,14 +100,12 @@
 
               <div class="like-comment">
                 <div class="like-icon">
-                  <i class="fa fa-heart-o hidden-icon" aria-hidden="true">
-                    <span class="count"> {{ item.marLike }}</span>
-                  </i>
+                  <fai :icon="['fas', 'heart']"></fai>
+                  <span class="count"> {{ item.marLike }}</span>
                 </div>
                 <div class="comment-icon">
-                  <i class="fa fa-comment-o hidden-icon" aria-hidden="true">
-                    <span class="count"> {{ item.marView }}</span>
-                  </i>
+                  <fai :icon="['fas', 'comment']"></fai>
+                  <span class="count"> {{ item.marView }}</span>
                 </div>
               </div>
             </div>

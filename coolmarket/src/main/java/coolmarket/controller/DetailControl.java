@@ -43,6 +43,21 @@ public class DetailControl {
 		serv.adDelete(adNo);
 	}
 
+	@RequestMapping(value = "/adLike", method = RequestMethod.POST)
+	public Object adLike(@RequestParam("adNo") int adNo, @RequestParam("userNo") int userNo) throws Exception {
+		return serv.adLike(adNo, userNo);
+	}
+
+	@RequestMapping(value = "/adLikeUp", method = RequestMethod.GET)
+	public void adLikeUp(@RequestParam("adNo") int adNo, @RequestParam("userNo") int userNo) throws Exception {
+		serv.adLikeUp(adNo, userNo);
+	}
+
+	@RequestMapping(value = "/adLikeDown", method = RequestMethod.GET)
+	public void adLikeDown(@RequestParam("adNo") int adNo, @RequestParam("userNo") int userNo) throws Exception {
+		serv.adLikeDown(adNo, userNo);
+	}
+
 //	마켓
 	@RequestMapping(value = "/marketDetail", method = RequestMethod.GET)
 	public Object marketDetail(@RequestParam("marNo") String marNo) throws Exception {

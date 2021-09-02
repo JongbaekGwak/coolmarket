@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>댓글 : {{ coment.length }}</p>
     <div
       class="comment-container border-bottom"
       v-for="item in coment"

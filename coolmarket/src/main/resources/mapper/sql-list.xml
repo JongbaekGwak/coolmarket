@@ -12,6 +12,8 @@
 				mar_contents,
 				mar_addr1,
 				mar_addr2,
+				mar_like,
+				mar_talk_cnt,
 				DATE_FORMAT(mar_crea_dt, '%Y-%m-%d') AS mar_crea_dt
 			FROM
 				market
@@ -31,6 +33,8 @@
 				ad_contents,
 				ad_addr1,
 				ad_addr2,
+				ad_like,
+				ad_talk_cnt,
 				DATE_FORMAT(ad_crea_dt, '%Y-%m-%d') AS ad_crea_dt
 			FROM
 				ad
@@ -51,6 +55,8 @@
 				mar_contents,
 				mar_addr1,
 				mar_addr2,
+				mar_like,
+				mar_talk_cnt,
 				DATE_FORMAT(mar_crea_dt, '%Y-%m-%d') AS mar_crea_dt
 			FROM
 				market
@@ -76,6 +82,8 @@
 				ad_contents,
 				ad_addr1,
 				ad_addr2,
+				ad_like,
+				ad_talk_cnt,
 				DATE_FORMAT(ad_crea_dt, '%Y-%m-%d') AS ad_crea_dt
 			FROM
 				ad

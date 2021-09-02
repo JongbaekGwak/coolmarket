@@ -57,7 +57,6 @@
                 </div>
             </div>
             </div>
-
             <div class="menu-container">
                 <div class="send-input-left">
                     <div class="input-file-btn">

@@ -124,11 +124,7 @@ export default {
 .cursor {
   cursor: pointer;
 }
-pre {
-  white-space: pre-wrap;
-  word-break:break-all;
-}
-pre {
+.pre {
   white-space: pre-wrap;
   word-break: break-all;
 }

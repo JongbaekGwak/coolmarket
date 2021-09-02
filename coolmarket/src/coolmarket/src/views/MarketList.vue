@@ -128,14 +128,14 @@
         >
           <span>접기</span>
         </div>
-        <div class="write-btn-section" v-if="this.user.userNo != null">
+        <div class="write-btn-section" v-if="this.$session.get('coolUserNo')">
           <div class="my-btn sale-btn" v-on:click="MoveMarketWrite">
             <span>판매 등록</span>
           </div>
           <div
             class="my-btn ad-btn"
             v-on:click="MoveAdtWrite"
-            v-if="this.user.rank != 1"
+            v-if="this.$session.get('coolRank') == 0"
           >
             <span>광고 등록</span>
           </div>

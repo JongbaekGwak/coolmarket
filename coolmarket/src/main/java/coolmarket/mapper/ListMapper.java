@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import coolmarket.dto.AdDto;
 import coolmarket.dto.CommuCateDto;
 import coolmarket.dto.CommuDto;
+import coolmarket.dto.ImgDto;
 import coolmarket.dto.MarCateDto;
 import coolmarket.dto.MarketDto;
 import coolmarket.dto.MarketPagingDto;
@@ -32,4 +33,12 @@ public interface ListMapper {
 
 	List<CommuDto> getCommuList(MarketPagingDto marketPageDto) throws Exception;
 
+<<<<<<< HEAD
+=======
+	List<ImgDto> adImgList(int adNo) throws Exception;
+
+	List<ImgDto> marImgList(int marNo) throws Exception;
+
+	List<ImgDto> comImgList(int comNo) throws Exception;
+>>>>>>> e10acd044db8fd84709198c0becf20ae08953e55
 }

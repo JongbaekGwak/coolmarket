@@ -414,7 +414,7 @@ export default {
 }
 
 .wrap {
-  max-width: 950px;
+  max-width: 1000px;
   width: 80%;
   margin: 0 auto;
 }
@@ -518,7 +518,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  max-width: 950px;
+  max-width: 1000px;
   justify-content: space-around;
 }
 

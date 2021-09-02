@@ -214,4 +214,17 @@
 				user_no = #{userNo}
 		]]>
 	</select>
+	<select id="getMarTalkCnt" parameterType="int" resultType="int">
+	
+		<![CDATA[
+		
+			SELECT COUNT(*) 
+			FROM 
+				chat_room
+			WHERE 
+				mar_no = #{marNo}
+			AND 
+				del_yn= 'n';
+		]]>
+	</select>
 </mapper>

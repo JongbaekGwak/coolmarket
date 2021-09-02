@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="coolmarket.mapper.MessageMapper">
+
+	<insert id="insertMessage" parameterType="coolmarket.dto.MessageDto">
+
+		<![CDATA[ 
+			INSERT INTO
+				msg (room_no, mar_no, buyer_no, buyer_name, message, seller_no, seller_name)
+			VALUES
+				(#{roomNo}, #{marNo}, #{buyerNo}, #{buyerName}, #{message}, #{sellerNo}, #{sellerName})
+		]]>
+	</insert>
+	
+	<select id="checkRoom" resultType="coolmarket.dto.ChatRoomDto" parameterType="coolmarket.dto.ChatRoomDto">
+		
+		<![CDATA[
+			SELECT 
+				room_no, mar_no, seller_no, buyer_no
+			FROM 
+				chat_room
+			WHERE 
+				seller_no = #{sellerNo} 
+			AND buyer_no = #{buyerNo}
+			AND del_yn = 'n'
+			AND mar_no = #{marNo}
+		]]>
+
+	</select>
+	
+	
+	<insert id="createRoom" useGeneratedKeys="true" keyProperty="roomNo" parameterType="coolmarket.dto.ChatRoomDto">
+		
+		<![CDATA[ 
+			INSERT INTO 
+				chat_room 
+				(mar_no, seller_no, buyer_no)
+			VALUES 
+				(#{marNo}, #{sellerNo}, #{buyerNo})
+		]]>
+			
+	</insert>
+	
+	<select id="getChatList" resultType="coolmarket.dto.MessageDto" parameterType="int">
+		
+		<![CDATA[
+			SELECT 
+				room_no, seller_no, seller_name, buyer_no, buyer_name, DATE_FORMAT(send_dt, '%H:%i') AS send_dt, message
+			FROM 
+				msg
+			WHERE 
+				room_no = #{roomNo}
+			AND msg_del_yn = 'n'
+			ORDER BY msg_no
+		
+		]]>
+		
+	</select>
+	
+	<select id="getRoomList" resultType="coolmarket.dto.ChatListDto" parameterType="int">
+	
+		<![CDATA[
+		
+			SELECT  
+				a.room_no, a.seller_no, a.buyer_no, a.mar_no, b.nick_name, b.addr1, b.addr2
+			FROM 
+				chat_room AS a
+			JOIN 
+				user AS b
+			ON 
+				a.seller_no = b.user_no
+			WHERE 
+				a.del_yn ='n'
+			and
+				(buyer_no = #{buyerNo}
+			OR 
+				seller_no = #{buyerNo})
+			ORDER BY 
+				room_no DESC;
+		]]>
+	
+	</select>
+	
+	<select id="getContactItem" parameterType="int" resultType="coolmarket.dto.MarketDto">
+		
+		<![CDATA[
+			
+			SELECT 
+				mar_title, mar_price
+			FROM 
+				market
+			WHERE 
+				mar_no = #{marNo}
+		]]>
+	
+	</select>
+	
+	<select id="getContactImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				mar_no = #{marNo}
+			order by img_no
+			LIMIT 1;
+		]]>
+	</select>
+	
+	<delete id="deleteMsg" parameterType="int">
+	
+		<![CDATA[
+		
+			UPDATE msg SET msg_del_yn = 'y' WHERE room_no = #{roomNo}
+			
+		]]>
+	
+	</delete>
+	<delete id="deleteRoom" parameterType="int">
+	
+		<![CDATA[
+		
+			UPDATE chat_room SET del_yn = 'y' WHERE room_no = #{roomNo}
+			
+		]]>
+	
+	</delete>
+
+	
+</mapper>

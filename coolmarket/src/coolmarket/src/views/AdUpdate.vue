@@ -248,11 +248,7 @@ export default {
       this.images = file.target.files;
     },
     imgName(img) {
-      if (img == null) {
-        return "이미지가 없습니다.";
-      } else {
-        return img.oriImgName;
-      }
+      return img.oriImgName;
     },
     imgDelete(num) {
       this.$axios

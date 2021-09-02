@@ -200,7 +200,7 @@
 			order by img_no
 		]]>
 	</select>
-<<<<<<< HEAD
+
 	
 	<select id="getMarTalkCnt" parameterType="int" resultType="int">
 	
@@ -215,7 +215,7 @@
 				del_yn= 'n';
 		]]>
 	
-=======
+	</select>
 	<select id="userAddr" parameterType="int" resultType="coolmarket.dto.UserDto">
 		<![CDATA[ 
 			select
@@ -227,6 +227,6 @@
 			where
 				user_no = #{userNo}
 		]]>
->>>>>>> 4097b985270c64ff4653072e5dff213e9a3c5083
+
 	</select>
 </mapper>

@@ -7,6 +7,7 @@ import coolmarket.dto.CommuDto;
 import coolmarket.dto.MarCateDto;
 import coolmarket.dto.MarketPagingDto;
 import coolmarket.dto.SelectOptionDto;
+import coolmarket.dto.UserDto;
 
 public interface ListService {
 	List<Object> getObjectList(MarketPagingDto marketPageDto) throws Exception;
@@ -22,4 +23,6 @@ public interface ListService {
 	List<SelectOptionDto> getSelectOption1(String addr1) throws Exception;
 
 	List<SelectOptionDto> getSelectOption2(String addr2) throws Exception;
+
+	UserDto userAddr(int userNo) throws Exception;
 }

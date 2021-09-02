@@ -194,4 +194,16 @@
 			order by img_no
 		]]>
 	</select>
+	<select id="userAddr" parameterType="int" resultType="coolmarket.dto.UserDto">
+		<![CDATA[ 
+			select
+				addr1,
+				addr2,
+				addr3
+			from
+				user
+			where
+				user_no = #{userNo}
+		]]>
+	</select>
 </mapper>

@@ -133,63 +133,74 @@ export default {
       comTotalNum: 10,
     };
   },
-  beforeCreate() {
-    this.$axios
-      .get("http://localhost:9000/me", {
-        params: {
-          userNo: this.$session.get("coolUserNo"),
-        },
-      })
-      .then((res) => {
-        this.user = res.data;
-        if (this.user.rank == 1) {
-          this.rank = "일반";
-        } else if (this.user.rank == 2) {
-          this.rank = "프리미엄";
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  },
+
   mounted() {
-    let obj = this;
-    obj.$axios
-      .get("http://localhost:9000/getCommuOption")
-      .then(function (res) {
-        console.log("Select Cate Get Succcess");
-        obj.cate = res.data;
-      })
-      .catch(function (err) {
-        console.log("Select Cate Get Fail");
-        console.log(err);
-      });
-    this.$axios
-      .get("http://localhost:9000/addr1")
-      .then((res) => {
-        this.selected1 = res.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    obj.$axios
-      .get("http://localhost:9000/getCommuList", {
-        params: {
-          selected: this.selected,
-          addr1: this.addr1,
-          addr2: this.addr2,
-          comStartNum: this.comStartNum,
-          comTotalNum: this.comTotalNum,
-        },
-      })
-      .then(function (res) {
-        console.log("Select BoardList Get Succcess");
-        obj.items = res.data;
-      })
-      .catch(function (err) {
-        console.log("Select BoardList Get Fail");
-        console.log(err);
-      });
+    if (this.$session.get("coolUserNo") != null) {
+      this.$axios
+        .get("http://localhost:9000/addr1")
+        .then((res) => {
+          this.selected1 = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.$axios
+        .get("http://localhost:9000/userAddr", {
+          params: { userNo: this.$session.get("coolUserNo") },
+        })
+        .then((res) => {
+          this.addr1 = res.data.addr1;
+          this.Getaddr2();
+          if (res.data.addr2 == "") {
+            this.addr2 = "";
+          } else {
+            this.addr2 = res.data.addr2;
+            this.Getaddr3();
+          }
+          this.onSelect();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      let obj = this;
+      obj.$axios
+        .get("http://localhost:9000/getCommuOption")
+        .then(function (res) {
+          console.log("Select Cate Get Succcess");
+          obj.cate = res.data;
+        })
+        .catch(function (err) {
+          console.log("Select Cate Get Fail");
+          console.log(err);
+        });
+      this.$axios
+        .get("http://localhost:9000/addr1")
+        .then((res) => {
+          this.selected1 = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      obj.$axios
+        .get("http://localhost:9000/getCommuList", {
+          params: {
+            selected: this.selected,
+            addr1: this.addr1,
+            addr2: this.addr2,
+            comStartNum: this.comStartNum,
+            comTotalNum: this.comTotalNum,
+          },
+        })
+        .then(function (res) {
+          console.log("Select BoardList Get Succcess");
+          obj.items = res.data;
+        })
+        .catch(function (err) {
+          console.log("Select BoardList Get Fail");
+          console.log(err);
+        });
+    }
   },
   methods: {
     won() {

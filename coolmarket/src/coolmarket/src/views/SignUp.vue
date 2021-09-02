@@ -53,6 +53,10 @@
                   ></b-form-input>
                 </b-form-group>
               </b-col>
+              <small class="m-0 text-info"
+                >비밀번호는 숫자와 영문자 조합으로 8~20자리를 사용해야
+                합니다.</small
+              >
             </b-row>
 
             <!-- 이름, 닉네임 -->
@@ -183,25 +187,60 @@ export default {
       });
   },
   methods: {
+    validEmail(email) {
+      let re =
+        /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+      return re.test(email);
+    },
+    validPassword(email, password) {
+      if (!/^[a-zA-Z0-9]{8,20}$/.test(password)) {
+        alert("비밀번호는 숫자와 영문자 조합으로 8~20자리를 사용해야 합니다.");
+        return false;
+      }
+      let chk_num = password.search(/[0-9]/g);
+      let chk_eng = password.search(/[a-z]/gi);
+      if (chk_num < 0 || chk_eng < 0) {
+        alert("비밀번호는 숫자와 영무자를 혼용하여야 합니다.");
+        return false;
+      }
+      if (/(\w)\1\1\1/.test(password)) {
+        alert("비밀번호에 같은 문자를 4번 이상 사용하실 수 없습니다.");
+        return false;
+      }
+      if (password.search(email) > -1) {
+        alert("ID가 포함된 비밀번호는 사용하실 수 없습니다.");
+        return false;
+      }
+      return true;
+    },
+    validTel(tel) {
+      let re = /^((01[1|6|7|8|9])[0-9]+[0-9]{6,7})|(010[0-9][0-9]{7})$/;
+      return re.test(tel);
+    },
     overlapCheck() {
-      this.$axios
-        .get("http://localhost:9000/overlabCheck", {
-          params: {
-            email: this.userId,
-          },
-        })
-        .then((res) => {
-          if (res.data == true) {
-            alert("사용할 수 있는 아이디 입니다.");
-            this.check = true;
-          } else {
-            alert("사용할 수 없는 아이디 입니다.");
-            this.check = false;
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      if (!this.validEmail(this.userId)) {
+        alert("이메일형식을 확인해 주세요");
+        this.check = false;
+      } else {
+        this.$axios
+          .get("http://localhost:9000/overlabCheck", {
+            params: {
+              email: this.userId,
+            },
+          })
+          .then((res) => {
+            if (res.data == true) {
+              alert("사용할 수 있는 아이디 입니다.");
+              this.check = true;
+            } else {
+              alert("사용할 수 없는 아이디 입니다.");
+              this.check = false;
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     },
     overlapCheck2() {
       this.$axios
@@ -221,54 +260,91 @@ export default {
           console.log(err);
         });
     },
-    signUp() {
-      if (this.check == false) {
+    sign() {
+      if (!this.check) {
         alert("이메일 중복확인 해주세요");
-      } else if (this.check2 == false) {
-        alert("별명 중복확인 해주세요");
+        return false;
       } else {
         if (this.userPw == "") {
           alert("비밀번호를 입력해 주세요");
-        } else if (this.userPw2 == "") {
-          alert("비밀번호 확인을 입력해 주세요");
-        } else if (this.userName == "") {
-          alert("이름을 입력해 주세요");
-        } else if (this.userNickName == "") {
-          alert("별명을 입력해 주세요");
-        } else if (this.userTel == "") {
-          alert("연락처를 입력해 주세요");
-        } else if (this.address1 == "") {
-          alert("주소를 선택해 주세요");
+          return false;
         } else {
-          if (this.userPw != this.userPw2) {
-            alert("비밀번호를 확인해 주세요");
+          if (this.userPw2 == "") {
+            alert("비밀번호 확인을 입력해 주세요");
+            return false;
           } else {
-            if (this.address2 == "없음") {
-              this.address2 == "";
+            if (this.userPw != this.userPw2) {
+              alert("비밀번호 확인을 잘못 입력하였습니다.");
+              return false;
+            } else {
+              if (!this.validPassword(this.userId, this.userPw)) {
+                return false;
+              } else {
+                if (this.userName == "") {
+                  alert("이름을 입력해 주세요");
+                  return false;
+                } else {
+                  if (this.userNickName == "") {
+                    alert("별명을 입력해 주세요");
+                  } else {
+                    if (!this.check2) {
+                      alert("별명 중복확인 해주세요");
+                      return false;
+                    } else {
+                      if (this.userTel == "") {
+                        alert("연락처를 입력해 주세요");
+                        return false;
+                      } else {
+                        if (!this.validTel(this.userTel)) {
+                          alert("전화번호 형식을 확인해 주세요");
+                          return false;
+                        } else {
+                          if (this.address1 == "") {
+                            alert("주소를 선택해 주세요");
+                            return false;
+                          } else {
+                            return true;
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
-            if (this.address3 == "없음") {
-              this.address3 == "";
-            }
-            this.$axios
-              .post("http://localhost:9000/signUp", {
-                email: this.userId,
-                password: this.userPw,
-                name: this.userName,
-                nickName: this.userNickName,
-                tel: this.userTel,
-                addr1: this.address1,
-                addr2: this.address2,
-                addr3: this.address3,
-              })
-              .then(() => {
-                alert("회원가입 완료");
-                this.$router.push({ name: "Login", query: { toSignUp: "1" } });
-              })
-              .catch((err) => {
-                console.log(err);
-              });
           }
         }
+      }
+    },
+    signUp() {
+      if (this.sign()) {
+        if (this.address2 == "없음") {
+          this.address2 == "";
+        }
+        if (this.address3 == "없음") {
+          this.address3 == "";
+        }
+        this.$axios
+          .post("http://localhost:9000/signUp", {
+            email: this.userId,
+            password: this.userPw,
+            name: this.userName,
+            nickName: this.userNickName,
+            tel: this.userTel,
+            addr1: this.address1,
+            addr2: this.address2,
+            addr3: this.address3,
+          })
+          .then(() => {
+            alert("회원가입 완료");
+            this.$router.push({
+              name: "Login",
+              query: { toSignUp: "1" },
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
     addre2() {

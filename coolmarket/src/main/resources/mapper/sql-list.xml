@@ -219,8 +219,7 @@
 		]]>
 	
 	</select>
-=======
->>>>>>> 088d7a32dddaa3e234116beabfc42808a0c30eca
+
 	<select id="userAddr" parameterType="int" resultType="coolmarket.dto.UserDto">
 		<![CDATA[ 
 			select
@@ -232,8 +231,6 @@
 			where
 				user_no = #{userNo}
 		]]>
-<<<<<<< HEAD
-=======
 	</select>
 	<select id="getMarTalkCnt" parameterType="int" resultType="int">
 
@@ -247,7 +244,7 @@
 			AND 
 				del_yn= 'n';
 		]]>
->>>>>>> 088d7a32dddaa3e234116beabfc42808a0c30eca
+
 
 	</select>
 </mapper>

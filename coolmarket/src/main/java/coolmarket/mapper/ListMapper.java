@@ -39,6 +39,12 @@ public interface ListMapper {
 	List<ImgDto> marImgList(int marNo) throws Exception;
 
 	List<ImgDto> comImgList(int comNo) throws Exception;
+<<<<<<< HEAD
+	
+	int getMarTalkCnt(int marNo) throws Exception;
+
+=======
 
 	UserDto userAddr(int userNo) throws Exception;
+>>>>>>> 4097b985270c64ff4653072e5dff213e9a3c5083
 }

@@ -24,5 +24,8 @@ public interface ListService {
 
 	List<SelectOptionDto> getSelectOption2(String addr2) throws Exception;
 
+<<<<<<< HEAD
+=======
 	UserDto userAddr(int userNo) throws Exception;
+>>>>>>> 4097b985270c64ff4653072e5dff213e9a3c5083
 }

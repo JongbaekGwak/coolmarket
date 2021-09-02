@@ -14,6 +14,7 @@ import coolmarket.dto.MarCateDto;
 import coolmarket.dto.MarketDto;
 import coolmarket.dto.MarketPagingDto;
 import coolmarket.dto.SelectOptionDto;
+import coolmarket.dto.UserDto;
 import coolmarket.mapper.ListMapper;
 
 @Service
@@ -103,5 +104,10 @@ public class ListServiceImpl implements ListService {
 	@Override
 	public List<SelectOptionDto> getSelectOption2(String addr2) throws Exception {
 		return map.getSelectOption2(addr2);
+	}
+
+	@Override
+	public UserDto userAddr(int userNo) throws Exception {
+		return map.userAddr(userNo);
 	}
 }

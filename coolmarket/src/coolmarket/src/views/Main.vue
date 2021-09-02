@@ -11,10 +11,11 @@
         <b-carousel-slide
           v-for="item in newAdList"
           :key="item.adNo"
-          :text="item.adTitle"
           :img-src="imgPath(item.imgList)"
           style="width: 100%; height: 500px"
-        >
+          ><span v-on:click="moveAdDetail(item.adNo)" class="cursor">{{
+            item.adTitle
+          }}</span>
         </b-carousel-slide>
       </b-carousel>
     </div>
@@ -290,6 +291,9 @@ export default {
     MarketDetail(num) {
       this.$router.push({ name: "MarketDetail", query: { marNo: num } });
     },
+    moveAdDetail(num) {
+      this.$router.push({ name: "AdDetail", query: { adNo: num } });
+    },
     won(num) {
       if (num != null) {
         return num.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
@@ -297,7 +301,7 @@ export default {
     },
     imgPath(src) {
       if (src == "") {
-        return "images/noImg.png";
+        return "/images/noImg.png";
       } else {
         return src[0].storedImgPath;
       }

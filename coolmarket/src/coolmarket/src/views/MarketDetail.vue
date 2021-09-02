@@ -266,7 +266,7 @@ export default {
     },
     MoveMarketUpdate() {
       this.$router.push({
-        name: "MarkeUpdate",
+        name: "MarketUpdate",
         query: { marNo: this.marketDetail.marNo },
       });
     },

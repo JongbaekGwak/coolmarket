@@ -96,7 +96,7 @@ export default {
       address1: "",
       address2: "",
       address3: "",
-      comCate: null,
+      comCate: "",
       addr1: [],
       addr2: [{ value: "", text: "시/군/구" }],
       addr3: [{ value: "", text: "동" }],
@@ -198,7 +198,7 @@ export default {
               comAddr3: this.address3,
               comCate: this.comCate,
               comUserNo: this.$session.get("coolUserNo"),
-              comCreaNickName: this.$session.get("coolNickName"),
+              comCreaNickName: this.$session.get("coolNickName")
             },
           })
           .then((res) => {

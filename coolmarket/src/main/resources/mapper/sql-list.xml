@@ -141,7 +141,6 @@
 				distinct addr1
 			FROM
 				address
-			
 		]]>
 	</select>
 	<select id="getSelectOption2" parameterType="String" resultType="String">
@@ -154,6 +153,45 @@
 				addr1 = #{region1}
 			and
 				addr2 != ""
+		]]>
+	</select>
+	<select id="adImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				ad_no = #{adNo}
+			order by img_no
+		]]>
+	</select>
+	<select id="marImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				mar_no = #{marNo}
+			order by img_no
+		]]>
+	</select>
+	<select id="comImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
+		<![CDATA[ 
+			select
+				*
+			from
+				img
+			where
+				img_del_yn = 'n'
+			and
+				com_no = #{comNo}
+			order by img_no
 		]]>
 	</select>
 </mapper>

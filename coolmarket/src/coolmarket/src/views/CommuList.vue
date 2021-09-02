@@ -85,7 +85,7 @@
 
         <div class="board-img-section">
           <div class="board-img">
-            <img src="" alt="게시판이지미" />
+            <img :src="imgPath(item.imgList)" alt="게시판이지미" />
           </div>
         </div>
       </div>
@@ -118,7 +118,7 @@
 export default {
   data() {
     return {
-      user:[],
+      user: [],
       addr1: "",
       addr2: "",
       addr3: "",
@@ -311,10 +311,17 @@ export default {
       (this.comStartNum = 0), (this.comTotalNum -= 10), this.onSelect();
     },
     MoveCommuDetail(comNo) {
-      this.$router.push({ name: "CommuDetail", query: {comNo: comNo}});
+      this.$router.push({ name: "CommuDetail", query: { comNo: comNo } });
     },
     MoveCommuWrite() {
       this.$router.push({ name: "CommuWrite" });
+    },
+    imgPath(src) {
+      if (src == "") {
+        return "/images/noImg.png";
+      } else {
+        return src[0].storedImgPath;
+      }
     },
   },
 };

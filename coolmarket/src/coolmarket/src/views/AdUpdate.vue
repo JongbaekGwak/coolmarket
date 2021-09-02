@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 class="mt-3 pb-3 border-bottom">광고 글쓰기</h2>
+    <h2 class="mt-3 pb-3 border-bottom">광고 수정하기</h2>
     <div class="d-lg-flex justify-content-end d-block">
       <div class="mt-3">
         <span class="me-1">주소 : </span>
@@ -23,6 +23,7 @@
         ></b-form-select>
       </div>
     </div>
+
     <div class="mt-3">
       <b-col>
         <div class="input-group">
@@ -33,11 +34,12 @@
             id="title"
             name="title"
             placeholder="제목을 입력하세요"
-            v-model="title"
+            v-model="ad.adTitle"
           />
         </div>
       </b-col>
     </div>
+
     <div class="mt-3">
       <input
         type="file"
@@ -47,15 +49,30 @@
         @change="up"
       />
     </div>
+
+    <div class="mt-2">
+      <b-input-group v-for="item in ad.imgList" :key="item.imgNo">
+        <b-input-group-text> 등록된 이미지 </b-input-group-text>
+        <b-input readonly :value="imgName(item)"></b-input>
+        <b-input-group-text
+          class="btn btn-danger"
+          v-on:click="imgDelete(item.imgNo)"
+        >
+          삭제
+        </b-input-group-text>
+      </b-input-group>
+    </div>
+
     <div class="form-group mt-3">
       <textarea
         name="contents"
         id="contents"
         rows="10"
         class="form-control"
-        v-model="contents"
+        v-model="ad.adContents"
       ></textarea>
     </div>
+
     <div class="d-flex justify-content-end mt-3">
       <button
         type="button"
@@ -64,8 +81,8 @@
       >
         목록으로
       </button>
-      <button type="button" class="btn btn-success mx-1" v-on:click="adWrite">
-        글쓰기
+      <button type="button" class="btn btn-success mx-1" v-on:click="adUpdate">
+        수정하기
       </button>
     </div>
   </div>
@@ -75,10 +92,9 @@
 export default {
   data() {
     return {
-      title: "",
+      adNo: "",
+      ad: [],
       images: "",
-      files: [],
-      contents: "",
       address1: "",
       address2: "",
       address3: "",
@@ -94,10 +110,31 @@ export default {
     }
   },
   mounted() {
+    this.adNo = this.$route.query.adNo;
     this.$axios
       .get("http://localhost:9000/addr1")
       .then((res) => {
         this.addr1 = res.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    this.$axios
+      .get("http://localhost:9000/adDetail", {
+        params: { adNo: this.adNo },
+      })
+      .then((res) => {
+        this.ad = res.data;
+        if (this.ad.adUserNo != this.$session.get("coolUserNo")) {
+          alert("수정권한이 없습니다.");
+          this.$router.push("/");
+        } else {
+          this.address1 = res.data.adAddr1;
+          this.addre2();
+          this.address2 = res.data.adAddr2;
+          this.addre3();
+          this.address3 = res.data.adAddr3;
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -153,7 +190,7 @@ export default {
     moveMarketList() {
       this.$router.push("/MarketList");
     },
-    adWrite() {
+    adUpdate() {
       if (this.title == "") {
         alert("제목을 입력해 주세요");
       } else if (this.address1 == null) {
@@ -163,18 +200,15 @@ export default {
           console.log(this.images);
         }
         this.$axios
-          .get("http://localhost:9000/adWrite", {
-            params: {
-              adTitle: this.title,
-              adContents: this.contents,
-              adAddr1: this.address1,
-              adAddr2: this.address2,
-              adAddr3: this.address3,
-              adUserNo: this.$session.get("coolUserNo"),
-              adCreaNickName: this.$session.get("coolNickName")
-            },
+          .put("http://localhost:9000/adUpdate", {
+            adNo: this.adNo,
+            adTitle: this.ad.adTitle,
+            adContents: this.ad.adContents,
+            adAddr1: this.address1,
+            adAddr2: this.address2,
+            adAddr3: this.address3,
           })
-          .then((res) => {
+          .then(() => {
             if (this.images != "") {
               let fromData = new FormData();
               for (let i = 0; i < this.images.length; i++) {
@@ -182,26 +216,26 @@ export default {
               }
               this.$axios
                 .post("http://localhost:9000/imgInsert", fromData, {
-                  params: { adNo: res.data, marNo: "", comNo: "" },
+                  params: { adNo: this.ad.adNo, marNo: "", comNo: "" },
                   headers: {
                     "Content-Type": "multipart/form-data",
                   },
                 })
                 .then(() => {
-                  alert("작성완료");
+                  alert("수정완료");
                   this.$router.push({
                     name: "AdDetail",
-                    query: { adNo: res.data },
+                    query: { adNo: this.adNo },
                   });
                 })
                 .catch((err) => {
                   console.log(err);
                 });
             } else {
-              alert("작성완료");
+              alert("수정완료");
               this.$router.push({
                 name: "AdDetail",
-                query: { adNo: res.data },
+                query: { adNo: this.adNo },
               });
             }
           })
@@ -212,6 +246,21 @@ export default {
     },
     up(file) {
       this.images = file.target.files;
+    },
+    imgName(img) {
+      return img.oriImgName;
+    },
+    imgDelete(num) {
+      this.$axios
+        .get("http://localhost:9000/adImgDelete", {
+          params: { adNo: this.adNo, imgNo: num },
+        })
+        .then((res) => {
+          this.ad.imgList = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import coolmarket.dto.AdDto;
 import coolmarket.dto.CommuCateDto;
 import coolmarket.dto.CommuDto;
+import coolmarket.dto.ImgDto;
 import coolmarket.dto.MarCateDto;
 import coolmarket.dto.MarketDto;
 import coolmarket.dto.MarketPagingDto;
@@ -23,7 +24,15 @@ public class ListServiceImpl implements ListService {
 	@Override
 	public List<Object> getObjectList(MarketPagingDto marketPageDto) throws Exception {
 		List<AdDto> adList = map.getAdBoardList(marketPageDto);
+		for (int i = 0; i < adList.size(); i++) {
+			List<ImgDto> imgList = map.adImgList(adList.get(i).getAdNo());
+			adList.get(i).setImgList(imgList);
+		}
 		List<MarketDto> mdList = map.getMarBoardList(marketPageDto);
+		for (int i = 0; i < mdList.size(); i++) {
+			List<ImgDto> imgList = map.marImgList(mdList.get(i).getMarNo());
+			mdList.get(i).setImgList(imgList);
+		}
 		List<Object> dataList = new ArrayList<Object>();
 		int count = 0;
 		for (int i = 0; i < mdList.size(); i++) {
@@ -41,7 +50,15 @@ public class ListServiceImpl implements ListService {
 	@Override
 	public List<Object> getSelectBoardList(MarketPagingDto marketPageDto) throws Exception {
 		List<AdDto> adList = map.getSelectAdBoardList(marketPageDto);
+		for (int i = 0; i < adList.size(); i++) {
+			List<ImgDto> imgList = map.adImgList(adList.get(i).getAdNo());
+			adList.get(i).setImgList(imgList);
+		}
 		List<MarketDto> smdList = map.getSelectMarBoardList(marketPageDto);
+		for (int i = 0; i < smdList.size(); i++) {
+			List<ImgDto> imgList = map.marImgList(smdList.get(i).getMarNo());
+			smdList.get(i).setImgList(imgList);
+		}
 		List<Object> sdataList = new ArrayList<Object>();
 		int count = 0;
 		for (int i = 0; i < smdList.size(); i++) {
@@ -58,7 +75,12 @@ public class ListServiceImpl implements ListService {
 
 	@Override
 	public List<CommuDto> getCommuList(MarketPagingDto marketPageDto) throws Exception {
-		return map.getCommuList(marketPageDto);
+		List<CommuDto> comList = map.getCommuList(marketPageDto);
+		for (int i = 0; i < comList.size(); i++) {
+			List<ImgDto> imgList = map.comImgList(comList.get(i).getComNo());
+			comList.get(i).setImgList(imgList);
+		}
+		return comList;
 	}
 
 	@Override

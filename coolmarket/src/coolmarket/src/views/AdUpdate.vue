@@ -120,15 +120,9 @@ export default {
         console.log(err);
       });
     this.$axios
-<<<<<<< HEAD
-      .get("http://localhost:8000/adDetail", { 
-        params: { adNo: this.adNo } 
-        })
-=======
       .get("http://localhost:9000/adDetail", {
         params: { adNo: this.adNo },
       })
->>>>>>> f330cfd77028780f9afd38890c865b0c62117672
       .then((res) => {
         this.ad = res.data;
         if (this.ad.adUserNo != this.$session.get("coolUserNo")) {
@@ -206,17 +200,6 @@ export default {
           console.log(this.images);
         }
         this.$axios
-<<<<<<< HEAD
-          .put("http://localhost:8000/adUpdate", {
-            params: {
-              adNo : this.adNo,
-              adTitle: this.title,
-              adContents: this.contents,
-              adAddr1: this.address1,
-              adAddr2: this.address2,
-              adAddr3: this.address3
-            },
-=======
           .put("http://localhost:9000/adUpdate", {
             adNo: this.adNo,
             adTitle: this.ad.adTitle,
@@ -224,7 +207,6 @@ export default {
             adAddr1: this.address1,
             adAddr2: this.address2,
             adAddr3: this.address3,
->>>>>>> f330cfd77028780f9afd38890c865b0c62117672
           })
           .then(() => {
             if (this.images != "") {
@@ -233,13 +215,8 @@ export default {
                 fromData.append("image", this.images[i]);
               }
               this.$axios
-<<<<<<< HEAD
-                .post("http://localhost:8000/imgInsert", fromData, {
-                  params: { adNo: res.data, marNo: "", comNo: "" },
-=======
                 .post("http://localhost:9000/imgInsert", fromData, {
                   params: { adNo: this.ad.adNo, marNo: "", comNo: "" },
->>>>>>> f330cfd77028780f9afd38890c865b0c62117672
                   headers: {
                     "Content-Type": "multipart/form-data",
                   },

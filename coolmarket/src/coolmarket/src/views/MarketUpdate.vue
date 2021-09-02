@@ -242,17 +242,6 @@ export default {
           alert("가격은 숫자만 입력할 수 있습니다.");
         } else {
           this.$axios
-<<<<<<< HEAD
-            .put("http://localhost:8000/marketUpdate", {
-                marNo: this.marNo,
-                marTitle: this.title,
-                marPrice: this.price,
-                marContents: this.contents,
-                marAddr1: this.address1,
-                marAddr2: this.address2,
-                marAddr3: this.address3,
-                marCate: this.marCate
-=======
             .put("http://localhost:9000/marketUpdate", {
               marNo: this.marNo,
               marTitle: this.mar.marTitle,
@@ -262,7 +251,6 @@ export default {
               marAddr2: this.address2,
               marAddr3: this.address3,
               marCate: this.marCate,
->>>>>>> f330cfd77028780f9afd38890c865b0c62117672
             })
             .then(() => {
               if (this.images != "") {

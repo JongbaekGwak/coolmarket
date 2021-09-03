@@ -72,7 +72,7 @@ export default {
   mounted() {
     this.myUserNo = this.$session.get("coolUserNo");
     let obj = this;
-    obj.axios
+    obj.$axios
       .get("http://localhost:9000/getRoomList", {
         params: {
           buyerNo: this.$session.get("coolUserNo"),
@@ -97,7 +97,8 @@ export default {
           },
         })
         .then(function () {
-          console.log("메세지 삭제");
+          alert("메세지 삭제");
+          obj.$router.go();
         })
         .catch(function (err) {
           console.log("삭제 실패");

@@ -13,16 +13,12 @@
 
       <!-- CommuList Select Form start -->
       <div class="content-select">
-        <select
-          class="select-box select1"
-          v-model="selected"
+        <b-form-select
           v-on:change="onSelect()"
-        >
-          <option disabled value="">카테고리</option>
-          <option v-for="item in cate" v-bind:key="item.cateNo">
-            {{ item.commuCateName }}
-          </option>
-        </select>
+          v-model="selected"
+          :options="cate"
+          class="select-box"
+        ></b-form-select>
 
         <b-form-select
           v-on:change="Getaddr2(), onSelect(), onFlush()"
@@ -131,49 +127,49 @@ export default {
     };
   },
   mounted() {
-    if (this.$session.get("coolUserNo") != null) {
-      this.$axios
+    let obj = this;
+    obj.$axios
+      .get("http://localhost:9000/comCate")
+      .then(function (res) {
+        console.log("Select Cate Get Succcess");
+        obj.cate = res.data;
+      })
+      .catch(function (err) {
+        console.log("Select Cate Get Fail");
+        console.log(err);
+      });
+    if (obj.$session.get("coolUserNo") != null) {
+      obj.$axios
         .get("http://localhost:9000/addr1")
         .then((res) => {
-          this.selected1 = res.data;
+          obj.selected1 = res.data;
         })
         .catch((err) => {
           console.log(err);
         });
-      this.$axios
+      obj.$axios
         .get("http://localhost:9000/userAddr", {
-          params: { userNo: this.$session.get("coolUserNo") },
+          params: { userNo: obj.$session.get("coolUserNo") },
         })
         .then((res) => {
-          this.addr1 = res.data.addr1;
-          this.Getaddr2();
+          obj.addr1 = res.data.addr1;
+          obj.Getaddr2();
           if (res.data.addr2 == "") {
-            this.addr2 = "";
+            obj.addr2 = "";
           } else {
-            this.addr2 = res.data.addr2;
-            this.Getaddr3();
+            obj.addr2 = res.data.addr2;
+            obj.Getaddr3();
           }
-          this.onSelect();
+          obj.onSelect();
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-      let obj = this;
       obj.$axios
-        .get("http://localhost:9000/getCommuOption")
-        .then(function (res) {
-          console.log("Select Cate Get Succcess");
-          obj.cate = res.data;
-        })
-        .catch(function (err) {
-          console.log("Select Cate Get Fail");
-          console.log(err);
-        });
-      this.$axios
         .get("http://localhost:9000/addr1")
         .then((res) => {
-          this.selected1 = res.data;
+          obj.selected1 = res.data;
         })
         .catch((err) => {
           console.log(err);
@@ -181,11 +177,11 @@ export default {
       obj.$axios
         .get("http://localhost:9000/getCommuList", {
           params: {
-            selected: this.selected,
-            addr1: this.addr1,
-            addr2: this.addr2,
-            comStartNum: this.comStartNum,
-            comTotalNum: this.comTotalNum,
+            selected: obj.selected,
+            addr1: obj.addr1,
+            addr2: obj.addr2,
+            comStartNum: obj.comStartNum,
+            comTotalNum: obj.comTotalNum,
           },
         })
         .then(function (res) {

@@ -9,12 +9,12 @@
       </div>
 
       <div class="content-select">
-        <select class="select-box" v-model="selected" v-on:change="onSelect()">
-          <option selected disabled value="">카테고리</option>
-          <option v-for="item in cate" v-bind:key="item.marCateNo">
-            {{ item }}
-          </option>
-        </select>
+        <b-form-select
+          v-on:change="onSelect()"
+          v-model="selected"
+          :options="marCate"
+          class="select-box"
+        ></b-form-select>
 
         <b-form-select
           v-on:change="Getaddr2(), onSelect(), onFlush()"
@@ -154,7 +154,7 @@ export default {
       addr2: "",
       addr3: "",
       selected: "",
-      cate: "",
+      marCate: [],
       selected1: [],
       selected2: [{ value: "", text: "시/군/구" }],
       selected3: [{ value: "", text: "동" }],
@@ -167,49 +167,50 @@ export default {
     };
   },
   mounted() {
-    if (this.$session.get("coolUserNo") != null) {
-      this.$axios
+    let obj = this;
+    obj.$axios
+      .get("http://localhost:9000/marCate")
+      .then(function (res) {
+        console.log("Select Cate Get Succcess");
+        obj.marCate = res.data;
+      })
+      .catch(function (err) {
+        console.log("Select Cate Get Fail");
+        console.log(err);
+      });
+    if (obj.$session.get("coolUserNo") != null) {
+      obj.$axios
         .get("http://localhost:9000/addr1")
         .then((res) => {
-          this.selected1 = res.data;
+          obj.selected1 = res.data;
         })
         .catch((err) => {
           console.log(err);
         });
-      this.$axios
+
+      obj.$axios
         .get("http://localhost:9000/userAddr", {
-          params: { userNo: this.$session.get("coolUserNo") },
+          params: { userNo: obj.$session.get("coolUserNo") },
         })
         .then((res) => {
-          this.addr1 = res.data.addr1;
-          this.Getaddr2();
+          obj.addr1 = res.data.addr1;
+          obj.Getaddr2();
           if (res.data.addr2 == "") {
-            this.addr2 = "";
+            obj.addr2 = "";
           } else {
-            this.addr2 = res.data.addr2;
-            this.Getaddr3();
+            obj.addr2 = res.data.addr2;
+            obj.Getaddr3();
           }
-          this.onSelect();
+          obj.onSelect();
         })
         .catch((err) => {
           console.log(err);
         });
     } else {
-      let obj = this;
       obj.$axios
-        .get("http://localhost:9000/getMarOption")
-        .then(function (res) {
-          console.log("Select Cate Get Succcess");
-          obj.cate = res.data;
-        })
-        .catch(function (err) {
-          console.log("Select Cate Get Fail");
-          console.log(err);
-        });
-      this.$axios
         .get("http://localhost:9000/addr1")
         .then((res) => {
-          this.selected1 = res.data;
+          obj.selected1 = res.data;
         })
         .catch((err) => {
           console.log(err);
@@ -217,13 +218,13 @@ export default {
       obj.$axios
         .get("http://localhost:9000/getMarketList", {
           params: {
-            selected: this.selected,
-            addr1: this.addr1,
-            addr2: this.addr2,
-            marStartNum: this.marStartNum,
-            marTotalNum: this.marTotalNum,
-            adStartNum: this.adStartNum,
-            adTotalNum: this.adTotalNum,
+            selected: obj.selected,
+            addr1: obj.addr1,
+            addr2: obj.addr2,
+            marStartNum: obj.marStartNum,
+            marTotalNum: obj.marTotalNum,
+            adStartNum: obj.adStartNum,
+            adTotalNum: obj.adTotalNum,
           },
         })
         .then(function (res) {

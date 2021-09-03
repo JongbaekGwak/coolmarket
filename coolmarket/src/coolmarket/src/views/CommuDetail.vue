@@ -39,7 +39,6 @@
 
         <div class="d-flex justify-content-between border-bottom">
           <p>좋아요 : {{ commuDetail.comLike }}</p>
-
           <p class="text-danger cursor" v-on:click="decInsert">
             게시글 신고 <fai :icon="['fas', 'bullhorn']"></fai>
           </p>
@@ -160,7 +159,9 @@ export default {
     },
     comDelete() {
       this.$axios
-        .get("http://localhost:8000/comDelete", { params: { comNo: this.comNo } })
+        .get("http://localhost:9000/comDelete", {
+          params: { comNo: this.comNo },
+        })
         .then(() => {
           alert("삭제 완료");
         })

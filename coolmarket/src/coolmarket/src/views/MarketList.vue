@@ -68,14 +68,12 @@
 
               <div class="like-comment">
                 <div class="like-icon">
-                  <i class="fa fa-heart-o hidden-icon" aria-hidden="true">
-                    <span class="count"> {{ item.adLike }}</span>
-                  </i>
+                  <fai :icon="['fas', 'heart']"></fai>
+                  <span class="count"> {{ item.adLike }}</span>
                 </div>
                 <div class="comment-icon">
-                  <i class="fa fa-comment-o hidden-icon" aria-hidden="true">
-                    <span class="count"> {{ item.adView }}</span>
-                  </i>
+                  <fai :icon="['fas', 'comment']"></fai>
+                  <span class="count"> {{ item.adView }}</span>
                 </div>
               </div>
             </div>
@@ -93,7 +91,7 @@
                 <h2>{{ item.marTitle }}</h2>
               </div>
               <div class="price" style="font-size: 14px; font-weight: bold">
-                {{ item.marPrice }}
+                {{ won(item.marPrice) }}
                 <span class="price-tag" v-if="item.marPrice">원</span>
               </div>
               <div class="card-addr" style="font-size: 12px">
@@ -102,14 +100,12 @@
 
               <div class="like-comment">
                 <div class="like-icon">
-                  <i class="fa fa-heart-o hidden-icon" aria-hidden="true">
-                    <span class="count"> {{ item.marLike }}</span>
-                  </i>
+                  <fai :icon="['fas', 'heart']"></fai>
+                  <span class="count"> {{ item.marLike }}</span>
                 </div>
                 <div class="comment-icon">
-                  <i class="fa fa-comment-o hidden-icon" aria-hidden="true">
-                    <span class="count"> {{ item.marView }}</span>
-                  </i>
+                  <fai :icon="['fas', 'comment']"></fai>
+                  <span class="count"> {{ item.marView }}</span>
                 </div>
               </div>
             </div>
@@ -132,14 +128,14 @@
         >
           <span>접기</span>
         </div>
-        <div class="write-btn-section" v-if="this.user.userNo != null">
+        <div class="write-btn-section" v-if="this.$session.get('coolUserNo')">
           <div class="my-btn sale-btn" v-on:click="MoveMarketWrite">
             <span>판매 등록</span>
           </div>
           <div
             class="my-btn ad-btn"
             v-on:click="MoveAdtWrite"
-            v-if="this.user.rank != 1"
+            v-if="this.$session.get('coolRank') == 0"
           >
             <span>광고 등록</span>
           </div>
@@ -170,65 +166,75 @@ export default {
       adTotalNum: 3,
     };
   },
-  beforeCreate() {
-    this.$axios
-      .get("http://localhost:8000/me", {
-        params: {
-          userNo: this.$session.get("coolUserNo"),
-        },
-      })
-      .then((res) => {
-        this.user = res.data;
-        if (this.user.rank == 1) {
-          this.rank = "일반";
-        } else if (this.user.rank == 2) {
-          this.rank = "프리미엄";
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  },
   mounted() {
-    let obj = this;
-    obj.$axios
-      .get("http://localhost:8000/getMarOption")
-      .then(function (res) {
-        console.log("Select Cate Get Succcess");
-        obj.cate = res.data;
-      })
-      .catch(function (err) {
-        console.log("Select Cate Get Fail");
-        console.log(err);
-      });
-    this.$axios
-      .get("http://localhost:8000/addr1")
-      .then((res) => {
-        this.selected1 = res.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    obj.$axios
-      .get("http://localhost:8000/getMarketList", {
-        params: {
-          selected: this.selected,
-          addr1: this.addr1,
-          addr2: this.addr2,
-          marStartNum: this.marStartNum,
-          marTotalNum: this.marTotalNum,
-          adStartNum: this.adStartNum,
-          adTotalNum: this.adTotalNum,
-        },
-      })
-      .then(function (res) {
-        console.log("BoardList Get Succcess");
-        obj.items = res.data;
-      })
-      .catch(function (err) {
-        console.log("BoardList Get Fail");
-        console.log(err);
-      });
+    if (this.$session.get("coolUserNo") != null) {
+      this.$axios
+        .get("http://localhost:9000/addr1")
+        .then((res) => {
+          this.selected1 = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.$axios
+        .get("http://localhost:9000/userAddr", {
+          params: { userNo: this.$session.get("coolUserNo") },
+        })
+        .then((res) => {
+          this.addr1 = res.data.addr1;
+          this.Getaddr2();
+          if (res.data.addr2 == "") {
+            this.addr2 = "";
+          } else {
+            this.addr2 = res.data.addr2;
+            this.Getaddr3();
+          }
+          this.onSelect();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      let obj = this;
+      obj.$axios
+        .get("http://localhost:9000/getMarOption")
+        .then(function (res) {
+          console.log("Select Cate Get Succcess");
+          obj.cate = res.data;
+        })
+        .catch(function (err) {
+          console.log("Select Cate Get Fail");
+          console.log(err);
+        });
+      this.$axios
+        .get("http://localhost:9000/addr1")
+        .then((res) => {
+          this.selected1 = res.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      obj.$axios
+        .get("http://localhost:9000/getMarketList", {
+          params: {
+            selected: this.selected,
+            addr1: this.addr1,
+            addr2: this.addr2,
+            marStartNum: this.marStartNum,
+            marTotalNum: this.marTotalNum,
+            adStartNum: this.adStartNum,
+            adTotalNum: this.adTotalNum,
+          },
+        })
+        .then(function (res) {
+          console.log("BoardList Get Succcess");
+          obj.items = res.data;
+        })
+        .catch(function (err) {
+          console.log("BoardList Get Fail");
+          console.log(err);
+        });
+    }
   },
   methods: {
     sessioncheck() {
@@ -362,6 +368,11 @@ export default {
         return "/images/noImg.png";
       } else {
         return src[0].storedImgPath;
+      }
+    },
+    won(num) {
+      if (num != null) {
+        return num.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
       }
     },
   },

@@ -14,6 +14,7 @@ import coolmarket.dto.MarCateDto;
 import coolmarket.dto.MarketDto;
 import coolmarket.dto.MarketPagingDto;
 import coolmarket.dto.SelectOptionDto;
+import coolmarket.dto.UserDto;
 import coolmarket.mapper.ListMapper;
 
 @Service
@@ -31,6 +32,8 @@ public class ListServiceImpl implements ListService {
 		List<MarketDto> mdList = map.getMarBoardList(marketPageDto);
 		for (int i = 0; i < mdList.size(); i++) {
 			List<ImgDto> imgList = map.marImgList(mdList.get(i).getMarNo());
+			int talkCount = map.getMarTalkCnt(mdList.get(i).getMarNo());
+			mdList.get(i).setMarTalkCnt(talkCount);
 			mdList.get(i).setImgList(imgList);
 		}
 		List<Object> dataList = new ArrayList<Object>();
@@ -101,5 +104,10 @@ public class ListServiceImpl implements ListService {
 	@Override
 	public List<SelectOptionDto> getSelectOption2(String addr2) throws Exception {
 		return map.getSelectOption2(addr2);
+	}
+
+	@Override
+	public UserDto userAddr(int userNo) throws Exception {
+		return map.userAddr(userNo);
 	}
 }

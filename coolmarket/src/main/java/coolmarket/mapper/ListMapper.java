@@ -12,6 +12,7 @@ import coolmarket.dto.MarCateDto;
 import coolmarket.dto.MarketDto;
 import coolmarket.dto.MarketPagingDto;
 import coolmarket.dto.SelectOptionDto;
+import coolmarket.dto.UserDto;
 
 @Mapper
 public interface ListMapper {
@@ -38,4 +39,9 @@ public interface ListMapper {
 	List<ImgDto> marImgList(int marNo) throws Exception;
 
 	List<ImgDto> comImgList(int comNo) throws Exception;
+
+	UserDto userAddr(int userNo) throws Exception;
+
+	int getMarTalkCnt(int marNo) throws Exception;
+
 }

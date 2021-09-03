@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -57,5 +59,10 @@ public class ListControl {
 	public Object getSelectOption2(@RequestParam("addr2") String addr2) throws Exception {
 		List<SelectOptionDto> SelectOption2 = serv.getSelectOption2(addr2);
 		return SelectOption2;
+	}
+
+	@RequestMapping(value = "/userAddr", method = RequestMethod.GET)
+	public Object userAddr(@RequestParam("userNo") int userNo) throws Exception {
+		return serv.userAddr(userNo);
 	}
 }

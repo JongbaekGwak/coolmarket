@@ -41,18 +41,41 @@ public class DetailServiceImpl implements DetailService {
 	@Override
 	public List<AdComentDto> adComentInsert(AdComentDto coment) throws Exception {
 		map.adComentInsert(coment);
+		map.adComentCntUp(coment.getAdComentAdNo());
 		return map.adComent(coment.getAdComentAdNo());
 	}
 
 	@Override
 	public List<AdComentDto> adComentDel(int adComentNo, int adComentAdNo) throws Exception {
 		map.adComentDel(adComentNo);
+		map.adComentCntDown(adComentAdNo);
 		return map.adComent(adComentAdNo);
 	}
 
 	@Override
 	public void adDelete(int adNo) throws Exception {
 		map.adDelete(adNo);
+	}
+
+	@Override
+	public boolean adLike(int adNo, int userNo) throws Exception {
+		if (map.adLike(adNo, userNo) == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public void adLikeUp(int adNo, int userNo) throws Exception {
+		map.adLikeUp(adNo, userNo);
+		map.adLikeUp2(adNo);
+	}
+
+	@Override
+	public void adLikeDown(int adNo, int userNo) throws Exception {
+		map.adLikeDown(adNo, userNo);
+		map.adLikeDown2(adNo);
 	}
 
 //	마켓
@@ -137,12 +160,14 @@ public class DetailServiceImpl implements DetailService {
 	@Override
 	public List<ComentDto> comentInsert(ComentDto coment) throws Exception {
 		map.comentInsert(coment);
+		map.comentCntUp(coment.getComentComNo());
 		return map.coment(coment.getComentComNo());
 	}
 
 	@Override
 	public List<ComentDto> comentDel(int comentNo, int comentComNo) throws Exception {
 		map.comentDel(comentNo);
+		map.comentCntDown(comentComNo);
 		return map.coment(comentComNo);
 	}
 
@@ -165,5 +190,4 @@ public class DetailServiceImpl implements DetailService {
 			map.comdecInsert(comNo);
 		}
 	}
-
 }

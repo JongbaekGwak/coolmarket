@@ -78,6 +78,80 @@
 				ad_no = #{adNo}
 		]]>
 	</update>
+	<select id="adLike" parameterType="int" resultType="String">
+		<![CDATA[ 
+			select
+				ad_like_no
+			from
+				ad_like
+			where
+				ad_like_del_yn = 'n'
+			and
+				ad_no = #{adNo}
+			and
+				like_user_no = #{userNo}
+		]]>
+	</select>
+	<insert id="adLikeUp" parameterType="int">
+		<![CDATA[ 
+			insert into ad_like
+				(ad_no, like_user_no)
+			values
+				(#{adNo}, #{userNo})
+		]]>
+	</insert>
+	<update id="adLikeDown" parameterType="int">
+		<![CDATA[ 
+			update
+				ad_like
+			set
+				ad_like_del_yn = 'y'
+			where
+				ad_no = #{adNo}
+			and
+				like_user_no = #{userNo}
+		]]>
+	</update>
+	<update id="adLikeUp2" parameterType="int">
+		<![CDATA[ 
+			update
+				ad
+			set
+				ad_like = ad_like + 1
+			where
+				ad_no = #{adNo}
+		]]>
+	</update>
+	<update id="adLikeDown2" parameterType="int">
+		<![CDATA[ 
+			update
+				ad
+			set
+				ad_like = ad_like 1 1
+			where
+				ad_no = #{adNo}
+		]]>
+	</update>
+	<update id="adComentCntUp" parameterType="int">
+		<![CDATA[ 
+			update
+				ad
+			set
+				ad_talk_cnt = ad_talk_cnt + 1
+			where
+				ad_no = #{adNo}
+		]]>
+	</update>
+	<update id="adComentCntDown" parameterType="int">
+		<![CDATA[ 
+			update
+				ad
+			set
+				ad_talk_cnt = ad_talk_cnt 1 1
+			where
+				ad_no = #{adNo}
+		]]>
+	</update>
 
 	<!-- 마켓 -->
 	<select id="marketDetail" parameterType="String" resultType="coolmarket.dto.MarketDto">
@@ -320,6 +394,26 @@
 				commu
 			set
 				com_del_yn = 'y'
+			where
+				com_no = #{comNo}
+		]]>
+	</update>
+	<update id="comentCntUp" parameterType="int">
+		<![CDATA[ 
+			update
+				commu
+			set
+				com_talk_cnt = com_talk_cnt + 1
+			where
+				com_no = #{comNo}
+		]]>
+	</update>
+	<update id="comentCntDown" parameterType="int">
+		<![CDATA[ 
+			update
+				commu
+			set
+				com_talk_cnt = com_talk_cnt - 1
 			where
 				com_no = #{comNo}
 		]]>

@@ -1,24 +1,22 @@
 <template>
   <div>
     <!-- 광고 크라쉘 -->
-    <div>
-      <b-carousel
-        id="carousel"
-        style="text-shadow: 0px 0px 2px #000"
-        indicators
-        controls
-      >
-        <b-carousel-slide
-          v-for="item in newAdList"
-          :key="item.adNo"
-          :img-src="imgPath(item.imgList)"
-          style="width: 100%; height: 500px"
-          ><span v-on:click="moveAdDetail(item.adNo)" class="cursor">{{
-            item.adTitle
-          }}</span>
-        </b-carousel-slide>
-      </b-carousel>
-    </div>
+    <b-carousel
+      id="carousel"
+      style="text-shadow: 0px 0px 2px #000"
+      indicators
+      controls
+    >
+      <b-carousel-slide
+        v-for="item in newAdList"
+        :key="item.adNo"
+        :img-src="imgPath(item.imgList)"
+        style="width: 100%; height: 500px"
+        ><span v-on:click="moveAdDetail(item.adNo)" class="cursor">{{
+          item.adTitle
+        }}</span>
+      </b-carousel-slide>
+    </b-carousel>
 
     <hr />
 

@@ -105,7 +105,7 @@
                 </div>
                 <div class="comment-icon">
                   <fai :icon="['fas', 'comment']"></fai>
-                  <span class="count"> {{ item.marView }}</span>
+                  <span class="count"> {{ item.marTalkCnt }}</span>
                 </div>
               </div>
             </div>

@@ -48,22 +48,9 @@
                 <p class="m-0 msg">{{ item.message }}</p>
               </div>
             </div>
-<<<<<<< HEAD
-            <div class="menu-container">
-                <div class="send-input-left">
-                    <div class="input-file-btn">
-                        <input type="file" name="" id="file"  accept=".jpg,.jpeg,.png,.gif">
-                        <label for="file"><i class="fa fa-folder-o" aria-hidden="true"></i></label>
-                    </div>
-                </div>
-                <div class="input-report-btn">
-                    <i class="fa fa-bullhorn" aria-hidden="true" v-on:click="MoveReport"></i>
-                </div>
-=======
             <div class="receive-time">
               <p class="m-0">{{ item.sendDt }}</p>
               <span><i class="fa fa-check mx-1" aria-hidden="true"></i></span>
->>>>>>> 088d7a32dddaa3e234116beabfc42808a0c30eca
             </div>
           </div>
 

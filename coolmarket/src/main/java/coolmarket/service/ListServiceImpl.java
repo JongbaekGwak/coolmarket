@@ -60,6 +60,8 @@ public class ListServiceImpl implements ListService {
 		List<MarketDto> smdList = map.getSelectMarBoardList(marketPageDto);
 		for (int i = 0; i < smdList.size(); i++) {
 			List<ImgDto> imgList = map.marImgList(smdList.get(i).getMarNo());
+			int talkCount = map.getMarTalkCnt(smdList.get(i).getMarNo());
+			smdList.get(i).setMarTalkCnt(talkCount);
 			smdList.get(i).setImgList(imgList);
 		}
 		List<Object> sdataList = new ArrayList<Object>();

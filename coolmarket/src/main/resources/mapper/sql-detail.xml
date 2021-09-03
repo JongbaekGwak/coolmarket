@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="coolmarket.mapper.DetailMapper">
-	<!-- 광고 -->
+
 	<select id="adDetail" parameterType="String" resultType="coolmarket.dto.AdDto">
 		<![CDATA[ 
 			select
@@ -153,7 +153,7 @@
 		]]>
 	</update>
 
-	<!-- 마켓 -->
+
 	<select id="marketDetail" parameterType="String" resultType="coolmarket.dto.MarketDto">
 		<![CDATA[ 
 			select
@@ -305,7 +305,7 @@
 		]]>
 	</update>
 
-	<!-- 커뮤니티 -->
+
 	<select id="commuDetail" parameterType="String" resultType="coolmarket.dto.CommuDto">
 		<![CDATA[ 
 			select

@@ -98,6 +98,7 @@ export default {
         })
         .then(function () {
           console.log("메세지 삭제");
+          obj.$router.go();
         })
         .catch(function (err) {
           console.log("삭제 실패");
@@ -229,6 +230,7 @@ export default {
   min-width: 48px;
   padding: 6px 8px;
   color: rgb(255, 132, 132);
+  font-weight: bold;
 }
 .delete-btn:hover {
   color: red;

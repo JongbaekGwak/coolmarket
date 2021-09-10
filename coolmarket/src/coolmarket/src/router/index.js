@@ -42,11 +42,30 @@ const routes = [
     path: '/MyPage',
     name: 'MyPage',
     component: MyPage,
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem('coolUserNo') != null) {
+        next()
+      } else {
+        alert('로그인 해주세요')
+        router.go(-1)
+      }
+    },
   },
   {
     path: '/ManagerPage',
     name: 'ManagerPage',
     component: ManagerPage,
+    beforeEnter: (to, from, next) => {
+      if (
+        sessionStorage.getItem('coolUserNo') != null &&
+        sessionStorage.getItem('coolRank') == 0
+      ) {
+        next()
+      } else {
+        alert('잘못된 접근입니다.')
+        router.go(-1)
+      }
+    },
   },
   {
     path: '/AdDetail',
@@ -67,31 +86,85 @@ const routes = [
     path: '/MarketWrite',
     name: 'MarketWrite',
     component: MarketWrite,
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem('coolUserNo') == null) {
+        alert('로그인 해주세요')
+        router.push('/Login')
+      } else {
+        next()
+      }
+    },
   },
   {
     path: '/CommuWrite',
     name: 'CommuWrite',
     component: CommuWrite,
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem('coolUserNo') == null) {
+        alert('로그인 해주세요')
+        router.push('/Login')
+      } else {
+        next()
+      }
+    },
   },
   {
     path: '/AdWrite',
     name: 'AdWrite',
     component: AdWrite,
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem('coolUserNo') == null) {
+        alert('로그인 해주세요')
+        router.push('/Login')
+      } else if (sessionStorage.getItem('coolRank') == 1) {
+        alert('잘못된 접근입니다.')
+        router.go(-1)
+      } else {
+        next()
+      }
+    },
   },
   {
     path: '/MarketUpdate',
     name: 'MarketUpdate',
     component: MarketUpdate,
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem('coolUserNo') == null) {
+        alert('로그인 해주세요')
+        router.push('/Login')
+      } else {
+        next()
+      }
+    },
   },
   {
     path: '/CommuUpdate',
     name: 'CommuUpdate',
     component: CommuUpdate,
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem('coolUserNo') == null) {
+        alert('로그인 해주세요')
+        router.push('/Login')
+      } else {
+        next()
+      }
+    },
   },
   {
     path: '/AdUpdate',
     name: 'AdUpdate',
     component: AdUpdate,
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem('coolUserNo') == null) {
+        alert('로그인 해주세요')
+        router.push('/Login')
+      } else if (sessionStorage.getItem('coolRank') == 1) {
+        alert('잘못된 접근입니다.')
+        router.go(-1)
+      } else {
+        next()
+      }
+    },
   },
   {
     path: '/MarketList',
@@ -106,12 +179,28 @@ const routes = [
   {
     path: '/MsgList',
     name: 'MsgList',
-    component: MsgList
+    component: MsgList,
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem('coolUserNo') == null) {
+        alert('로그인 해주세요')
+        router.push('/Login')
+      } else {
+        next()
+      }
+    },
   },
   {
     path: '/MsgDetail',
     name: 'MsgDetail',
-    component: MsgDetail
+    component: MsgDetail,
+    beforeEnter: (to, from, next) => {
+      if (sessionStorage.getItem('coolUserNo') == null) {
+        alert('로그인 해주세요')
+        router.push('/Login')
+      } else {
+        next()
+      }
+    },
   },
   { path: '/*', component: NotFoundComponent },
 ]

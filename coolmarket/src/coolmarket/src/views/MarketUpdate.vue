@@ -131,16 +131,10 @@ export default {
       cate: [],
     };
   },
-  beforeCreate() {
-    if (this.$session.get("coolUserNo") == null) {
-      alert("로그인 해주세요");
-      this.$router.push("/Login");
-    }
-  },
   mounted() {
     this.marNo = this.$route.query.marNo;
     this.$axios
-      .get("http://localhost:9000/addr1")
+      .get("http://coolmarket.link/addr1")
       .then((res) => {
         this.addr1 = res.data;
       })
@@ -148,7 +142,7 @@ export default {
         console.log(err);
       });
     this.$axios
-      .get("http://localhost:9000/marCate")
+      .get("http://coolmarket.link/marCate")
       .then((res) => {
         this.cate = res.data;
       })
@@ -156,12 +150,12 @@ export default {
         console.log(err);
       });
     this.$axios
-      .get("http://localhost:9000/marketDetail", {
+      .get("http://coolmarket.link/marketDetail", {
         params: { marNo: this.marNo },
       })
       .then((res) => {
         this.mar = res.data.marketDetail;
-        if (this.mar.marUserNo != this.$session.get("coolUserNo")) {
+        if (this.mar.marUserNo != sessionStorage.getItem("coolUserNo")) {
           alert("수정권한이 없습니다.");
           this.$router.push("/");
         } else {
@@ -182,7 +176,7 @@ export default {
       this.address2 = "";
       this.address3 = "";
       this.$axios
-        .get("http://localhost:9000/addr2", {
+        .get("http://coolmarket.link/addr2", {
           params: {
             addr1: this.address1,
           },
@@ -204,7 +198,7 @@ export default {
     addre3() {
       this.address3 = "";
       this.$axios
-        .get("http://localhost:9000/addr3", {
+        .get("http://coolmarket.link/addr3", {
           params: {
             addr1: this.address1,
             addr2: this.address2,
@@ -242,7 +236,7 @@ export default {
           alert("가격은 숫자만 입력할 수 있습니다.");
         } else {
           this.$axios
-            .put("http://localhost:9000/marketUpdate", {
+            .put("http://coolmarket.link/marketUpdate", {
               marNo: this.marNo,
               marTitle: this.mar.marTitle,
               marPrice: this.mar.marPrice,
@@ -259,7 +253,7 @@ export default {
                   fromData.append("image", this.images[i]);
                 }
                 this.$axios
-                  .post("http://localhost:9000/imgInsert", fromData, {
+                  .post("http://coolmarket.link/imgInsert", fromData, {
                     params: { adNo: "", marNo: this.marNo, comNo: "" },
                     headers: {
                       "Content-Type": "multipart/form-data",
@@ -297,7 +291,7 @@ export default {
     },
     imgDelete(num) {
       this.$axios
-        .get("http://localhost:9000/marImgDelete", {
+        .get("http://coolmarket.link/marImgDelete", {
           params: { marNo: this.marNo, imgNo: num },
         })
         .then((res) => {

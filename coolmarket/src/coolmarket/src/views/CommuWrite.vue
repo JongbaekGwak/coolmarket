@@ -103,15 +103,9 @@ export default {
       cate: [],
     };
   },
-  beforeCreate() {
-    if (this.$session.get("coolUserNo") == null) {
-      alert("로그인 해주세요");
-      this.$router.push("/Login");
-    }
-  },
   mounted() {
     this.$axios
-      .get("http://localhost:9000/addr1")
+      .get("http://coolmarket.link/addr1")
       .then((res) => {
         this.addr1 = res.data;
       })
@@ -119,7 +113,7 @@ export default {
         console.log(err);
       });
     this.$axios
-      .get("http://localhost:9000/comCate")
+      .get("http://coolmarket.link/comCate")
       .then((res) => {
         this.cate = res.data;
       })
@@ -132,7 +126,7 @@ export default {
       this.address2 = "";
       this.address3 = "";
       this.$axios
-        .get("http://localhost:9000/addr2", {
+        .get("http://coolmarket.link/addr2", {
           params: {
             addr1: this.address1,
           },
@@ -154,7 +148,7 @@ export default {
     addre3() {
       this.address3 = "";
       this.$axios
-        .get("http://localhost:9000/addr3", {
+        .get("http://coolmarket.link/addr3", {
           params: {
             addr1: this.address1,
             addr2: this.address2,
@@ -189,7 +183,7 @@ export default {
           console.log(this.images);
         }
         this.$axios
-          .get("http://localhost:9000/commuWrite", {
+          .get("http://coolmarket.link/commuWrite", {
             params: {
               comTitle: this.title,
               comContents: this.contents,
@@ -197,8 +191,8 @@ export default {
               comAddr2: this.address2,
               comAddr3: this.address3,
               comCate: this.comCate,
-              comUserNo: this.$session.get("coolUserNo"),
-              comCreaNickName: this.$session.get("coolNickName")
+              comUserNo: sessionStorage.getItem("coolUserNo"),
+              comCreaNickName: sessionStorage.getItem("coolNickName")
             },
           })
           .then((res) => {
@@ -208,7 +202,7 @@ export default {
                 fromData.append("image", this.images[i]);
               }
               this.$axios
-                .post("http://localhost:9000/imgInsert", fromData, {
+                .post("http://coolmarket.link/imgInsert", fromData, {
                   params: { adNo: "", marNo: "", comNo: res.data },
                   headers: {
                     "Content-Type": "multipart/form-data",

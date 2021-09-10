@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE mapper
-	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
 <mapper namespace="coolmarket.mapper.MessageMapper">
@@ -16,9 +14,9 @@
 				(#{roomNo}, #{marNo}, #{buyerNo}, #{buyerName}, #{message}, #{sellerNo}, #{sellerName})
 		]]>
 	</insert>
-	
+
 	<select id="checkRoom" resultType="coolmarket.dto.ChatRoomDto" parameterType="coolmarket.dto.ChatRoomDto">
-		
+
 		<![CDATA[
 			SELECT 
 				room_no, mar_no, seller_no, buyer_no
@@ -32,10 +30,10 @@
 		]]>
 
 	</select>
-	
-	
+
+
 	<insert id="createRoom" useGeneratedKeys="true" keyProperty="roomNo" parameterType="coolmarket.dto.ChatRoomDto">
-		
+
 		<![CDATA[ 
 			INSERT INTO 
 				chat_room 
@@ -43,11 +41,11 @@
 			VALUES 
 				(#{marNo}, #{sellerNo}, #{buyerNo})
 		]]>
-			
+
 	</insert>
-	
+
 	<select id="getChatList" resultType="coolmarket.dto.MessageDto" parameterType="int">
-		
+
 		<![CDATA[
 			SELECT 
 				room_no, seller_no, seller_name, buyer_no, buyer_name, DATE_FORMAT(send_dt, '%H:%i') AS send_dt, message
@@ -59,11 +57,11 @@
 			ORDER BY msg_no
 		
 		]]>
-		
+
 	</select>
-	
+
 	<select id="getRoomList" resultType="coolmarket.dto.ChatListDto" parameterType="int">
-	
+
 		<![CDATA[
 		
 			SELECT  
@@ -83,11 +81,11 @@
 			ORDER BY 
 				room_no DESC;
 		]]>
-	
+
 	</select>
-	
+
 	<select id="getContactItem" parameterType="int" resultType="coolmarket.dto.MarketDto">
-		
+
 		<![CDATA[
 			
 			SELECT 
@@ -97,9 +95,9 @@
 			WHERE 
 				mar_no = #{marNo}
 		]]>
-	
+
 	</select>
-	
+
 	<select id="getContactImgList" parameterType="int" resultType="coolmarket.dto.ImgDto">
 		<![CDATA[ 
 			select
@@ -114,25 +112,25 @@
 			LIMIT 1;
 		]]>
 	</select>
-	
+
 	<delete id="deleteMsg" parameterType="int">
-	
+
 		<![CDATA[
 		
 			UPDATE msg SET msg_del_yn = 'y' WHERE room_no = #{roomNo}
 			
 		]]>
-	
+
 	</delete>
 	<delete id="deleteRoom" parameterType="int">
-	
+
 		<![CDATA[
 		
 			UPDATE chat_room SET del_yn = 'y' WHERE room_no = #{roomNo}
 			
 		]]>
-	
+
 	</delete>
 
-	
+
 </mapper>

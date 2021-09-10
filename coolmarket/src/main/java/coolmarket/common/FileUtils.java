@@ -28,8 +28,8 @@ public class FileUtils {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd");
 		ZonedDateTime current = ZonedDateTime.now();
 		String path = "images/" + current.format(format);
-
-		File file = new File(path);
+		File file = new File("/home/ec2-user/coolmarket/" + path);
+		
 		if (file.exists() == false) {
 			file.mkdirs();
 		}

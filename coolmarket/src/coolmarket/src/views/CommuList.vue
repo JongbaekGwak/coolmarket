@@ -99,7 +99,10 @@
       >
         <span>접기</span>
       </div>
-      <div class="write-btn-section" v-if="this.$session.get('coolUserNo')">
+      <div
+        class="write-btn-section"
+        v-if="myUserNo != ''"
+      >
         <div class="my-btn write-btn" v-on:click="MoveCommuWrite">
           <span>글쓰기</span>
         </div>
@@ -121,15 +124,19 @@ export default {
       selected2: [{ value: "", text: "시/군/구" }],
       selected3: [{ value: "", text: "동" }],
       items: [],
-
       comStartNum: 0,
       comTotalNum: 10,
+      myUserNo: "",
     };
   },
   mounted() {
     let obj = this;
+    this.myUserNo =
+      sessionStorage.getItem("coolUserNo") != null
+        ? sessionStorage.getItem("coolUserNo")
+        : "";
     obj.$axios
-      .get("http://localhost:9000/comCate")
+      .get("http://coolmarket.link/comCate")
       .then(function (res) {
         console.log("Select Cate Get Succcess");
         obj.cate = res.data;
@@ -138,9 +145,9 @@ export default {
         console.log("Select Cate Get Fail");
         console.log(err);
       });
-    if (obj.$session.get("coolUserNo") != null) {
+    if (this.myUserNo != "") {
       obj.$axios
-        .get("http://localhost:9000/addr1")
+        .get("http://coolmarket.link/addr1")
         .then((res) => {
           obj.selected1 = res.data;
         })
@@ -148,8 +155,8 @@ export default {
           console.log(err);
         });
       obj.$axios
-        .get("http://localhost:9000/userAddr", {
-          params: { userNo: obj.$session.get("coolUserNo") },
+        .get("http://coolmarket.link/userAddr", {
+          params: { userNo: this.myUserNo },
         })
         .then((res) => {
           obj.addr1 = res.data.addr1;
@@ -167,7 +174,7 @@ export default {
         });
     } else {
       obj.$axios
-        .get("http://localhost:9000/addr1")
+        .get("http://coolmarket.link/addr1")
         .then((res) => {
           obj.selected1 = res.data;
         })
@@ -175,7 +182,7 @@ export default {
           console.log(err);
         });
       obj.$axios
-        .get("http://localhost:9000/getCommuList", {
+        .get("http://coolmarket.link/getCommuList", {
           params: {
             selected: obj.selected,
             addr1: obj.addr1,
@@ -207,7 +214,7 @@ export default {
       this.addr2 = "";
       this.addr3 = "";
       this.$axios
-        .get("http://localhost:9000/addr2", {
+        .get("http://coolmarket.link/addr2", {
           params: {
             addr1: this.addr1,
           },
@@ -229,7 +236,7 @@ export default {
     Getaddr3() {
       this.addr3 = "";
       this.$axios
-        .get("http://localhost:9000/addr3", {
+        .get("http://coolmarket.link/addr3", {
           params: {
             addr1: this.addr1,
             addr2: this.addr2,
@@ -255,7 +262,7 @@ export default {
       );
       let obj = this;
       obj.$axios
-        .get("http://localhost:9000/getCommuList", {
+        .get("http://coolmarket.link/getCommuList", {
           params: {
             selected: this.selected,
             addr1: this.addr1,
@@ -284,7 +291,7 @@ export default {
         );
       let obj = this;
       obj.$axios
-        .get("http://localhost:9000/getCommuList", {
+        .get("http://coolmarket.link/getCommuList", {
           params: {
             selected: this.selected,
             addr1: this.addr1,

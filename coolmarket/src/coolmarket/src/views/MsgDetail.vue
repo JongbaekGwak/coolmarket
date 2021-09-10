@@ -136,9 +136,9 @@ export default {
   },
   beforeCreate() {
     this.$axios
-      .get("http://localhost:9000/me", {
+      .get("http://coolmarket.link/me", {
         params: {
-          userNo: this.$session.get("coolUserNo"),
+          userNo: sessionStorage.getItem("coolUserNo"),
         },
       })
       .then((res) => {
@@ -164,10 +164,10 @@ export default {
     this.connect();
   },
   mounted() {
-    this.userNo = this.$session.get("coolUserNo");
+    this.userNo = sessionStorage.getItem("coolUserNo");
     let obj = this;
     obj.axios
-      .get("http://localhost:9000/getChatList", {
+      .get("http://coolmarket.link/getChatList", {
         params: {
           roomNo: obj.roomNo,
         },
@@ -181,7 +181,7 @@ export default {
         console.log(err);
       });
     obj.axios
-      .get("http://localhost:9000/getContactItem", {
+      .get("http://coolmarket.link/getContactItem", {
         params: {
           marNo: obj.marNo,
         },
@@ -226,7 +226,7 @@ export default {
       }
     },
     connect() {
-      const serverURL = "http://localhost:9000/chat";
+      const serverURL = "http://coolmarket.link/chat";
       let socket = new SockJS(serverURL);
 
       this.stompClient = Stomp.over(socket);

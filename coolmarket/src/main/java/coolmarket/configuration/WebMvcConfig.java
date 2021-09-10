@@ -7,22 +7,22 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-	@Override
-	public void addCorsMappings(CorsRegistry regi) {
-		regi.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST", "PUT", "DELETE");
-	}
+//	@Override
+//	public void addCorsMappings(CorsRegistry regi) {
+//		regi.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST", "PUT", "DELETE");
+//	}
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry regi) {
 //		각자 환경에 맞게 설성
-		regi.addResourceHandler("/images/**").addResourceLocations("file:/Users/jb/javabtc/coolmarket/coolmarket/images/");
+//		regi.addResourceHandler("/images/**").addResourceLocations("file:/Users/jb/javabtc/coolmarket/coolmarket/images/");
+		regi.addResourceHandler("/images/**").addResourceLocations("file:/home/ec2-user/coolmarket/images/");
 
 		regi.addResourceHandler("/**").addResourceLocations("classpath:/static/").resourceChain(true)
 				.addResolver(new PathResourceResolver() {
@@ -43,4 +43,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 		return cmpr;
 	}
+
 }

@@ -226,16 +226,9 @@ export default {
       premiumUser: [],
     };
   },
-  beforeCreate() {
-    if (this.$session.get("coolUserNo") == null) {
-      this.$router.push("/Login");
-    } else if (this.$session.get("coolRank") != 0) {
-      this.$router.push("MyPage");
-    }
-  },
   mounted() {
     this.$axios
-      .get("http://localhost:9000/managerDataList")
+      .get("http://coolmarket.link/managerDataList")
       .then((res) => {
         this.marDec = res.data.marDec;
         this.comDec = res.data.comDec;
@@ -248,7 +241,7 @@ export default {
   },
   methods: {
     logOut() {
-      this.$session.clear();
+      sessionStorage.clear();
       alert("로그아웃 되었습니다.");
       this.$router.push("/");
     },
@@ -260,7 +253,7 @@ export default {
     },
     marAllDel() {
       this.$axios
-        .get("http://localhost:9000/marAllDel")
+        .get("http://coolmarket.link/marAllDel")
         .then(() => {
           alert("삭제 완료");
           this.$router.go();
@@ -271,7 +264,7 @@ export default {
     },
     comAllDel() {
       this.$axios
-        .get("http://localhost:9000/comAllDel")
+        .get("http://coolmarket.link/comAllDel")
         .then(() => {
           alert("삭제 완료");
           this.$router.go();
@@ -286,7 +279,7 @@ export default {
         arr[i] = this.premiumWait[i].userNo;
       }
       this.$axios
-        .get("http://localhost:9000/preAllUp", {
+        .get("http://coolmarket.link/preAllUp", {
           params: { userNoList: arr },
           paramsSerializer(paramObj) {
             const params = new URLSearchParams();
@@ -306,7 +299,7 @@ export default {
     },
     preUp(num) {
       this.$axios
-        .get("http://localhost:9000/preUp", { params: { userNo: num } })
+        .get("http://coolmarket.link/preUp", { params: { userNo: num } })
         .then(() => {
           alert("등업 완료");
           this.$router.go();

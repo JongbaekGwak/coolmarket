@@ -36,10 +36,10 @@ export default {
       this.$router.push("/CommuList");
     },
     user() {
-      if (this.$session.get("coolUserNo") == null) {
+      if (sessionStorage.getItem("coolUserNo") == null) {
         this.$router.push("/Login");
       } else {
-        if (this.$session.get("coolRank") == 0) {
+        if (sessionStorage.getItem("coolRank") == 0) {
           this.$router.push("/ManagerPage");
         } else {
           this.$router.push("/MyPage");

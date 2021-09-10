@@ -108,11 +108,6 @@ export default {
       findTel: "",
     };
   },
-  beforeCreate() {
-    if (this.$session.get("coolUserNo") != null) {
-      this.$router.push("MyPage");
-    }
-  },
   methods: {
     login() {
       if (this.userId == "") {
@@ -121,7 +116,7 @@ export default {
         alert("비밀번호를 입력하세요");
       } else {
         this.$axios
-          .post("http://localhost:9000/login", null, {
+          .post("http://coolmarket.link/login", null, {
             params: {
               email: this.userId,
               password: this.userPw,
@@ -131,10 +126,10 @@ export default {
             if (res.data == false) {
               alert("아이디, 비밀번호를 확인해 주세요");
             } else {
-              this.$session.set("coolUserNo", res.data.userNo);
-              this.$session.set("coolEmail", res.data.email);
-              this.$session.set("coolRank", res.data.rank);
-              this.$session.set("coolNickName", res.data.nickName);
+              sessionStorage.setItem("coolUserNo", res.data.userNo);
+              sessionStorage.setItem("coolEmail", res.data.email);
+              sessionStorage.setItem("coolRank", res.data.rank);
+              sessionStorage.setItem("coolNickName", res.data.nickName);
               if (
                 this.$route.query.toSignUp != 1 ||
                 this.$route.query.toSignUp == undefined
@@ -158,7 +153,7 @@ export default {
     },
     find() {
       this.$axios
-        .post("http://localhost:9000/find", {
+        .post("http://coolmarket.link/find", {
           email: this.findId,
           name: this.findName,
           tel: this.findTel,

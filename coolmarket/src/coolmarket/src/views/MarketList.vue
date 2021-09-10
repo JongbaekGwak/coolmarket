@@ -128,14 +128,14 @@
         >
           <span>접기</span>
         </div>
-        <div class="write-btn-section" v-if="this.$session.get('coolUserNo')">
+        <div class="write-btn-section" v-if="this.myUserNo != ''">
           <div class="my-btn sale-btn" v-on:click="MoveMarketWrite">
             <span>판매 등록</span>
           </div>
           <div
             class="my-btn ad-btn"
             v-on:click="MoveAdtWrite"
-            v-if="this.$session.get('coolRank') == 0"
+            v-if="myRank == 0 || myRank == 2"
           >
             <span>광고 등록</span>
           </div>
@@ -159,17 +159,26 @@ export default {
       selected2: [{ value: "", text: "시/군/구" }],
       selected3: [{ value: "", text: "동" }],
       items: [],
-
       marStartNum: 0,
       adStartNum: 0,
       marTotalNum: 9,
       adTotalNum: 3,
+      myUserNo: "",
+      myRank: "",
     };
   },
   mounted() {
+    this.myUserNo =
+      sessionStorage.getItem("coolUserNo") != null
+        ? sessionStorage.getItem("coolUserNo")
+        : "";
+    this.myRank =
+      sessionStorage.getItem("coolRank") != null
+        ? sessionStorage.getItem("coolRank")
+        : "";
     let obj = this;
     obj.$axios
-      .get("http://localhost:9000/marCate")
+      .get("http://coolmarket.link/marCate")
       .then(function (res) {
         console.log("Select Cate Get Succcess");
         obj.marCate = res.data;
@@ -178,9 +187,9 @@ export default {
         console.log("Select Cate Get Fail");
         console.log(err);
       });
-    if (obj.$session.get("coolUserNo") != null) {
+    if (this.myUserNo != "") {
       obj.$axios
-        .get("http://localhost:9000/addr1")
+        .get("http://coolmarket.link/addr1")
         .then((res) => {
           obj.selected1 = res.data;
         })
@@ -189,8 +198,8 @@ export default {
         });
 
       obj.$axios
-        .get("http://localhost:9000/userAddr", {
-          params: { userNo: obj.$session.get("coolUserNo") },
+        .get("http://coolmarket.link/userAddr", {
+          params: { userNo: this.myUserNo },
         })
         .then((res) => {
           obj.addr1 = res.data.addr1;
@@ -208,7 +217,7 @@ export default {
         });
     } else {
       obj.$axios
-        .get("http://localhost:9000/addr1")
+        .get("http://coolmarket.link/addr1")
         .then((res) => {
           obj.selected1 = res.data;
         })
@@ -216,7 +225,7 @@ export default {
           console.log(err);
         });
       obj.$axios
-        .get("http://localhost:9000/getMarketList", {
+        .get("http://coolmarket.link/getMarketList", {
           params: {
             selected: obj.selected,
             addr1: obj.addr1,
@@ -238,14 +247,11 @@ export default {
     }
   },
   methods: {
-    sessioncheck() {
-      this.session.get("userNo" != null);
-    },
     Getaddr2() {
       this.addr2 = "";
       this.addr3 = "";
       this.$axios
-        .get("http://localhost:9000/addr2", {
+        .get("http://coolmarket.link/addr2", {
           params: {
             addr1: this.addr1,
           },
@@ -267,7 +273,7 @@ export default {
     Getaddr3() {
       this.addr3 = "";
       this.$axios
-        .get("http://localhost:9000/addr3", {
+        .get("http://coolmarket.link/addr3", {
           params: {
             addr1: this.addr1,
             addr2: this.addr2,
@@ -293,7 +299,7 @@ export default {
       );
       let obj = this;
       obj.$axios
-        .get("http://localhost:9000/getSelectBoardList", {
+        .get("http://coolmarket.link/getSelectBoardList", {
           params: {
             selected: this.selected,
             addr1: this.addr1,
@@ -321,7 +327,7 @@ export default {
       );
       let obj = this;
       obj.$axios
-        .get("http://localhost:9000/getSelectBoardList", {
+        .get("http://coolmarket.link/getSelectBoardList", {
           params: {
             selected: this.selected,
             addr1: this.addr1,

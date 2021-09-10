@@ -252,7 +252,7 @@ export default {
   },
   mounted() {
     this.$axios
-      .get("http://localhost:9000/newAdList")
+      .get("http://coolmarket.link/newAdList")
       .then((res) => {
         this.newAdList = res.data;
       })
@@ -260,7 +260,7 @@ export default {
         console.log(err);
       });
     this.$axios
-      .get("http://localhost:9000/newMarketList")
+      .get("http://coolmarket.link/newMarketList")
       .then((res) => {
         this.newMarketList = res.data;
       })
@@ -268,7 +268,7 @@ export default {
         console.log(err);
       });
     this.$axios
-      .get("http://localhost:9000/newCommuList")
+      .get("http://coolmarket.link/newCommuList")
       .then((res) => {
         this.newCommuList = res.data;
       })

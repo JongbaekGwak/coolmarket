@@ -62,13 +62,13 @@ export default {
     };
   },
   mounted() {
-    this.myUserNo = this.$session.get("coolUserNo");
-    if (this.$session.get("coolUserNo") != null) {
-      this.myUserNo = this.$session.get("coolUserNo");
-      this.myRank = this.$session.get("coolRank");
+    this.myUserNo = sessionStorage.getItem("coolUserNo");
+    if (sessionStorage.getItem("coolUserNo") != null) {
+      this.myUserNo = sessionStorage.getItem("coolUserNo");
+      this.myRank = sessionStorage.getItem("coolRank");
     }
     this.$axios
-      .get("http://localhost:9000/adComent", {
+      .get("http://coolmarket.link/adComent", {
         params: { adComentAdNo: this.$route.query.adNo },
       })
       .then((res) => {
@@ -84,11 +84,11 @@ export default {
         alert("로그인 해주세요");
       } else {
         this.$axios
-          .get("http://localhost:9000/adComentInsert", {
+          .get("http://coolmarket.link/adComentInsert", {
             params: {
               adComentAdNo: this.$route.query.adNo,
-              adComentUserNo: this.$session.get("coolUserNo"),
-              adComentNickName: this.$session.get("coolNickName"),
+              adComentUserNo: sessionStorage.getItem("coolUserNo"),
+              adComentNickName: sessionStorage.getItem("coolNickName"),
               adComentContents: this.insert,
             },
           })
@@ -106,7 +106,7 @@ export default {
         alert("로그인 해주세요");
       } else {
         this.$axios
-          .get("http://localhost:9000/adComentDelete", {
+          .get("http://coolmarket.link/adComentDelete", {
             params: { adComentNo: num, adComentAdNo: this.$route.query.adNo },
           })
           .then((res) => {

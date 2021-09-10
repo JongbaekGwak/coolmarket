@@ -34,13 +34,17 @@
       </div>
 
       <div class="content">
-        <pre class="m-0">{{ adDetail.adContents }}</pre>
+        <pre class="m-0 pre">{{ adDetail.adContents }}</pre>
       </div>
 
-      <div class="col-md-8 mx-auto">
+      <div class="col-md-8 mx-auto mt-3">
         <div v-if="adDetail.imgList != ''" class="text-center">
           <div v-for="item in adDetail.imgList" :key="item.imgNo">
-            <img :src="item.storedImgPath" class="my-1" />
+            <img
+              :src="item.storedImgPath"
+              class="my-1"
+              style="max-width: 300px"
+            />
           </div>
         </div>
       </div>
@@ -125,11 +129,11 @@ export default {
   },
   mounted() {
     this.adNo = this.$route.query.adNo;
-    if (this.$session.get("coolUserNo") != null) {
-      this.myUserNo = this.$session.get("coolUserNo");
-      this.myRank = this.$session.get("coolRank");
+    if (sessionStorage.getItem("coolUserNo") != null) {
+      this.myUserNo = sessionStorage.getItem("coolUserNo");
+      this.myRank = sessionStorage.getItem("coolRank");
       this.$axios
-        .post("http://localhost:9000/adLike", null, {
+        .post("http://coolmarket.link/adLike", null, {
           params: { adNo: this.adNo, userNo: this.myUserNo },
         })
         .then((res) => {
@@ -140,7 +144,7 @@ export default {
         });
     }
     this.$axios
-      .get("http://localhost:9000/adDetail", { params: { adNo: this.adNo } })
+      .get("http://coolmarket.link/adDetail", { params: { adNo: this.adNo } })
       .then((res) => {
         if (res.data == "") {
           alert("삭제된 게시물입니다.");
@@ -162,7 +166,7 @@ export default {
     },
     adDelete() {
       this.$axios
-        .get("http://localhost:9000/adDelete", {
+        .get("http://coolmarket.link/adDelete", {
           params: { adNo: this.adNo },
         })
         .then(() => {
@@ -178,7 +182,7 @@ export default {
         alert("로그인 해주세요");
       } else {
         this.$axios
-          .get("http://localhost:9000/adLikeUp", {
+          .get("http://coolmarket.link/adLikeUp", {
             params: { adNo: this.adNo, userNo: this.myUserNo },
           })
           .then(() => {
@@ -192,7 +196,7 @@ export default {
         alert("로그인 해주세요");
       } else {
         this.$axios
-          .get("http://localhost:9000/adLikeDown", {
+          .get("http://coolmarket.link/adLikeDown", {
             params: { adNo: this.adNo, userNo: this.myUserNo },
           })
           .then(() => {
@@ -206,6 +210,10 @@ export default {
 </script>
 
 <style scoped>
+.pre {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
 .wrap {
   max-width: 650px;
   margin: 30px auto;

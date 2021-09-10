@@ -316,17 +316,10 @@ export default {
       adList: [],
     };
   },
-  beforeCreate() {
-    if (this.$session.get("coolUserNo") == null) {
-      this.$router.push("/Login");
-    } else if (this.$session.get("coolRank") == 0) {
-      this.$router.push("ManagerPage");
-    }
-  },
   mounted() {
     this.$axios
-      .get("http://localhost:9000/myList", {
-        params: { userNo: this.$session.get("coolUserNo") },
+      .get("http://coolmarket.link/myList", {
+        params: { userNo: sessionStorage.getItem("coolUserNo") },
       })
       .then((res) => {
         this.saleList = res.data.saleList;
@@ -338,9 +331,9 @@ export default {
       });
 
     this.$axios
-      .get("http://localhost:9000/myCommuList", {
+      .get("http://coolmarket.link/myCommuList", {
         params: {
-          userNo: this.$session.get("coolUserNo"),
+          userNo: sessionStorage.getItem("coolUserNo"),
         },
       })
       .then((res) => {
@@ -356,9 +349,9 @@ export default {
       });
 
     this.$axios
-      .get("http://localhost:9000/me", {
+      .get("http://coolmarket.link/me", {
         params: {
-          userNo: this.$session.get("coolUserNo"),
+          userNo: sessionStorage.getItem("coolUserNo"),
         },
       })
       .then((res) => {
@@ -373,8 +366,8 @@ export default {
         console.log(err);
       });
     this.$axios
-      .get("http://localhost:9000/myAdList", {
-        params: { adUserNo: this.$session.get("coolUserNo") },
+      .get("http://coolmarket.link/myAdList", {
+        params: { adUserNo: sessionStorage.getItem("coolUserNo") },
       })
       .then((res) => {
         this.adList = res.data;
@@ -390,8 +383,8 @@ export default {
         alert("이미 프리미엄 회원이십니다.");
       } else {
         this.$axios
-          .get("http://localhost:9000/creaPremium", {
-            params: { userNo: this.$session.get("coolUserNo") },
+          .get("http://coolmarket.link/creaPremium", {
+            params: { userNo: sessionStorage.getItem("coolUserNo") },
           })
           .then((res) => {
             if (res.data == true) {
@@ -408,19 +401,19 @@ export default {
     msg() {
       this.$router.push({
         name: "MsgList",
-        query: { userNo: this.$session.get("coolUserNo") },
+        query: { userNo: sessionStorage.getItem("coolUserNo") },
       });
     },
     logOut() {
-      this.$session.clear();
+      sessionStorage.clear();
       alert("로그아웃 되었습니다.");
       this.$router.push("/");
     },
     movePage(num) {
       this.$axios
-        .get("http://localhost:9000/myCommuList", {
+        .get("http://coolmarket.link/myCommuList", {
           params: {
-            userNo: this.$session.get("coolUserNo"),
+            userNo: sessionStorage.getItem("coolUserNo"),
             pageNo: num,
           },
         })
@@ -441,9 +434,9 @@ export default {
         alert("첫번째 페이지 입니다.");
       } else {
         this.$axios
-          .get("http://localhost:9000/myCommuList", {
+          .get("http://coolmarket.link/myCommuList", {
             params: {
-              userNo: this.$session.get("coolUserNo"),
+              userNo: sessionStorage.getItem("coolUserNo"),
               pageNo: this.commuNav.prePage,
             },
           })
@@ -465,9 +458,9 @@ export default {
         alert("마지막 페이지 입니다.");
       } else {
         this.$axios
-          .get("http://localhost:9000/myCommuList", {
+          .get("http://coolmarket.link/myCommuList", {
             params: {
-              userNo: this.$session.get("coolUserNo"),
+              userNo: sessionStorage.getItem("coolUserNo"),
               pageNo: this.commuNav.nextPage,
             },
           })

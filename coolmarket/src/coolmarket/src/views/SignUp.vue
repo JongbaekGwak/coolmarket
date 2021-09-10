@@ -167,18 +167,9 @@ export default {
       check2: false,
     };
   },
-  beforeCreate() {
-    if (this.$session.get("coolUserNo") != null) {
-      if (this.$session.get("coolRank") == 0) {
-        this.$router.push("ManagerPage");
-      } else {
-        this.$router.push("/MyPage");
-      }
-    }
-  },
   mounted() {
     this.$axios
-      .get("http://localhost:9000/addr1")
+      .get("http://coolmarket.link/addr1")
       .then((res) => {
         this.addr1 = res.data;
       })
@@ -223,7 +214,7 @@ export default {
         this.check = false;
       } else {
         this.$axios
-          .get("http://localhost:9000/overlabCheck", {
+          .get("http://coolmarket.link/overlabCheck", {
             params: {
               email: this.userId,
             },
@@ -244,7 +235,7 @@ export default {
     },
     overlapCheck2() {
       this.$axios
-        .get("http://localhost:9000/overlabCheck2", {
+        .get("http://coolmarket.link/overlabCheck2", {
           params: { nickName: this.userNickName },
         })
         .then((res) => {
@@ -325,7 +316,7 @@ export default {
           this.address3 == "";
         }
         this.$axios
-          .post("http://localhost:9000/signUp", {
+          .post("http://coolmarket.link/signUp", {
             email: this.userId,
             password: this.userPw,
             name: this.userName,
@@ -351,7 +342,7 @@ export default {
       this.address2 = "";
       this.address3 = "";
       this.$axios
-        .get("http://localhost:9000/addr2", {
+        .get("http://coolmarket.link/addr2", {
           params: {
             addr1: this.address1,
           },
@@ -373,7 +364,7 @@ export default {
     addre3() {
       this.address3 = "";
       this.$axios
-        .get("http://localhost:9000/addr3", {
+        .get("http://coolmarket.link/addr3", {
           params: {
             addr1: this.address1,
             addr2: this.address2,

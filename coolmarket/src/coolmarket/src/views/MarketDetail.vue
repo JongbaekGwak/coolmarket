@@ -37,12 +37,16 @@
         <span class="float-end"> 조회수 : {{ marketDetail.marView }} </span>
       </p>
 
-      <pre class="my-3">{{ marketDetail.marContents }}</pre>
+      <pre class="my-3 pre">{{ marketDetail.marContents }}</pre>
 
-      <div class="col-md-8 mx-auto">
+      <div class="col-md-8 mx-auto mt-3">
         <div v-if="marketDetail.imgList != ''" class="text-center">
           <div v-for="item in marketDetail.imgList" :key="item.imgNo">
-            <img :src="item.storedImgPath" class="my-1" />
+            <img
+              :src="item.storedImgPath"
+              class="my-1"
+              style="max-width: 300px"
+            />
           </div>
         </div>
       </div>
@@ -181,7 +185,7 @@ export default {
       myWishSear: true,
       marBuyUser: "",
       setSale: false,
-      chatRoom: []
+      chatRoom: [],
     };
   },
   beforeCreate() {
@@ -191,13 +195,13 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
-    if (this.$session.get("coolUserNo") != null) {
-      this.myUserNo = this.$session.get("coolUserNo");
-      this.myRank = this.$session.get("coolRank");
+    if (sessionStorage.getItem("coolUserNo") != null) {
+      this.myUserNo = sessionStorage.getItem("coolUserNo");
+      this.myRank = sessionStorage.getItem("coolRank");
     }
     this.marNo = this.$route.query.marNo;
     this.$axios
-      .get("http://localhost:9000/marketDetail", {
+      .get("http://coolmarket.link/marketDetail", {
         params: { marNo: this.marNo },
       })
       .then((res) => {
@@ -212,11 +216,11 @@ export default {
         console.log(err);
       });
 
-    if (this.$session.get("coolUserNo") != null) {
+    if (sessionStorage.getItem("coolUserNo") != null) {
       this.$axios
-        .get("http://localhost:9000/myWishSearch", {
+        .get("http://coolmarket.link/myWishSearch", {
           params: {
-            wishUserNo: this.$session.get("coolUserNo"),
+            wishUserNo: sessionStorage.getItem("coolUserNo"),
             wishMarNo: this.marNo,
           },
         })
@@ -230,35 +234,36 @@ export default {
   },
   methods: {
     MoveMsgDetail() {
-      if (this.$session.get("coolUserNo") == null) {
+      if (sessionStorage.getItem("coolUserNo") == null) {
         alert("로그인 해주세요");
       } else {
-        let obj = this
-        obj.axios.get("http://localhost:9000/checkRoom", {
-          params: {
-            marNo: this.marketDetail.marNo,
-            sellerNo: this.marketDetail.marUserNo,
-            buyerNo: this.myUserNo
-          }
-        })
-        .then(function (res) {
-          console.log('방 번호 생성 성공');
-          obj.chatRoom = res.data;
-          obj.$router.push({
-            name: "MsgDetail", 
-            query:{
-              roomNo: obj.chatRoom[0].roomNo,
-              marNo: obj.marketDetail.marNo,
-              buyerNo: obj.myUserNo,
-              sellerNo: obj.marketDetail.marUserNo,
-              sellerName: obj.marketDetail.marCreaNickName
-            }
+        let obj = this;
+        obj.axios
+          .get("http://coolmarket.link/checkRoom", {
+            params: {
+              marNo: this.marketDetail.marNo,
+              sellerNo: this.marketDetail.marUserNo,
+              buyerNo: this.myUserNo,
+            },
           })
-        })
-        .catch(function (err) {
-          console.log(err);
-          console.log("채팅 연결 실패");
-        })
+          .then(function (res) {
+            console.log("방 번호 생성 성공");
+            obj.chatRoom = res.data;
+            obj.$router.push({
+              name: "MsgDetail",
+              query: {
+                roomNo: obj.chatRoom[0].roomNo,
+                marNo: obj.marketDetail.marNo,
+                buyerNo: obj.myUserNo,
+                sellerNo: obj.marketDetail.marUserNo,
+                sellerName: obj.marketDetail.marCreaNickName,
+              },
+            });
+          })
+          .catch(function (err) {
+            console.log(err);
+            console.log("채팅 연결 실패");
+          });
       }
     },
     MoveMarketList() {
@@ -279,13 +284,13 @@ export default {
       }
     },
     wish() {
-      if (this.$session.get("coolUserNo") == null) {
+      if (sessionStorage.getItem("coolUserNo") == null) {
         alert("로그인 해주세요");
       } else {
         this.$axios
-          .get("http://localhost:9000/wish", {
+          .get("http://coolmarket.link/wish", {
             params: {
-              wishUserNo: this.$session.get("coolUserNo"),
+              wishUserNo: sessionStorage.getItem("coolUserNo"),
               wishMarNo: this.marketDetail.marNo,
             },
           })
@@ -300,9 +305,9 @@ export default {
     },
     wishCancel() {
       this.$axios
-        .get("http://localhost:9000/wishCancel", {
+        .get("http://coolmarket.link/wishCancel", {
           params: {
-            wishUserNo: this.$session.get("coolUserNo"),
+            wishUserNo: sessionStorage.getItem("coolUserNo"),
             wishMarNo: this.marketDetail.marNo,
           },
         })
@@ -316,7 +321,7 @@ export default {
     },
     marDelete() {
       this.$axios
-        .get("http://localhost:9000/marDelete", {
+        .get("http://coolmarket.link/marDelete", {
           params: { marNo: this.marNo },
         })
         .then(() => {
@@ -329,7 +334,7 @@ export default {
     },
     decInsert() {
       this.$axios
-        .get("http://localhost:9000/decInsert", {
+        .get("http://coolmarket.link/decInsert", {
           params: { marNo: this.marNo, comNo: 0 },
         })
         .then(() => {
@@ -344,7 +349,7 @@ export default {
     },
     setSale2() {
       this.$axios
-        .get("http://localhost:9000/setSale", {
+        .get("http://coolmarket.link/setSale", {
           params: { marNo: this.marNo, nickName: this.marBuyUser },
         })
         .then((res) => {
@@ -367,14 +372,17 @@ export default {
       }
     },
   },
-}
+};
 </script>
 
 <style scoped>
 .cursor {
   cursor: pointer;
 }
-
+.pre {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
 .popular-list-header {
   padding: 24px 0 12px;
   margin-bottom: 15px;

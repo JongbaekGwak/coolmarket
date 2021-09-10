@@ -87,15 +87,9 @@ export default {
       addr3: [{ value: "", text: "동" }],
     };
   },
-  beforeCreate() {
-    if (this.$session.get("coolUserNo") == null) {
-      alert("로그인 해주세요");
-      this.$router.push("/Login");
-    }
-  },
   mounted() {
     this.$axios
-      .get("http://localhost:9000/addr1")
+      .get("http://coolmarket.link/addr1")
       .then((res) => {
         this.addr1 = res.data;
       })
@@ -108,7 +102,7 @@ export default {
       this.address2 = "";
       this.address3 = "";
       this.$axios
-        .get("http://localhost:9000/addr2", {
+        .get("http://coolmarket.link/addr2", {
           params: {
             addr1: this.address1,
           },
@@ -130,7 +124,7 @@ export default {
     addre3() {
       this.address3 = "";
       this.$axios
-        .get("http://localhost:9000/addr3", {
+        .get("http://coolmarket.link/addr3", {
           params: {
             addr1: this.address1,
             addr2: this.address2,
@@ -163,15 +157,15 @@ export default {
           console.log(this.images);
         }
         this.$axios
-          .get("http://localhost:9000/adWrite", {
+          .get("http://coolmarket.link/adWrite", {
             params: {
               adTitle: this.title,
               adContents: this.contents,
               adAddr1: this.address1,
               adAddr2: this.address2,
               adAddr3: this.address3,
-              adUserNo: this.$session.get("coolUserNo"),
-              adCreaNickName: this.$session.get("coolNickName")
+              adUserNo: sessionStorage.getItem("coolUserNo"),
+              adCreaNickName: sessionStorage.getItem("coolNickName")
             },
           })
           .then((res) => {
@@ -181,7 +175,7 @@ export default {
                 fromData.append("image", this.images[i]);
               }
               this.$axios
-                .post("http://localhost:9000/imgInsert", fromData, {
+                .post("http://coolmarket.link/imgInsert", fromData, {
                   params: { adNo: res.data, marNo: "", comNo: "" },
                   headers: {
                     "Content-Type": "multipart/form-data",

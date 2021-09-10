@@ -28,14 +28,18 @@
           <span class="float-end"> 조회수 : {{ commuDetail.comView }}</span>
         </p>
 
-        <div class="col-md-8 mx-auto">
+        <div class="col-md-8 mx-auto mt-3">
           <div v-if="commuDetail.imgList != ''" class="text-center">
             <div v-for="item in commuDetail.imgList" :key="item.imgNo">
-              <img :src="item.storedImgPath" class="my-1" />
+              <img
+                :src="item.storedImgPath"
+                class="my-1"
+                style="max-width: 300px"
+              />
             </div>
           </div>
         </div>
-        <pre class="my-3">{{ commuDetail.comContents }}</pre>
+        <pre class="my-3 pre">{{ commuDetail.comContents }}</pre>
 
         <div class="d-flex justify-content-between border-bottom">
           <p>좋아요 : {{ commuDetail.comLike }}</p>
@@ -58,20 +62,14 @@
               class="m-1"
               variant="info"
               v-on:click="moveComUpdate"
-              v-if="
-                myUserNo == commuDetail.comUserNo ||
-                this.$session.get('coolRank') == 0
-              "
+              v-if="myUserNo == commuDetail.comUserNo || myRank == 0"
               >수정</b-button
             >
             <b-button
               class="m-1"
               variant="danger"
               v-on:click="comDelete"
-              v-if="
-                myUserNo == commuDetail.comUserNo ||
-                this.$session.get('coolRank') == 0
-              "
+              v-if="myUserNo == commuDetail.comUserNo || myRank == 0"
               >삭제</b-button
             >
           </div>
@@ -94,6 +92,7 @@ export default {
       commuDetail: [],
       myUserNo: "",
       comNo: "",
+      myRank: "",
     };
   },
   components: {
@@ -106,10 +105,17 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
-    this.myUserNo = this.$session.get("coolUserNo");
+    this.myUserNo =
+      sessionStorage.getItem("coolUserNo") != null
+        ? sessionStorage.getItem("coolUserNo")
+        : "";
+    this.myRank =
+      sessionStorage.getItem("coolRank") != null
+        ? sessionStorage.getItem("coolRank")
+        : "";
     this.comNo = this.$route.query.comNo;
     this.$axios
-      .get("http://localhost:9000/commuDetail", {
+      .get("http://coolmarket.link/commuDetail", {
         params: { comNo: this.comNo },
       })
       .then((res) => {
@@ -130,7 +136,7 @@ export default {
         alert("로인후 이용해 주세요");
       } else {
         this.$axios
-          .get("http://localhost:9000/likeUp", {
+          .get("http://coolmarket.link/likeUp", {
             params: { comNo: this.commuDetail.comNo },
           })
           .then(() => {
@@ -141,7 +147,7 @@ export default {
     },
     decInsert() {
       this.$axios
-        .get("http://localhost:9000/decInsert", {
+        .get("http://coolmarket.link/decInsert", {
           params: { marNo: 0, comNo: this.comNo },
         })
         .then(() => {
@@ -159,7 +165,7 @@ export default {
     },
     comDelete() {
       this.$axios
-        .get("http://localhost:9000/comDelete", {
+        .get("http://coolmarket.link/comDelete", {
           params: { comNo: this.comNo },
         })
         .then(() => {
@@ -175,5 +181,9 @@ export default {
 <style scoped>
 .cursor {
   cursor: pointer;
+}
+.pre {
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 </style>

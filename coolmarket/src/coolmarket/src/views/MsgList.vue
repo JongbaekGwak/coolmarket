@@ -51,14 +51,14 @@ export default {
   },
   beforeCreate() {
     this.$axios
-      .get("http://localhost:9000/me", {
+      .get("http://coolmarket.link/me", {
         params: {
-          userNo: this.$session.get("coolUserNo"),
+          userNo: sessionStorage.getItem("coolUserNo"),
         },
       })
       .then((res) => {
         this.user = res.data;
-        this.user.userNo = this.$session.get("coolUserNo");
+        this.user.userNo = sessionStorage.getItem("coolUserNo");
         if (this.user.rank == 1) {
           this.rank = "일반";
         } else if (this.user.rank == 2) {
@@ -70,12 +70,12 @@ export default {
       });
   },
   mounted() {
-    this.myUserNo = this.$session.get("coolUserNo");
+    this.myUserNo = sessionStorage.getItem("coolUserNo");
     let obj = this;
     obj.$axios
-      .get("http://localhost:9000/getRoomList", {
+      .get("http://coolmarket.link/getRoomList", {
         params: {
-          buyerNo: this.$session.get("coolUserNo"),
+          buyerNo: sessionStorage.getItem("coolUserNo"),
         },
       })
       .then(function (res) {
@@ -91,7 +91,7 @@ export default {
     deleteMsg(roomNo) {
       let obj = this;
       obj.axios
-        .get("http://localhost:9000/deleteMsg", {
+        .get("http://coolmarket.link/deleteMsg", {
           params: {
             roomNo: roomNo,
           },
